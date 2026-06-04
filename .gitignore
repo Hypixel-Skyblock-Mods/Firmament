@@ -33,3 +33,4 @@ gradle-app.setting
 *.png~
 *.kra
 .direnv
+result

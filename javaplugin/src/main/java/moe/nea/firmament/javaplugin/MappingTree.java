@@ -3,17 +3,23 @@ package moe.nea.firmament.javaplugin;
 import net.fabricmc.stitch.commands.tinyv2.TinyClass;
 import net.fabricmc.stitch.commands.tinyv2.TinyFile;
 import net.fabricmc.stitch.commands.tinyv2.TinyMethod;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MappingTree {
 
-	private final Map<String, TinyClass> classLookup;
+	private final @Nullable Map<String, TinyClass> classLookup;
 	private final int targetIndex;
 	private final int sourceIndex;
 
-	public MappingTree(TinyFile tinyV2File, String sourceNamespace, String targetNamespace) {
+	public MappingTree(@Nullable TinyFile tinyV2File, String sourceNamespace, String targetNamespace) {
+		if (tinyV2File == null) {
+			classLookup = null;
+			targetIndex = sourceIndex = -1;
+			return;
+		}
 		sourceIndex = tinyV2File.getHeader().getNamespaces().indexOf(sourceNamespace);
 		if (sourceIndex < 0)
 			throw new RuntimeException("Could not find source namespace " + sourceNamespace + " in mappings file.");
@@ -33,6 +39,7 @@ public class MappingTree {
 	}
 
 	public MethodCoordinate resolveMethodToIntermediary(String className, String methodName) {
+		if (classLookup == null) return new MethodCoordinate(className, methodName);
 		var classData = classLookup.get(className.replace(".", "/"));
 		TinyMethod candidate = null;
 		for (TinyMethod method : classData.getMethods()) {
@@ -51,6 +58,7 @@ public class MappingTree {
 	}
 
 	public String resolveClassToIntermediary(String className) {
+		if (classLookup == null) return className;
 		var cls = classLookup.get(className.replace(".", "/"));
 		if (cls == null) {
 			return null;

@@ -12,15 +12,10 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import moe.nea.licenseextractificator.LicenseDiscoveryTask
 import moe.nea.mcautotranslations.gradle.CollectTranslations
-import net.fabricmc.loom.LoomGradleExtension
-import net.fabricmc.loom.task.RemapJarTask
-import net.fabricmc.loom.task.RemapSourcesJarTask
-import net.fabricmc.loom.task.RunGameTask
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.gradle.utils.extendsFrom
-import java.nio.charset.StandardCharsets
 import java.util.*
 
 plugins {
@@ -30,8 +25,8 @@ plugins {
 	alias(libs.plugins.kotlin.plugin.serialization)
 	alias(libs.plugins.kotlin.plugin.powerassert)
 	alias(libs.plugins.kotlin.plugin.ksp)
-	alias(libs.plugins.loom)
 	id("firmament.common")
+	id("firmament.loom")
 	id("firmament.license-management")
 	alias(libs.plugins.mcAutoTranslations)
 }
@@ -41,9 +36,13 @@ version = getGitTagInfo(libs.versions.minecraft.get())
 java {
 	withSourcesJar()
 	toolchain {
-		languageVersion.set(JavaLanguageVersion.of(21))
+		languageVersion.set(JavaLanguageVersion.of(25))
 	}
 }
+
+val javaLanguageVersion = java.toolchain.languageVersion
+val javaLanguageVersionName = javaLanguageVersion.map { it.toString() }
+val javaLanguageVersionJvmTarget = javaLanguageVersionName.map { JvmTarget.fromTarget(it) }
 
 loom {
 	mixin.useLegacyMixinAp.set(false)
@@ -51,14 +50,14 @@ loom {
 
 tasks.withType(KotlinCompile::class) {
 	compilerOptions {
-		jvmTarget.set(JvmTarget.JVM_21)
+		jvmTarget.set(javaLanguageVersionJvmTarget)
 	}
 }
 
 kotlin {
 	sourceSets.all {
 		languageSettings {
-			enableLanguageFeature("BreakContinueInInlineLambdas")
+//		TODO: they took away my toys	enableLanguageFeature("BreakContinueInInlineLambdas")
 		}
 	}
 }
@@ -117,15 +116,17 @@ fun createIsolatedSourceSet(
 		}
 	}
 	compatSourceSets.add(ss)
-	loom.createRemapConfigurations(ss)
 	if (!isEnabled) {
 		ss.output.files.forEach { it.deleteRecursively() }
 		return ss
 	}
 	configurations {
 		(ss.implementationConfigurationName) {
-			if (inheritsFromMain)
-				extendsFrom(getByName(mainSS.compileClasspathConfigurationName))
+			if (inheritsFromMain) {
+				// Inherit from individual configurations to avoid inheriting transitively from minecraftNamedCompile
+				extendsFrom(getByName(mainSS.implementationConfigurationName))
+				extendsFrom(getByName(mainSS.compileOnlyConfigurationName))
+			}
 		}
 		(ss.annotationProcessorConfigurationName) {
 			extendsFrom(getByName(mainSS.annotationProcessorConfigurationName))
@@ -150,26 +151,21 @@ fun createIsolatedSourceSet(
 	mergedSourceSetsJar.configure {
 		from(ss.output)
 	}
-	// TODO: figure out why inheritances are not being respected by tiny kotlin names
-	tasks.remapJar {
-		classpath.from(configurations.getByName(ss.compileClasspathConfigurationName))
-	}
 	collectTranslations {
 		this.classes.from(ss.kotlin.classesDirectory)
 	}
 	return ss
 }
 
+@Deprecated("No more remapping")
 val SourceSet.modImplementationConfigurationName
 	get() =
-		loom.remapConfigurations.find {
-			it.targetConfigurationName.get() == this.implementationConfigurationName
-		}!!.sourceConfiguration
+		this.implementationConfigurationName
+
+@Deprecated("No more remapping")
 val SourceSet.modRuntimeOnlyConfigurationName
 	get() =
-		loom.remapConfigurations.find {
-			it.targetConfigurationName.get() == this.runtimeOnlyConfigurationName
-		}!!.sourceConfiguration
+		this.runtimeOnlyConfigurationName
 
 val shadowMe by configurations.creating {
 	exclude(group = "org.jetbrains.kotlin")
@@ -179,16 +175,9 @@ val shadowMe by configurations.creating {
 	exclude(group = "org.slf4j")
 }
 
-val hotswap by configurations.creating {
-	isVisible = false
-}
+val hotswap by configurations.creating {}
 
-val nonModImplentation by configurations.creating {
-	configurations.implementation.get().extendsFrom(this)
-}
-val testAgent by configurations.creating {
-	isVisible = false
-}
+val testAgent by configurations.creating {}
 
 fabricApi.configureTests {
 	createSourceSet.set(true)
@@ -216,70 +205,66 @@ val apiSourceSet = createIsolatedSourceSet("api", "api", inheritsFromMain = fals
 dependencies {
 	// Minecraft dependencies
 	"minecraft"(libs.minecraft)
-	"mappings"(loom.layered {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.10:2025.10.12@zip")
-	})
 
 	// Hotswap Dependency
 	hotswap(libs.hotswap)
 
 	// Fabric dependencies
-	modImplementation(libs.fabric.loader)
-	modImplementation(libs.fabric.kotlin)
-	modImplementation(libs.moulconfig)
-	modImplementation(libs.manninghamMills)
-	modImplementation(libs.basicMath)
+	implementation(libs.fabric.loader)
+	implementation(libs.fabric.kotlin)
+	implementation(libs.moulconfig)
+	implementation(libs.manninghamMills)
+	implementation(libs.basicMath)
 	implementation(apiSourceSet.output)
-	(apiSourceSet.implementationConfigurationName)(loom.namedMinecraftJars)
+	// We need to depend via compileOnly to avoid DeobfSpecContext.getModsFromConfiguration from instantiating minecraft
+	// during preparation of the minecraft dependency, creating a circular dependency
+	(apiSourceSet.compileOnlyConfigurationName)(loom.namedMinecraftJars)
 	(apiSourceSet.implementationConfigurationName)(libs.jspecify)
 	(apiSourceSet.implementationConfigurationName)(libs.jbAnnotations)
-	//	configurations.forEach { println(it.name) }
 	include(libs.basicMath)
-	(modmenuSourceSet.modImplementationConfigurationName)(libs.modmenu)
-	modImplementation(libs.hypixelmodapi)
-	modLocalRuntime(libs.hypixelmodapi.fabric)
+	(modmenuSourceSet.implementationConfigurationName)(libs.modmenu)
+	implementation(libs.hypixelmodapi)
+	runtimeOnly(libs.hypixelmodapi.fabric)
 	include(libs.hypixelmodapi.fabric)
 	compileOnly(projects.javaplugin)
 	annotationProcessor(projects.javaplugin)
-	nonModImplentation("com.google.auto.service:auto-service-annotations:1.1.1")
+	implementation("com.google.auto.service:auto-service-annotations:1.1.1")
 	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")
 	include(libs.manninghamMills)
 	shadowMe(libs.moulconfig)
 
 	annotationProcessor(libs.mixinextras)
-	nonModImplentation(libs.mixinextras)
+	implementation(libs.mixinextras)
 	include(libs.mixinextras)
 
-	nonModImplentation(libs.nealisp)
+	implementation(libs.nealisp)
 	shadowMe(libs.nealisp)
 
-	modCompileOnly(libs.fabric.api)
-	modRuntimeOnly(libs.fabric.api.deprecated)
-	modCompileOnly(libs.jarvis.api)
+	compileOnly(libs.fabric.api)
+	runtimeOnly(libs.fabric.api.deprecated)
 	include(libs.jarvis.fabric)
 
-	(irisSourceSet.modImplementationConfigurationName)(libs.iris)
-	(wildfireGenderSourceSet.modImplementationConfigurationName)(libs.femalegender)
+	(irisSourceSet.implementationConfigurationName)(libs.iris)
+	(wildfireGenderSourceSet.implementationConfigurationName)(libs.femalegender)
 	(wildfireGenderSourceSet.implementationConfigurationName)(customTexturesSourceSet.output)
-	(sodiumSourceSet.modImplementationConfigurationName)(libs.sodium)
+	(sodiumSourceSet.implementationConfigurationName)(libs.sodium)
 	(sodiumSourceSet.implementationConfigurationName)(customTexturesSourceSet.output)
-	(jadeSourceSet.modImplementationConfigurationName)(libs.jade)
+	(jadeSourceSet.implementationConfigurationName)(libs.jade)
 
-	(yaclSourceSet.modImplementationConfigurationName)(libs.yacl)
+	(yaclSourceSet.implementationConfigurationName)(libs.yacl)
 
 	// Actual dependencies
 	val reiDeps = libs.rei
-	(reiSourceSet.modImplementationConfigurationName)(reiDeps.api)
-	(reiSourceSet.modRuntimeOnlyConfigurationName)(reiDeps.fabric)
-	nonModImplentation(libs.repoparser)
+	(reiSourceSet.implementationConfigurationName)(reiDeps.api)
+	(reiSourceSet.implementationConfigurationName)(reiDeps.fabric)
+	implementation(libs.repoparser)
 	shadowMe(libs.repoparser)
 
 	// Dev environment preinstalled mods
-	modLocalRuntime(libs.devauth)
-	modLocalRuntime(libs.jarvis.fabric)
-	modLocalRuntime(libs.modmenu)
-	modLocalRuntime(libs.noChatRestrictions)
+	runtimeOnly(libs.devauth)
+	runtimeOnly(libs.jarvis.fabric)
+	runtimeOnly(libs.modmenu)
+	runtimeOnly(libs.noChatRestrictions)
 
 	testImplementation("net.fabricmc:fabric-loader-junit:${libs.versions.fabric.loader.get()}")
 	testAgent(files(tasks.getByPath(":testagent:jar")))
@@ -379,8 +364,8 @@ tasks.test {
 
 
 tasks.withType<JavaCompile> {
-	this.sourceCompatibility = "21"
-	this.targetCompatibility = "21"
+	this.sourceCompatibility = javaLanguageVersionName.get()
+	this.targetCompatibility = javaLanguageVersionName.get()
 	options.encoding = "UTF-8"
 	val module = "ALL-UNNAMED"
 	options.forkOptions.jvmArgs!!.addAll(
@@ -394,7 +379,7 @@ tasks.withType<JavaCompile> {
 	)
 	options.isFork = true
 	afterEvaluate {
-		options.compilerArgs.add("-Xplugin:IntermediaryNameReplacement mappingFile=${LoomGradleExtension.get(project).mappingsFile.absolutePath} sourceNs=named")
+		options.compilerArgs.add("-Xplugin:IntermediaryNameReplacement")
 	}
 }
 
@@ -403,23 +388,13 @@ tasks.jar {
 	badjar()
 	archiveClassifier.set("slim")
 }
-val apiJarNamed = tasks.register("apiJarNamed", Jar::class) {
-	badjar()
-	archiveClassifier = "api-named"
+val apiJar = tasks.register("apiJar", Jar::class) {
+	archiveClassifier = "api"
 	from(apiSourceSet.output)
 }
-val apiJar = tasks.register("apiJar", RemapJarTask::class) {
-	inputFile = apiJarNamed.flatMap { it.archiveFile }
-	addNestedDependencies = false
-	archiveClassifier = "api"
-}
-val apiSourcesJarNamed = tasks.register("apiSourcesJarNamed", Jar::class) {
-	badjar()
+
+val apiSourcesJar = tasks.register("apiSourcesJar", Jar::class) {
 	from(apiSourceSet.allSource)
-	archiveClassifier = "api-sources-named"
-}
-val apiSourcesJar = tasks.register("apiSourceSJar", RemapSourcesJarTask::class) {
-	inputFile = apiSourcesJarNamed.flatMap { it.archiveFile }
 	archiveClassifier = "api-sources"
 }
 
@@ -440,14 +415,14 @@ fun ShadowJar.configureDuplicateStrategy() {
 
 mergedSourceSetsJar.configure {
 	from(zipTree(tasks.jar.flatMap { it.archiveFile }))
-	destinationDirectory.set(layout.buildDirectory.dir("badjars"))
+	badjar()
 	archiveClassifier.set("merged-source-sets")
 	mergeServiceFiles()
 	configureDuplicateStrategy()
 }
 
-shadowJar.configure {
-	from(zipTree(tasks.remapJar.flatMap { it.archiveFile }))
+shadowJar.configure { // TODO: can these two shadowJar tasks be merged
+	from(zipTree(mergedSourceSetsJar.flatMap { it.archiveFile }))
 	configurations = listOf(shadowMe)
 	configureDuplicateStrategy()
 	archiveClassifier.set("")
@@ -455,14 +430,6 @@ shadowJar.configure {
 	relocate("io.github.notenoughupdates.moulconfig", "moe.nea.firmament.deps.moulconfig")
 	mergeServiceFiles()
 	transform<FabricModTransform>()
-}
-
-tasks.remapJar {
-//	injectAccessWidener.set(true)
-	inputFile.set(mergedSourceSetsJar.flatMap { it.archiveFile })
-	dependsOn(mergedSourceSetsJar)
-	destinationDirectory.set(layout.buildDirectory.dir("badjars"))
-	archiveClassifier.set("remapped")
 }
 
 tasks.assemble { dependsOn(shadowJar) }
@@ -481,7 +448,7 @@ tasks.processResources {
 		expand(*replacements.toTypedArray())
 	}
 	exclude("**/*.license")
-	from(tasks.scanLicenses)
+//	from(tasks.scanLicenses) // TODO: reinstate this
 	from(collectTranslations) {
 		into("assets/firmament/lang")
 	}
@@ -491,22 +458,21 @@ tasks.processResources {
 }
 
 tasks.scanLicenses {
-	scanConfiguration(nonModImplentation)
-	scanConfiguration(configurations.modCompileClasspath.get())
-	compatSourceSets.forEach {
-		scanConfiguration(it.modImplementationConfigurationName.get())
-	}
+//	scanConfiguration(configurations.implementation.get()) // TODO: i should change this upstream to allow for providers
+//	compatSourceSets.forEach { // TODO: this is a sham
+//		scanConfiguration(it.modImplementationConfigurationName.get())
+//	}
 	outputFile.set(layout.buildDirectory.file("LICENSES-FIRMAMENT.json"))
 	licenseFormatter.set(moe.nea.licenseextractificator.JsonLicenseFormatter())
 }
 tasks.register("printAllLicenses", LicenseDiscoveryTask::class.java, licensing).configure {
 	outputFile.set(layout.buildDirectory.file("LICENSES-FIRMAMENT.txt"))
 	licenseFormatter.set(moe.nea.licenseextractificator.TextLicenseFormatter())
-	compatSourceSets.forEach {
-		scanConfiguration(it.modImplementationConfigurationName.get())
-	}
-	scanConfiguration(nonModImplentation)
-	scanConfiguration(configurations.modCompileClasspath.get())
+//	compatSourceSets.forEach {
+//		scanConfiguration(it.modImplementationConfigurationName.get())
+//	}
+//	scanConfiguration(nonModImplentation)
+//	scanConfiguration(configurations.modCompileClasspath.get())
 	doLast {
 		println(outputFile.get().asFile.readText())
 	}

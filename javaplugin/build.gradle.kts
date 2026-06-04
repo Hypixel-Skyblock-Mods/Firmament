@@ -5,6 +5,7 @@ plugins {
 }
 dependencies {
 	implementation("net.fabricmc:stitch:0.6.2")
+	implementation(libs.jspecify)
 }
 val compilerModules = listOf("util", "comp", "tree", "api", "code")
 	.map { "jdk.compiler/com.sun.tools.javac.$it" }
