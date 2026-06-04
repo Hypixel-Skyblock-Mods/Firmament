@@ -57,7 +57,7 @@ pkgs.mkShell {
       flite
     ]
   );
-  JAVA_HOME = "${pkgs.jdk21}";
+  JAVA_HOME = "${pkgs.jdk25}";
   shellHook = ''
     apply() {
         echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >.env
