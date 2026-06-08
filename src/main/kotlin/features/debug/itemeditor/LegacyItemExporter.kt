@@ -6,6 +6,8 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import kotlin.concurrent.thread
 import kotlin.jvm.optionals.getOrNull
+import net.minecraft.core.component.DataComponentGetter
+import net.minecraft.core.component.DataComponentType
 import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.ByteTag
 import net.minecraft.nbt.CompoundTag
@@ -179,12 +181,14 @@ class LegacyItemExporter private constructor(var itemStack: ItemStack) {
 		return compound
 	}
 
-	private fun copyColour() {
-		if (!itemStack.`is`(ItemTags.DYEABLE)) {
-			itemStack.remove(DataComponents.DYED_COLOR)
-			return
+	object NullData : DataComponentGetter {
+		override fun <T : Any> get(type: DataComponentType<out T>): T? {
+			return null
 		}
-		val leatherTint = itemStack.componentsPatch.get(DataComponents.DYED_COLOR)?.getOrNull() ?: return
+	}
+
+	private fun copyColour() {
+		val leatherTint = itemStack.componentsPatch.get(NullData, DataComponents.DYED_COLOR) ?: return
 		legacyNbt.getOrPutCompound("display").put("color", IntTag.valueOf(leatherTint.rgb))
 	}
 

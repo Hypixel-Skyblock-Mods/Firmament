@@ -17,7 +17,7 @@ import java.util.TreeSet
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.client.input.CharacterEvent
@@ -140,8 +140,8 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		super.onClose()
 	}
 
-	override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-		super.render(context, mouseX, mouseY, delta)
+	override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+		super.extractRenderState(context, mouseX, mouseY, delta)
 		drawBackgrounds(context)
 		drawPages(context, mouseX, mouseY, delta, null, null, Point())
 		drawScrollBar(context)
@@ -153,7 +153,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		return scroll / getMaxScroll()
 	}
 
-	fun drawScrollBar(context: GuiGraphics) {
+	fun drawScrollBar(context: GuiGraphicsExtractor) {
 		val sbRect = getScrollBarRect()
 		context.drawGuiTexture(
 			scrollbarBackground,
@@ -211,7 +211,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		guiContext.adopt(controlComponent)
 	}
 
-	fun drawControls(context: GuiGraphics, mouseX: Int, mouseY: Int) {
+	fun drawControls(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
 		context.drawGuiTexture(
 			controllerBackground,
 			measurements.controlX,
@@ -226,7 +226,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		)
 	}
 
-	fun drawBackgrounds(context: GuiGraphics) {
+	fun drawBackgrounds(context: GuiGraphicsExtractor) {
 		context.drawGuiTexture(
 			upperBackgroundSprite,
 			measurements.x,
@@ -253,12 +253,12 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		)
 	}
 
-	fun drawPlayerInventory(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
+	fun drawPlayerInventory(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
 		val items = MC.player?.inventory?.nonEquipmentItems ?: return
 		items.withIndex().forEach { (index, item) ->
 			val (x, y) = getPlayerInventorySlotPosition(index)
-			context.renderItem(item, x, y, 0)
-			context.renderItemDecorations(font, item, x, y)
+			context.item(item, x, y, 0)
+			context.itemDecorations(font, item, x, y)
 		}
 	}
 
@@ -280,7 +280,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		)
 	}
 
-	fun createScissors(context: GuiGraphics) {
+	fun createScissors(context: GuiGraphicsExtractor) {
 		val rect = getScrollPanelInner()
 		context.enableScissorWithoutTranslation(
 			rect.minX.toFloat(), rect.minY.toFloat(),
@@ -289,7 +289,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 	}
 
 	fun drawPages(
-		context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float,
+		context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float,
 		excluding: StoragePageSlot?,
 		slots: List<Slot>?,
 		slotOffset: Point
@@ -491,7 +491,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 	}
 
 	fun drawPage(
-		context: GuiGraphics,
+		context: GuiGraphicsExtractor,
 		x: Int,
 		y: Int,
 		page: StoragePageSlot,
@@ -504,7 +504,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		val inv = inventory.inventory
 		if (inv == null) {
 			context.drawGuiTexture(upperBackgroundSprite, x, y, PAGE_WIDTH, 18)
-			context.drawString(
+			context.text(
 				font,
 				Component.literal("TODO: open this page"),
 				x + 4,
@@ -525,7 +525,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 				inv.rows * SLOT_SIZE + 4,
 				StorageOverlay.TConfig.outlineActiveStoragePageColour.getEffectiveColourRGB()
 			)
-		context.drawString(
+		context.text(
 			font, Component.literal(name), x + 6, y + 3,
 			if (slots == null) 0xFFFFFFFF.toInt() else 0xFFFFFF00.toInt(), true
 		)
@@ -543,8 +543,8 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 			if (slots == null) {
 				val fakeSlot = FakeSlot(stack, slotX, slotY)
 				SlotRenderEvents.Before.publish(SlotRenderEvents.Before(context, fakeSlot))
-				context.renderItem(stack, slotX, slotY)
-				context.renderItemDecorations(font, stack, slotX, slotY)
+				context.item(stack, slotX, slotY)
+				context.itemDecorations(font, stack, slotX, slotY)
 				SlotRenderEvents.After.publish(SlotRenderEvents.After(context, fakeSlot))
 				if (StorageOverlay.TConfig.showInactivePageTooltips && !stack.isEmpty &&
 					mouseX >= slotX && mouseY >= slotY &&

@@ -1,15 +1,15 @@
 
 package moe.nea.firmament.events
 
-import net.minecraft.world.item.ItemStack
+import net.minecraft.world.inventory.ContainerInput
 import net.minecraft.world.inventory.Slot
-import net.minecraft.world.inventory.ClickType
+import net.minecraft.world.item.ItemStack
 
 data class SlotClickEvent(
     val slot: Slot,
     val stack: ItemStack,
     val button: Int,
-    val actionType: ClickType,
+    val actionType: ContainerInput,
 ) : FirmamentEvent() {
     companion object : FirmamentEventBus<SlotClickEvent>()
 }

@@ -24,7 +24,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.inventory.ChestMenu
 import net.minecraft.world.inventory.InventoryMenu
 import net.minecraft.world.inventory.Slot
-import net.minecraft.world.inventory.ClickType
+import net.minecraft.world.inventory.ContainerInput
 import net.minecraft.resources.Identifier
 import net.minecraft.util.StringRepresentable
 import moe.nea.firmament.annotations.Subscribe
@@ -214,7 +214,7 @@ object SlotLocking {
 			val stack = inv.getItem(i)
 			if (IsSlotProtectedEvent.shouldBlockInteraction(
 					null,
-					ClickType.THROW,
+					ContainerInput.THROW,
 					IsSlotProtectedEvent.MoveOrigin.SALVAGE,
 					stack
 				)
@@ -228,12 +228,12 @@ object SlotLocking {
 
 	@Subscribe
 	fun onProtectUuidItems(event: IsSlotProtectedEvent) {
-		val doesNotDeleteItem = event.actionType == ClickType.SWAP
-			|| event.actionType == ClickType.PICKUP
-			|| event.actionType == ClickType.QUICK_MOVE
-			|| event.actionType == ClickType.QUICK_CRAFT
-			|| event.actionType == ClickType.CLONE
-			|| event.actionType == ClickType.PICKUP_ALL
+		val doesNotDeleteItem = event.actionType == ContainerInput.SWAP
+			|| event.actionType == ContainerInput.PICKUP
+			|| event.actionType == ContainerInput.QUICK_MOVE
+			|| event.actionType == ContainerInput.QUICK_CRAFT
+			|| event.actionType == ContainerInput.CLONE
+			|| event.actionType == ContainerInput.PICKUP_ALL
 		val isSellOrTradeScreen =
 			isNpcShop(MC.handledScreen) || isTradeScreen(MC.handledScreen) || isSalvageScreen(MC.handledScreen)
 		if ((!isSellOrTradeScreen || event.slot?.container !is Inventory)
@@ -285,7 +285,7 @@ object SlotLocking {
 	fun onQuickMoveBoundSlot(it: IsSlotProtectedEvent) {
 		val boundSlots = currentWorldData?.boundSlots ?: BoundSlots()
 		val isValidAction =
-			it.actionType == ClickType.QUICK_MOVE || (it.actionType == ClickType.PICKUP && !TConfig.slotBindRequireShift)
+			it.actionType == ContainerInput.QUICK_MOVE || (it.actionType == ContainerInput.PICKUP && !TConfig.slotBindRequireShift)
 		if (!isValidAction) return
 		val handler = MC.handledScreen?.menu ?: return
 		if (TConfig.slotBindOnlyInInv && handler !is InventoryMenu)

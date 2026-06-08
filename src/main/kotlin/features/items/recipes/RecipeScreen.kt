@@ -2,7 +2,7 @@ package moe.nea.firmament.features.items.recipes
 
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.renderer.RenderPipelines
 import moe.nea.firmament.util.mc.CommonTextures
@@ -66,8 +66,8 @@ class RecipeScreen(
 			scrollPortWidth, scrollViewport
 		)
 
-	fun scissorScrollPort(guiGraphics: GuiGraphics) {
-		guiGraphics.enableScissorWithTranslation(scrollRect())
+	fun scissorScrollPort(GuiGraphicsExtractor: GuiGraphicsExtractor) {
+		GuiGraphicsExtractor.enableScissorWithTranslation(scrollRect())
 	}
 
 	override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
@@ -85,39 +85,39 @@ class RecipeScreen(
 		return true
 	}
 
-	override fun renderBackground(
-		guiGraphics: GuiGraphics,
+	override fun extractBackground(
+		context: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
 	) {
-		super.renderBackground(guiGraphics, mouseX, mouseY, partialTick)
+		super.extractBackground(context, mouseX, mouseY, partialTick)
 
 		val srect = scrollRect()
 		srect.grow(8, 8)
-		guiGraphics.blitSprite(
+		context.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
 			CommonTextures.genericWidget(),
 			srect.x, srect.y,
 			srect.width, srect.height
 		)
 
-		scissorScrollPort(guiGraphics)
+		scissorScrollPort(context)
 		placedRecipes.forEach {
-			guiGraphics.blitSprite(
+			context.blitSprite(
 				RenderPipelines.GUI_TEXTURED,
 				CommonTextures.genericWidget(),
 				it.bounds.x, it.bounds.y,
 				it.bounds.width, it.bounds.height
 			)
 		}
-		guiGraphics.disableScissor()
+		context.disableScissor()
 	}
 
-	override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
-		scissorScrollPort(guiGraphics)
-		super.render(guiGraphics, mouseX, mouseY, partialTick)
-		guiGraphics.disableScissor()
+	override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, partialTick: Float) {
+		scissorScrollPort(context)
+		super.extractRenderState(context, mouseX, mouseY, partialTick)
+		context.disableScissor()
 	}
 
 	override fun tick() {

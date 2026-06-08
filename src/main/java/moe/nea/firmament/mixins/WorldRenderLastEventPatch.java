@@ -2,19 +2,21 @@
 
 package moe.nea.firmament.mixins;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
+import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import moe.nea.firmament.events.WorldRenderLastEvent;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.RenderBuffers;
-import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.state.LevelRenderState;
-import com.mojang.blaze3d.resource.ResourceHandle;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.util.profiling.ProfilerFiller;
-import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
+import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import org.joml.Matrix4fc;
+import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,18 +36,38 @@ public abstract class WorldRenderLastEventPatch {
 	@Shadow
 	private int ticks;
 
-	@Inject(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V", shift = At.Shift.AFTER))
-	public void onWorldRenderLast(GpuBufferSlice gpuBufferSlice, LevelRenderState levelRenderState, ProfilerFiller profilerFiller, Matrix4f matrix4f, ResourceHandle resourceHandle, ResourceHandle resourceHandle2, boolean bl, ResourceHandle resourceHandle3, ResourceHandle resourceHandle4, CallbackInfo ci) {
-		var imm = this.renderBuffers.bufferSource();
-		var stack = new PoseStack();
-		// TODO: pre-cancel this event if F1 is active
-		var event = new WorldRenderLastEvent(
-			stack, ticks,
-			levelRenderState.cameraRenderState,
-			imm
-		);
-		WorldRenderLastEvent.Companion.publish(event);
-		imm.endBatch();
-		checkPoseStack(stack);
+	@Shadow
+	@Final
+	private LevelTargetBundle targets;
+
+	@Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V", shift = At.Shift.AFTER))
+	public void onWorldRenderLast(GraphicsResourceAllocator resourceAllocator, DeltaTracker deltaTracker, boolean renderOutline, CameraRenderState cameraState, Matrix4fc modelViewMatrix, GpuBufferSlice terrainFog, Vector4f fogColor, boolean shouldRenderSky, ChunkSectionsToRender chunkSectionsToRender, CallbackInfo ci, @Local FrameGraphBuilder frame) {
+
+		var pass = frame.addPass("FirmamentWorldRenderLast");
+		this.targets.main = pass.readsAndWrites(this.targets.main);
+		if (this.targets.itemEntity != null) {
+			this.targets.itemEntity = pass.readsAndWrites(this.targets.itemEntity);
+		}
+		var mainTarget = this.targets.main;
+
+		pass.executes(() -> {
+			var stack = new PoseStack();
+			var imm = this.renderBuffers.bufferSource();
+			RenderSystem.outputColorTextureOverride = mainTarget.get().getColorTextureView();
+			RenderSystem.outputDepthTextureOverride = mainTarget.get().getDepthTextureView();
+			// TODO: pre-cancel this event if F1 is active
+			var event = new WorldRenderLastEvent(
+				stack, ticks,
+				cameraState,
+				imm
+			);
+			WorldRenderLastEvent.Companion.publish(event);
+			imm.endLastBatch();
+
+			RenderSystem.outputColorTextureOverride = null;
+			RenderSystem.outputDepthTextureOverride = null;
+
+			checkPoseStack(stack);
+		});
 	}
 }

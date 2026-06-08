@@ -82,7 +82,7 @@ object BonemerangOverlay {
 
 		it.context.pose().pushMatrix()
 		TConfig.bonemerangOverlayHud.applyTransformations(it.context.pose())
-		it.context.drawString(
+		it.context.text(
 			MC.font, String.format(
 				tr(
 					"firmament.bonemerang-overlay.bonemerang-overlay.display", "Bonemerang Targets: %s"

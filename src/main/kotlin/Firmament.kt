@@ -13,6 +13,8 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.Version
 import net.fabricmc.loader.api.metadata.ModMetadata
@@ -129,17 +131,17 @@ object Firmament {
 			ItemTooltipEvent.publish(ItemTooltipEvent(stack, context, type, lines))
 		}
 		ScreenEvents.AFTER_INIT.register(ScreenEvents.AfterInit { client, screen, scaledWidth, scaledHeight ->
-			ScreenEvents.afterRender(screen)
-				.register(ScreenEvents.AfterRender { screen, drawContext, mouseX, mouseY, tickDelta ->
+			ScreenEvents.afterExtract(screen)
+				.register(ScreenEvents.AfterExtract { screen, drawContext, mouseX, mouseY, tickDelta ->
 					ScreenRenderPostEvent.publish(ScreenRenderPostEvent(screen, mouseX, mouseY, tickDelta, drawContext))
 				})
 		})
 		ClientInitEvent.publish(ClientInitEvent())
-		ResourceManagerHelper.registerBuiltinResourcePack(
+		ResourceLoader.registerBuiltinPack(
 			identifier("transparent_overlay"),
 			modContainer,
 			tr("firmament.resourcepack.transparentoverlay", "Transparent Firmament Overlay"),
-			ResourcePackActivationType.NORMAL
+			PackActivationType.NORMAL
 		)
 	}
 

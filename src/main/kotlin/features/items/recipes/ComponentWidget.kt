@@ -3,7 +3,7 @@ package moe.nea.firmament.features.items.recipes
 import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 import moe.nea.firmament.repo.recipes.RecipeLayouter
 import moe.nea.firmament.util.MC
@@ -16,12 +16,12 @@ class ComponentWidget(override var position: Point, var text: Component) : Recip
 	override val size: Dimension
 		get() = Dimension(MC.font.width(text), MC.font.lineHeight)
 
-	override fun render(
-		guiGraphics: GuiGraphics,
+	override fun extractRenderState(
+		GuiGraphicsExtractor: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
 	) {
-		guiGraphics.drawString(MC.font, text, position.x, position.y, -1)
+		GuiGraphicsExtractor.text(MC.font, text, position.x, position.y, -1)
 	}
 }

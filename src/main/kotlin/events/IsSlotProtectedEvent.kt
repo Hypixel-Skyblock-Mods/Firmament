@@ -1,8 +1,8 @@
 package moe.nea.firmament.events
 
+import net.minecraft.world.inventory.ContainerInput
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.inventory.Slot
-import net.minecraft.world.inventory.ClickType
 import moe.nea.firmament.util.CommonSoundEffects
 import moe.nea.firmament.util.MC
 import moe.nea.firmament.util.grey
@@ -12,7 +12,7 @@ import moe.nea.firmament.util.tr
 
 data class IsSlotProtectedEvent(
     val slot: Slot?,
-    val actionType: ClickType,
+    val actionType: ContainerInput,
     var isProtected: Boolean,
     val itemStackOverride: ItemStack?,
     val origin: MoveOrigin,
@@ -45,7 +45,7 @@ data class IsSlotProtectedEvent(
 		@JvmStatic
 		@JvmOverloads
 		fun shouldBlockInteraction(
-            slot: Slot?, action: ClickType,
+            slot: Slot?, action: ContainerInput,
             origin: MoveOrigin,
             itemStackOverride: ItemStack? = null,
 		): Boolean {

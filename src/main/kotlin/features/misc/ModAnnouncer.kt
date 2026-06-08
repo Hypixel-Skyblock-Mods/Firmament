@@ -1,13 +1,13 @@
 package moe.nea.firmament.features.misc
 
 import io.netty.buffer.ByteBuf
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs
+import net.fabricmc.fabric.api.networking.v1.FriendlyByteBufs
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.codec.ByteBufCodecs
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload
+import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload
 import moe.nea.firmament.Firmament
 import moe.nea.firmament.annotations.Subscribe
 import moe.nea.firmament.events.JoinServerEvent
@@ -66,7 +66,7 @@ object ModAnnouncer {
 				.allMods
 				.filter { !it.metadata.containsCustomValue("firmament:hide_from_modlist") }
 				.map { ModEntry(it.metadata.id, it.metadata.version.friendlyString) })
-		val pbb = PacketByteBufs.create()
+		val pbb = FriendlyByteBufs.create()
 		ModPacket.CODEC.encode(pbb, packet)
 		if (pbb.writerIndex() > ServerboundCustomPayloadPacket.MAX_PAYLOAD_SIZE)
 			return
@@ -75,6 +75,6 @@ object ModAnnouncer {
 	}
 
 	init {
-		PayloadTypeRegistry.playC2S().register(ModPacket.ID, ModPacket.CODEC)
+		PayloadTypeRegistry.serverboundPlay().register(ModPacket.ID, ModPacket.CODEC)
 	}
 }

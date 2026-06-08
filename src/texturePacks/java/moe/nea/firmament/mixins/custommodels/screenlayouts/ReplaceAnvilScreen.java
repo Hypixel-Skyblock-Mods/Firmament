@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moe.nea.firmament.features.texturepack.CustomScreenLayouts;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
 import net.minecraft.client.gui.components.EditBox;
@@ -42,9 +42,9 @@ public abstract class ReplaceAnvilScreen extends ItemCombinerScreen<AnvilMenu> {
 	}
 
 	@WrapOperation(method = "renderLabels",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),
 		allow = 1)
-	private void onDrawRepairCost(GuiGraphics instance, Font textRenderer, Component text, int x, int y, int color, Operation<Void> original) {
+	private void onDrawRepairCost(GuiGraphicsExtractor instance, Font textRenderer, Component text, int x, int y, int color, Operation<Void> original) {
 		var textOverride = CustomScreenLayouts.getTextMover(CustomScreenLayouts.CustomScreenLayout::getRepairCostTitle);
 		original.call(instance, textRenderer,
 			textOverride.replaceText(text),

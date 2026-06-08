@@ -10,7 +10,7 @@ import me.shedaniel.math.Rectangle
 import org.lwjgl.glfw.GLFW
 import net.minecraft.client.Minecraft
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.MultiLineTextWidget
 import net.minecraft.client.gui.components.StringWidget
@@ -195,7 +195,7 @@ class InventoryButtonEditor(
 		return newButtons
 	}
 
-	override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
+	override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
 		context.pose().pushMatrix()
 		PanelComponent.DefaultBackgroundRenderer.VANILLA
 			.render(
@@ -204,7 +204,7 @@ class InventoryButtonEditor(
 				lastGuiRect.width, lastGuiRect.height,
 			)
 		context.pose().popMatrix()
-		super.render(context, mouseX, mouseY, delta)
+		super.extractRenderState(context, mouseX, mouseY, delta)
 		for (button in buttons) {
 			val buttonPosition = button.getBounds(lastGuiRect)
 			context.pose().pushMatrix()

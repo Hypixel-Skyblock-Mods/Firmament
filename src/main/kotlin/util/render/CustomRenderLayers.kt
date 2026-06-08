@@ -1,8 +1,11 @@
 package util.render
 
 import com.mojang.blaze3d.pipeline.BlendFunction
+import com.mojang.blaze3d.pipeline.ColorTargetState
+import com.mojang.blaze3d.pipeline.DepthStencilState
 import com.mojang.blaze3d.pipeline.RenderPipeline
-import com.mojang.blaze3d.platform.DepthTestFunction
+import com.mojang.blaze3d.platform.CompareOp
+
 import com.mojang.blaze3d.shaders.UniformType
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat.Mode
@@ -17,13 +20,14 @@ import net.minecraft.util.Util
 import moe.nea.firmament.Firmament
 
 object CustomRenderPipelines {
+	private val NO_DEPTH_TEST = DepthStencilState(CompareOp.ALWAYS_PASS, false)
+
 	val GUI_TEXTURED_NO_DEPTH_TRIS =
 		RenderPipeline.builder(RenderPipelines.GUI_TEXTURED_SNIPPET)
 			.withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, Mode.TRIANGLES)
 			.withLocation(Firmament.identifier("gui_textured_overlay_tris"))
-			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+			.withDepthStencilState(NO_DEPTH_TEST)
 			.withCull(false)
-			.withDepthWrite(false)
 			.build()
 	val COLORED_OMNIPRESENT_QUADS =
 		RenderPipeline.builder(RenderPipelines.MATRICES_PROJECTION_SNIPPET)// TODO: split this up to support better transparent ordering.
@@ -31,10 +35,9 @@ object CustomRenderPipelines {
 			.withVertexShader("core/position_color")
 			.withFragmentShader("core/position_color")
 			.withVertexFormat(DefaultVertexFormat.POSITION_COLOR, Mode.QUADS)
-			.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+			.withDepthStencilState(NO_DEPTH_TEST)
 			.withCull(false)
-			.withDepthWrite(false)
-			.withBlend(BlendFunction.TRANSLUCENT)
+			.withColorTargetState(ColorTargetState(BlendFunction.TRANSLUCENT))
 			.build()
 
 	val CIRCLE_FILTER_TRANSLUCENT_GUI_TRIS =
@@ -55,9 +58,8 @@ object CustomRenderPipelines {
 			.withUniform("Animation", UniformType.UNIFORM_BUFFER)
 			.build()
 	val OMNIPRESENT_LINES = RenderPipeline.builder(RenderPipelines.LINES_SNIPPET)
-		.withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+		.withDepthStencilState(NO_DEPTH_TEST)
 		.withLocation(Firmament.identifier("lines"))
-		.withDepthWrite(false)
 		.withLocation("pipeline/lines").build()
 }
 

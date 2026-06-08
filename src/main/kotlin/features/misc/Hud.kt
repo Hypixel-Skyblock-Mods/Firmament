@@ -29,8 +29,8 @@ object Hud {
 		if (TConfig.dayCount) {
 			it.context.pose().pushMatrix()
 			TConfig.dayCountHud.applyTransformations(it.context.pose())
-			val day = (MC.world?.dayTime ?: 0L) / 24000
-			it.context.drawString(
+			val day = (MC.world?.gameTime ?: 0L) / 24000
+			it.context.text(
 				MC.font,
 				Component.literal(String.format(tr("firmament.config.hud.day-count-hud.display", "Day: %s").string, day)),
 				36,
@@ -44,7 +44,7 @@ object Hud {
 		if (TConfig.fpsCount) {
 			it.context.pose().pushMatrix()
 			TConfig.fpsCountHud.applyTransformations(it.context.pose())
-			it.context.drawString(
+			it.context.text(
 				MC.font, Component.literal(
 					String.format(
 						tr("firmament.config.hud.fps-count-hud.display", "FPS: %s").string, MC.instance.fps
@@ -61,7 +61,7 @@ object Hud {
 				val entry: PlayerInfo? = MC.networkHandler?.getPlayerInfo(it.uuid)
 				entry?.latency ?: -1
 			} ?: -1
-			it.context.drawString(
+			it.context.text(
 				MC.font, Component.literal(
 					String.format(
 						tr("firmament.config.hud.ping-count-hud.display", "Ping: %s ms").string, ping

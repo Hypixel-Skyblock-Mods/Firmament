@@ -1,8 +1,8 @@
 package moe.nea.firmament.keybindings
 
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.KeyMapping
 import com.mojang.blaze3d.platform.InputConstants
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
 import moe.nea.firmament.Firmament
 import moe.nea.firmament.gui.config.ManagedOption
 import moe.nea.firmament.util.TestUtil
@@ -22,7 +22,7 @@ object FirmamentKeyBindings {
 			}
 		)
 		if (!TestUtil.isInTest) {
-			KeyBindingHelper.registerKeyBinding(vanillaKeyBinding)
+			KeyMappingHelper.registerKeyMapping(vanillaKeyBinding)
 		}
 		keyBindings[vanillaKeyBinding] = config
 	}

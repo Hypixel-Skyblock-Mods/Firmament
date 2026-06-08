@@ -3,7 +3,7 @@ package moe.nea.firmament.features.items.recipes
 import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.resources.Identifier
 
@@ -15,13 +15,13 @@ class ArrowWidget(override var position: Point) : RecipeWidget() {
 		val arrowSprite = Identifier.withDefaultNamespace("container/furnace/lit_progress")
 	}
 
-	override fun render(
-		guiGraphics: GuiGraphics,
+	override fun extractRenderState(
+		GuiGraphicsExtractor: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
 	) {
-		guiGraphics.blitSprite(
+		GuiGraphicsExtractor.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
 			arrowSprite,
 			14,

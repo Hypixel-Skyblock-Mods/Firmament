@@ -1,10 +1,10 @@
 package moe.nea.firmament.init;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelDispatcher;
 import net.minecraft.client.renderer.chunk.SectionCompiler;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.core.BlockPos;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -17,7 +17,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 public class SectionBuilderRiser extends RiserUtils {
-
+// TODO: BlockStateModelSet might replace _all_ of this
 	Intermediary.InterClass SectionBuilder = Intermediary.<SectionCompiler>intermediaryClass();
 	Intermediary.InterClass BlockPos = Intermediary.<BlockPos>intermediaryClass();
 	Intermediary.InterClass BlockRenderManager = Intermediary.<BlockRenderDispatcher>intermediaryClass();

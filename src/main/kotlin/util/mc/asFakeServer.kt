@@ -13,7 +13,7 @@ fun FabricClientCommandSource.asFakeServer(): CommandSourceStack {
 	return CommandSourceStack(
 		object : CommandSource {
 			override fun sendSystemMessage(message: Component) {
-				source.player.displayClientMessage(message, false)
+				source.player.sendSystemMessage(message)
 			}
 
 			override fun acceptsSuccess(): Boolean {

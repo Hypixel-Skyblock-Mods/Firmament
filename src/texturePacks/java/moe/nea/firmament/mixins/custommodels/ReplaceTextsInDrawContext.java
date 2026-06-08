@@ -2,7 +2,7 @@ package moe.nea.firmament.mixins.custommodels;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import moe.nea.firmament.features.texturepack.CustomTextReplacements;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.stream.Stream;
 
-@Mixin(GuiGraphics.class)
+@Mixin(GuiGraphicsExtractor.class)
 public class ReplaceTextsInDrawContext {
 	// I HATE THIS SO MUCH WHY CANT I JUST OPERATE ON ORDEREDTEXTS!!!
 	// JUNE I WILL RIP ALL OF THIS OUT AND MAKE YOU REWRITE EVERYTHING

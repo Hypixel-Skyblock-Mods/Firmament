@@ -9,14 +9,13 @@ import moe.nea.firmament.events.HandledScreenClickEvent;
 import moe.nea.firmament.keybindings.GenericInputAction;
 import moe.nea.firmament.keybindings.InputModifiers;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.input.KeyEvent;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,8 +43,8 @@ public abstract class MixinHandledScreen<T extends AbstractContainerMenu> {
 	@Unique
 	Inventory playerInventory;
 
-	@Inject(method = "<init>", at = @At("TAIL"))
-	public void savePlayerInventory(AbstractContainerMenu handler, Inventory inventory, Component title, CallbackInfo ci) {
+	@Inject(method = "<init>(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;II)V", at = @At("TAIL"))
+	public void savePlayerInventory(AbstractContainerMenu menu, Inventory inventory, Component title, int imageWidth, int imageHeight, CallbackInfo ci) {
 		this.playerInventory = inventory;
 	}
 
@@ -60,16 +59,16 @@ public abstract class MixinHandledScreen<T extends AbstractContainerMenu> {
 		}
 	}
 
-	@Inject(method = "renderContents", at = @At("HEAD"))
-	public void onAfterRenderForeground(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	@Inject(method = "extractContents", at = @At("HEAD"))
+	public void onAfterRenderForeground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		HandledScreenForegroundEvent.Companion.publish(new HandledScreenForegroundEvent((AbstractContainerScreen<?>) (Object) this, context, mouseX, mouseY, delta));
 	}
 
-	@Inject(method = "slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V", at = @At("HEAD"), cancellable = true)
-	public void onMouseClickedSlot(Slot slot, int slotId, int button, ClickType actionType, CallbackInfo ci) {
-		if (slotId == -999 && getMenu() != null && actionType == ClickType.PICKUP) { // -999 is code for "clicked outside the main window"
+	@Inject(method = "slotClicked", at = @At("HEAD"), cancellable = true)
+	public void onMouseClickedSlot(Slot slot, int slotId, int button, ContainerInput actionType, CallbackInfo ci) {
+		if (slotId == -999 && getMenu() != null && actionType == ContainerInput.PICKUP) { // -999 is code for "clicked outside the main window"
 			ItemStack cursorStack = getMenu().getCarried();
-			if (cursorStack != null && IsSlotProtectedEvent.shouldBlockInteraction(slot, ClickType.THROW, IsSlotProtectedEvent.MoveOrigin.INVENTORY_MOVE, cursorStack)) {
+			if (cursorStack != null && IsSlotProtectedEvent.shouldBlockInteraction(slot, ContainerInput.THROW, IsSlotProtectedEvent.MoveOrigin.INVENTORY_MOVE, cursorStack)) {
 				ci.cancel();
 				return;
 			}
@@ -78,7 +77,7 @@ public abstract class MixinHandledScreen<T extends AbstractContainerMenu> {
 			ci.cancel();
 			return;
 		}
-		if (actionType == ClickType.SWAP && 0 <= button && button < 9) {
+		if (actionType == ContainerInput.SWAP && 0 <= button && button < 9) {
 			if (IsSlotProtectedEvent.shouldBlockInteraction(new Slot(playerInventory, button, 0, 0), actionType, IsSlotProtectedEvent.MoveOrigin.INVENTORY_MOVE)) {
 				ci.cancel();
 			}
@@ -86,12 +85,12 @@ public abstract class MixinHandledScreen<T extends AbstractContainerMenu> {
 	}
 
 
-	@WrapOperation(method = "renderSlots", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlot(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/inventory/Slot;II)V"))
-	public void onDrawSlots(AbstractContainerScreen instance, GuiGraphics guiGraphics, Slot slot, int i, int j, Operation<Void> original) {
-		var before = new SlotRenderEvents.Before(guiGraphics, slot);
+	@WrapOperation(method = "extractSlots", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/inventory/Slot;II)V"))
+	public void onDrawSlots(AbstractContainerScreen instance, GuiGraphicsExtractor graphics, Slot slot, int i, int j, Operation<Void> original) {
+		var before = new SlotRenderEvents.Before(graphics, slot);
 		SlotRenderEvents.Before.Companion.publish(before);
-		original.call(instance, guiGraphics, slot, i, j);
-		var after = new SlotRenderEvents.After(guiGraphics, slot);
+		original.call(instance, graphics, slot, i, j);
+		var after = new SlotRenderEvents.After(graphics, slot);
 		SlotRenderEvents.After.Companion.publish(after);
 	}
 }

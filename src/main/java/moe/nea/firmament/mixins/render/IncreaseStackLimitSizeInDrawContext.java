@@ -1,11 +1,11 @@
 package moe.nea.firmament.mixins.render;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(GuiGraphics.class)
+@Mixin(GuiGraphicsExtractor.class)
 public class IncreaseStackLimitSizeInDrawContext {
 	// [22:00:57] [Render thread/ERROR] (Minecraft) Couldn't compile program for pipeline firmament:gui_textured_overlay_tris_circle:
 	// net.minecraft.client.gl.ShaderLoader$LoadException: Error encountered when linking program containing

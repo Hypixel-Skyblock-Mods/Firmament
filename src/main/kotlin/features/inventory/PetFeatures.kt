@@ -187,7 +187,7 @@ object PetFeatures {
 
 		// Render text for the hud
 		lines.forEachIndexed { index, line ->
-			it.context.drawString(
+			it.context.text(
 				MC.font,
 				line.copy().withColor(ChatFormatting.GRAY),
 				36,
@@ -336,7 +336,7 @@ object PetFeatures {
 		it.context.pose().pushMatrix()
 		it.context.pose().translate(-0.5F, -0.5F)
 		it.context.pose().scale(2f, 2f)
-		it.context.renderItem(pet.petItemStack.value, 0, 0)
+		it.context.item(pet.petItemStack.value, 0, 0)
 		it.context.pose().popMatrix()
 
 		it.context.pose().popMatrix()

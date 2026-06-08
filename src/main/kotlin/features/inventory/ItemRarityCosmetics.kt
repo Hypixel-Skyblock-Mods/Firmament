@@ -2,7 +2,7 @@ package moe.nea.firmament.features.inventory
 
 import java.awt.Color
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.resources.Identifier
 import moe.nea.firmament.annotations.Subscribe
@@ -27,7 +27,7 @@ object ItemRarityCosmetics {
 		c.rgb
 	}
 
-	fun drawItemStackRarity(drawContext: GuiGraphics, x: Int, y: Int, item: ItemStack) {
+	fun drawItemStackRarity(drawContext: GuiGraphicsExtractor, x: Int, y: Int, item: ItemStack) {
 		val rarity = Rarity.fromItem(item) ?: return
 		val rgb = rarityToColor[rarity] ?: 0xFF00FF80.toInt()
 		drawContext.blitSprite(

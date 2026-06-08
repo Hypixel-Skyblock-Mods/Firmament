@@ -8,27 +8,26 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
+import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.player.LocalPlayer
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.LevelRenderer
-import net.minecraft.client.renderer.entity.ItemRenderer
-import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.core.BlockPos
+import net.minecraft.core.HolderLookup
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.registries.VanillaRegistries
+import net.minecraft.nbt.NbtOps
+import net.minecraft.network.chat.Component
+import net.minecraft.network.protocol.game.ServerboundChatCommandPacket
+import net.minecraft.resources.Identifier
+import net.minecraft.resources.RegistryOps
+import net.minecraft.resources.ResourceKey
+import net.minecraft.server.packs.resources.ReloadableResourceManager
+import net.minecraft.util.Util
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.nbt.NbtOps
-import net.minecraft.network.protocol.game.ServerboundChatCommandPacket
-import net.minecraft.data.registries.VanillaRegistries
-import net.minecraft.core.Registry
-import net.minecraft.resources.ResourceKey
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.RegistryOps
-import net.minecraft.core.HolderLookup
-import net.minecraft.server.packs.resources.ReloadableResourceManager
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.Identifier
-import net.minecraft.core.BlockPos
-import net.minecraft.util.Util
 import net.minecraft.world.level.Level
 import moe.nea.firmament.Firmament
 import moe.nea.firmament.events.TickEvent
@@ -43,7 +42,7 @@ object MC {
 		TickEvent.subscribe("MC:push") {
 			if (inGameHud.chat != null && world != null)
 				while (true) {
-					inGameHud.chat.addMessage(messageQueue.poll() ?: break)
+					inGameHud.chat.addClientSystemMessage(messageQueue.poll() ?: break)
 				}
 			while (true) {
 				(nextTickTodos.poll() ?: break).invoke()
@@ -60,7 +59,7 @@ object MC {
 			return
 		}
 		if (instance.isSameThread && inGameHud.chat != null && world != null)
-			inGameHud.chat.addMessage(text)
+			inGameHud.chat.addClientSystemMessage(text)
 		else
 			messageQueue.add(text)
 	}
@@ -99,7 +98,6 @@ object MC {
 
 
 	inline val resourceManager get() = (instance.resourceManager as ReloadableResourceManager)
-	inline val itemRenderer: ItemRenderer get() = instance.itemRenderer
 	inline val worldRenderer: LevelRenderer get() = instance.levelRenderer
 	inline val gameRenderer: GameRenderer get() = instance.gameRenderer
 	inline val networkHandler get() = player?.connection

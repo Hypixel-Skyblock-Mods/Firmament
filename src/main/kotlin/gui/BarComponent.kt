@@ -7,7 +7,7 @@ import io.github.notenoughupdates.moulconfig.observer.GetSetter
 import io.github.notenoughupdates.moulconfig.platform.MoulConfigRenderContext
 import me.shedaniel.math.Color
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.resources.Identifier
 import moe.nea.firmament.Firmament
 
@@ -29,7 +29,7 @@ class BarComponent(
         val u1: Float, val v1: Float,
         val u2: Float, val v2: Float,
 	) {
-		fun draw(context: GuiGraphics, x: Int, y: Int, width: Int, height: Int, color: Color) {
+		fun draw(context: GuiGraphicsExtractor, x: Int, y: Int, width: Int, height: Int, color: Color) {
 			context.innerBlit(
 				RenderPipelines.GUI_TEXTURED,
 				identifier,
@@ -49,7 +49,7 @@ class BarComponent(
 	}
 
 	private fun drawSection(
-        context: GuiGraphics,
+        context: GuiGraphicsExtractor,
         texture: Texture,
         x: Int,
         y: Int,

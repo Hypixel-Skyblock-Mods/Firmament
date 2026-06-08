@@ -130,11 +130,11 @@ object EtherwarpOverlay {
 	fun isEtherwarpTransparent(world: BlockGetter, blockPos: BlockPos): Boolean {
 		val blockState = world.getBlockState(blockPos)
 		val block = blockState.block
-		if (etherwarpConsidersFat.matches(blockState.blockHolder))
+		if (etherwarpConsidersFat.matches(blockState.typeHolder()))
 			return false
 		if (block.defaultBlockState().getCollisionShape(world, blockPos).isEmpty)
 			return true
-		if (etherwarpHallpasses.matches(blockState.blockHolder))
+		if (etherwarpHallpasses.matches(blockState.typeHolder()))
 			return true
 		return false
 	}
@@ -200,7 +200,7 @@ object EtherwarpOverlay {
 				EtherwarpResult.TOO_DISTANT
 			else if ((MC.instance.hitResult as? BlockHitResult)
 					?.takeIf { it.type == HitResult.Type.BLOCK }
-					?.let { interactionBlocked.matches(world.getBlockState(it.blockPos).blockHolder) }
+					?.let { interactionBlocked.matches(world.getBlockState(it.blockPos).typeHolder()) }
 					?: false
 			)
 				EtherwarpResult.INTERACTION_BLOCKED

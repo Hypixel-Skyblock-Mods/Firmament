@@ -5,7 +5,7 @@ import me.shedaniel.math.FloatingDimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import me.shedaniel.rei.api.client.gui.widgets.WidgetWithBounds
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.world.entity.LivingEntity
 import moe.nea.firmament.gui.entity.EntityRenderer
@@ -23,7 +23,7 @@ class EntityWidget(
 
 	var hasErrored = false
 
-	override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
+	override fun render(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
 		try {
 			if (!hasErrored) {
 				EntityRenderer.renderEntity(

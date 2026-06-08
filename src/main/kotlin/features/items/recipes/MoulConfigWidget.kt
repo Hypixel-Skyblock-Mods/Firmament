@@ -4,7 +4,7 @@ import io.github.notenoughupdates.moulconfig.gui.GuiComponent
 import io.github.notenoughupdates.moulconfig.gui.MouseEvent
 import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.input.MouseButtonEvent
 import moe.nea.firmament.util.MoulConfigUtils.createAndTranslateFullContext
 
@@ -13,14 +13,14 @@ class MoulConfigWidget(
 	override var position: Point,
 	override val size: Dimension,
 ) : RecipeWidget() {
-	override fun render(
-		guiGraphics: GuiGraphics,
+	override fun extractRenderState(
+		context: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
 	) {
 		createAndTranslateFullContext(
-			guiGraphics, mouseX, mouseY, rect,
+			context, mouseX, mouseY, rect,
 			component::render
 		)
 	}

@@ -6,7 +6,7 @@ import org.joml.Vector3f
 import util.render.CustomRenderLayers
 import kotlin.math.abs
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.renderer.MultiBufferSource
 import com.mojang.blaze3d.vertex.PoseStack
@@ -15,21 +15,21 @@ import net.minecraft.client.renderer.rendertype.RenderTypes
 import net.minecraft.resources.Identifier
 import moe.nea.firmament.util.MC
 
-fun GuiGraphics.isUntranslatedGuiDrawContext(): Boolean {
+fun GuiGraphicsExtractor.isUntranslatedGuiDrawContext(): Boolean {
 	return pose().m00 == 1F && pose().m11 == 1f && pose().m01 == 0F && pose().m10 == 0F && pose().m20 == 0F && pose().m21 == 0F
 }
 
 @Deprecated("Use the other drawGuiTexture")
-fun GuiGraphics.drawGuiTexture(
+fun GuiGraphicsExtractor.drawGuiTexture(
 	x: Int, y: Int, z: Int, width: Int, height: Int, sprite: Identifier
 ) = this.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height)
 
-fun GuiGraphics.drawGuiTexture(
+fun GuiGraphicsExtractor.drawGuiTexture(
 	sprite: Identifier,
 	x: Int, y: Int, width: Int, height: Int
 ) = this.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, x, y, width, height)
 
-fun GuiGraphics.drawTexture(
+fun GuiGraphicsExtractor.drawTexture(
 	sprite: Identifier,
 	x: Int,
 	y: Int,
@@ -106,7 +106,7 @@ class LineRenderer(vertexConsumers: MultiBufferSource.BufferSource) :
 				client.level?.gameTime ?: 0L,
 				client.deltaTracker,
 				client.options.menuBackgroundBlurriness,
-				gr.mainCamera,
+				gr.mainCamera.position(),
 				client.options.textureFiltering().get() == TextureFilteringMethod.RGSS
 			) // TODO: is this viewport mangling still needed with the new line shader in 1.21.11
 
@@ -134,7 +134,7 @@ class LineRenderer(vertexConsumers: MultiBufferSource.BufferSource) :
 				client.level?.gameTime ?: 0L,
 				client.deltaTracker,
 				client.options.menuBackgroundBlurriness,
-				gr.mainCamera,
+				gr.mainCamera.position(),
 				client.options.textureFiltering().get() == TextureFilteringMethod.RGSS
 			)
 	}
@@ -145,16 +145,16 @@ class LineRenderer(vertexConsumers: MultiBufferSource.BufferSource) :
 }
 
 
-fun GuiGraphics.drawAlignedBox(fromX: Int, fromY: Int, width: Int, height: Int, color: Int) {
+fun GuiGraphicsExtractor.drawAlignedBox(fromX: Int, fromY: Int, width: Int, height: Int, color: Int) {
 	val toY = fromY + height
 	val toX = fromX + width
-	vLine(fromX, fromY, toY, color)
-	vLine(toX, fromY, toY, color)
-	hLine(fromX, toX, fromY, color)
-	hLine(fromX, toX, toY, color)
+	verticalLine(fromX, fromY, toY, color)
+	verticalLine(toX, fromY, toY, color)
+	horizontalLine(fromX, toX, fromY, color)
+	horizontalLine(fromX, toX, toY, color)
 }
 
-fun GuiGraphics.drawLine(fromX: Int, fromY: Int, toX: Int, toY: Int, color: Color, lineWidth: Float = 1F) {
+fun GuiGraphicsExtractor.drawLine(fromX: Int, fromY: Int, toX: Int, toY: Int, color: Color, lineWidth: Float = 1F) {
 	if (toY < fromY) {
 		drawLine(toX, toY, fromX, fromY, color)
 		return
@@ -172,7 +172,7 @@ fun GuiGraphics.drawLine(fromX: Int, fromY: Int, toX: Int, toY: Int, color: Colo
 	)
 	// TODO: expand the bounds so that the thickness of the line can be used
 	// TODO: fix this up to work with scissorarea
-	guiRenderState.submitPicturesInPictureState(
+	guiRenderState.addPicturesInPictureState(
 		LineRenderState(
 			rect.left(), rect.right(), rect.top(), rect.bottom(), 1F, rect, lineWidth,
 			originalRect.width, originalRect.height, color.color,

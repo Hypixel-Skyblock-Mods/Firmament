@@ -2,7 +2,7 @@ package moe.nea.firmament.util.render
 
 import com.mojang.blaze3d.vertex.VertexFormat
 import util.render.CustomRenderLayers
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import com.mojang.blaze3d.vertex.BufferBuilder
 import net.minecraft.client.renderer.MultiBufferSource
@@ -119,7 +119,7 @@ object RenderCircleProgress {
 	}
 
 	fun renderCircularSlice(
-		drawContext: GuiGraphics,
+		drawContext: GuiGraphicsExtractor,
 		layer: RenderType,
 		u1: Float,
 		u2: Float,
@@ -130,7 +130,7 @@ object RenderCircleProgress {
 		innerCutoutRadius: Float = 0F
 	) {
 		val screenRect = ScreenRectangle(-1, -1, 2, 2).transformAxisAligned(drawContext.pose())
-		drawContext.guiRenderState.submitPicturesInPictureState(
+		drawContext.guiRenderState.addPicturesInPictureState(
 			State(
 				screenRect.left(), screenRect.right(),
 				screenRect.top(), screenRect.bottom(),
@@ -147,7 +147,7 @@ object RenderCircleProgress {
 	}
 
 	fun renderCircle(
-		drawContext: GuiGraphics,
+		drawContext: GuiGraphicsExtractor,
 		texture: Identifier,
 		progress: Float,
 		u1: Float,

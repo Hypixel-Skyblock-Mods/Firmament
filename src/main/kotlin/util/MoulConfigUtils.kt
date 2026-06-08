@@ -23,7 +23,7 @@ import me.shedaniel.math.Color
 import org.w3c.dom.Element
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import com.mojang.blaze3d.platform.InputConstants
 import me.shedaniel.math.Rectangle
@@ -294,7 +294,7 @@ object MoulConfigUtils {
 	}
 
 	fun <T> createAndTranslateFullContext(
-		drawContext: GuiGraphics?,
+		drawContext: GuiGraphicsExtractor?,
 		mouseX: Number, mouseY: Number,
 		rectangle: Rectangle,
 		block: (GuiImmediateContext) -> T
@@ -308,7 +308,7 @@ object MoulConfigUtils {
 		return result
 	}
 
-	fun createInPlaceFullContext(drawContext: GuiGraphics?, mouseX: Number, mouseY: Number): GuiImmediateContext {
+	fun createInPlaceFullContext(drawContext: GuiGraphicsExtractor?, mouseX: Number, mouseY: Number): GuiImmediateContext {
 		ErrorUtil.softCheck(
 			"created moulconfig context with pre-existing translations.",
 			drawContext?.isUntranslatedGuiDrawContext() != false
@@ -326,7 +326,7 @@ object MoulConfigUtils {
 		return immContext
 	}
 
-	fun GuiGraphics.drawMCComponentInPlace(
+	fun GuiGraphicsExtractor.drawMCComponentInPlace(
 		component: GuiComponent,
 		x: Int,
 		y: Int,

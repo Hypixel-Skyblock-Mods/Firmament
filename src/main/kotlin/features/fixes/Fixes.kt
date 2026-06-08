@@ -52,7 +52,7 @@ object Fixes {
 		if (!TConfig.autoSprintKeyBinding.isBound || !TConfig.autoSprintHudToggle) return
 		it.context.pose().pushMatrix()
 		TConfig.autoSprintHud.applyTransformations(it.context.pose())
-		it.context.drawString(
+		it.context.text(
 			MC.font, (
 				if (MC.player?.isSprinting == true) {
 					Component.translatable("firmament.fixes.auto-sprint.sprinting")
