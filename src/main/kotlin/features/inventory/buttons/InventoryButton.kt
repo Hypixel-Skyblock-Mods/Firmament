@@ -6,7 +6,7 @@ import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import kotlinx.serialization.Serializable
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.commands.arguments.item.ItemArgument
 import net.minecraft.world.item.ItemStack
@@ -69,7 +69,7 @@ data class InventoryButton(
 					else icon
 					val componentItem =
 						runCatching {
-							itemStackParser.parse(StringReader(giveSyntaxItem)).createItemStack(1, false)
+							itemStackParser.parse(StringReader(giveSyntaxItem)).createItemStack(1)
 						}.getOrNull()
 					return componentItem
 				}
@@ -89,7 +89,7 @@ data class InventoryButton(
 		}
 	}
 
-	fun render(context: GuiGraphics) {
+	fun render(context: GuiGraphicsExtractor) {
 		context.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
 			Identifier.parse("firmament:inventory_button_background"),
@@ -102,10 +102,10 @@ data class InventoryButton(
 			context.pose().pushMatrix()
 			context.pose().translate(myDimension.width / 2F, myDimension.height / 2F)
 			context.pose().scale(2F)
-			context.renderItem(getItem(), -8, -8)
+			context.item(getItem(), -8, -8)
 			context.pose().popMatrix()
 		} else {
-			context.renderItem(getItem(), 1, 1)
+			context.item(getItem(), 1, 1)
 		}
 	}
 

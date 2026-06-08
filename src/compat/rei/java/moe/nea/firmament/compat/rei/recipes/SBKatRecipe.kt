@@ -19,7 +19,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory
 import me.shedaniel.rei.api.common.category.CategoryIdentifier
 import kotlin.time.Duration.Companion.seconds
 import net.minecraft.client.gui.navigation.ScreenDirection
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.world.item.Items
@@ -145,7 +145,7 @@ fun wrapWidget(bounds: Rectangle, component: GuiComponent): Widget {
 			return listOf()
 		}
 
-		override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
+		override fun render(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
 			context.pose().pushMatrix()
 			context.pose().translate(bounds.minX.toFloat(), bounds.minY.toFloat())
 			component.render(

@@ -39,3 +39,4 @@ accessible method net/minecraft/client/renderer/rendertype/RenderType create (Lj
 accessible class net/minecraft/client/renderer/rendertype/RenderSetup$TextureBinding
 accessible field net/minecraft/client/renderer/rendertype/RenderType state Lnet/minecraft/client/renderer/rendertype/RenderSetup;
 accessible field net/minecraft/client/renderer/rendertype/RenderSetup textures Ljava/util/Map;
+accessible method net/minecraft/client/gui/GuiGraphicsExtractor innerBlit (Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIIIFFFFI)V

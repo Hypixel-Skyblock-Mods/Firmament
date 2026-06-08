@@ -120,7 +120,7 @@ object RepoManager {
 	}
 
 	init {
-		ClientTickEvents.START_WORLD_TICK.register(ClientTickEvents.StartWorldTick {
+		ClientTickEvents.START_LEVEL_TICK.register(ClientTickEvents.StartLevelTick {
 			if (recentlyFailedToUpdateItemList && trySendClientboundUpdateRecipesPacket())
 				recentlyFailedToUpdateItemList = false
 		})

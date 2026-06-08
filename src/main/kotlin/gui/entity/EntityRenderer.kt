@@ -7,7 +7,7 @@ import me.shedaniel.math.Dimension
 import org.joml.Quaternionf
 import org.joml.Vector3f
 import kotlin.math.atan
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -150,7 +150,7 @@ object EntityRenderer {
 
 	fun renderEntity(
 		entity: LivingEntity,
-		renderContext: GuiGraphics,
+		renderContext: GuiGraphicsExtractor,
 		posX: Int,
 		posY: Int,
 		// TODO: Add width, height properties here
@@ -187,7 +187,7 @@ object EntityRenderer {
 
 
 	fun drawEntity(
-		context: GuiGraphics,
+		context: GuiGraphicsExtractor,
 		x1: Int,
 		y1: Int,
 		x2: Int,
@@ -199,7 +199,7 @@ object EntityRenderer {
 		entity: LivingEntity
 	) {
 		context.enableScissorWithTranslation(x1.toFloat(), y1.toFloat(), x2.toFloat(), y2.toFloat())
-		InventoryScreen.renderEntityInInventoryFollowsMouse(
+		InventoryScreen.extractEntityInInventoryFollowsMouse(
 			context,
 			x1, y1,
 			x2, y2,

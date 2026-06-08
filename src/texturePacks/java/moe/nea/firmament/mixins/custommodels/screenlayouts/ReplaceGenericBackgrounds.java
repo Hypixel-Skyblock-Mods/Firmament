@@ -1,7 +1,7 @@
 package moe.nea.firmament.mixins.custommodels.screenlayouts;
 
 import moe.nea.firmament.features.texturepack.CustomScreenLayouts;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,7 +19,7 @@ public abstract class ReplaceGenericBackgrounds extends AbstractContainerScreen<
 	}
 
 	@Inject(method = "renderBg", at = @At("HEAD"), cancellable = true)
-	private void replaceDrawBackground(GuiGraphics context, float deltaTicks, int mouseX, int mouseY, CallbackInfo ci) {
+	private void replaceDrawBackground(GuiGraphicsExtractor context, float deltaTicks, int mouseX, int mouseY, CallbackInfo ci) {
 		final var override = CustomScreenLayouts.getActiveScreenOverride();
 		if (override == null || override.getBackground() == null) return;
 		override.getBackground().renderGeneric(context, this);

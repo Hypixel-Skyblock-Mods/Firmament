@@ -53,7 +53,7 @@ object ComboProcessor {
 			(MC.window.guiScaledHeight) / 2F + 8
 		)
 		val breadCrumbText = breadCrumbs.joinToString(" > ")
-		event.context.drawString(
+		event.context.text(
 			MC.font,
 			tr("firmament.combo.active", "Current Combo: ").append(breadCrumbText),
 			0,
@@ -63,7 +63,7 @@ object ComboProcessor {
 		)
 		event.context.pose().translate(0F, MC.font.lineHeight + 2F)
 		for ((key, value) in activeTrie.nodes) {
-			event.context.drawString(
+			event.context.text(
 				MC.font,
 				Component.literal("$breadCrumbText > $key: ").append(value.label),
 				0,

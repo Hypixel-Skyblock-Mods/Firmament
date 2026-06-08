@@ -4,7 +4,7 @@ import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import net.minecraft.client.Minecraft
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.inventory.ContainerScreen
 import net.minecraft.client.input.CharacterEvent
 import net.minecraft.client.input.KeyEvent
@@ -30,12 +30,12 @@ class StorageOverlayCustom(
 		return overview.getBounds()
 	}
 
-	override fun afterSlotRender(context: GuiGraphics, slot: Slot) {
+	override fun afterSlotRender(context: GuiGraphicsExtractor, slot: Slot) {
 		if (slot.container !is Inventory)
 			context.disableScissor()
 	}
 
-	override fun beforeSlotRender(context: GuiGraphics, slot: Slot) {
+	override fun beforeSlotRender(context: GuiGraphicsExtractor, slot: Slot) {
 		if (slot.container !is Inventory)
 			overview.createScissors(context)
 	}
@@ -88,7 +88,7 @@ class StorageOverlayCustom(
 		return overview.mouseClicked(click, doubled, (handler as? StorageBackingHandle.Page)?.storagePageSlot)
 	}
 
-	override fun render(drawContext: GuiGraphics, delta: Float, mouseX: Int, mouseY: Int) {
+	override fun render(drawContext: GuiGraphicsExtractor, delta: Float, mouseX: Int, mouseY: Int) {
 		overview.drawBackgrounds(drawContext)
 		overview.drawPages(
 			drawContext,

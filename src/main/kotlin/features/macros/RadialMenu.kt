@@ -7,7 +7,7 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import moe.nea.firmament.annotations.Subscribe
 import moe.nea.firmament.events.HudRenderEvent
 import moe.nea.firmament.events.TickEvent
@@ -32,7 +32,7 @@ object RadialMenuViewer {
 	interface RadialMenuOption {
 		val isEnabled: Boolean
 		fun resolve()
-		fun renderSlice(drawContext: GuiGraphics)
+		fun renderSlice(drawContext: GuiGraphicsExtractor)
 	}
 
 	var activeMenu: RadialMenu? = null
@@ -137,8 +137,8 @@ object RadialMacros {
 						action.execute()
 					}
 
-					override fun renderSlice(drawContext: GuiGraphics) {
-						drawContext.drawCenteredString(MC.font, action.label, 0, 0, -1)
+					override fun renderSlice(drawContext: GuiGraphicsExtractor) {
+						drawContext.centeredText(MC.font, action.label, 0, 0, -1)
 					}
 				}
 				RadialMenuViewer.activeMenu = object : RadialMenu {

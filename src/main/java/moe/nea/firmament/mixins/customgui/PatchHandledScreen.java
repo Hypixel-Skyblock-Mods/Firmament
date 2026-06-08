@@ -11,7 +11,7 @@ import moe.nea.firmament.util.customgui.CoordRememberingSlot;
 import moe.nea.firmament.util.customgui.CustomGui;
 import moe.nea.firmament.util.customgui.HasCustomGui;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.CharacterEvent;
@@ -99,7 +99,7 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 	}
 
 	@Inject(method = "renderLabels", at = @At("HEAD"), cancellable = true)
-	private void onDrawForeground(GuiGraphics context, int mouseX, int mouseY, CallbackInfo ci) {
+	private void onDrawForeground(GuiGraphicsExtractor context, int mouseX, int mouseY, CallbackInfo ci) {
 		if (override != null && !override.shouldDrawForeground())
 			ci.cancel();
 	}
@@ -109,14 +109,14 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 		method = "renderSlots",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlot(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/inventory/Slot;II)V"))
-	private void beforeSlotRender(AbstractContainerScreen instance, GuiGraphics guiGraphics, Slot slot, int i, int j, Operation<Void> original) {
+			target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/inventory/Slot;II)V"))
+	private void beforeSlotRender(AbstractContainerScreen instance, GuiGraphicsExtractor GuiGraphicsExtractor, Slot slot, int i, int j, Operation<Void> original) {
 		if (override != null) {
-			override.beforeSlotRender(guiGraphics, slot);
+			override.beforeSlotRender(GuiGraphicsExtractor, slot);
 		}
-		original.call(instance, guiGraphics, slot, i, j);
+		original.call(instance, GuiGraphicsExtractor, slot, i, j);
 		if (override != null) {
-			override.afterSlotRender(guiGraphics, slot);
+			override.afterSlotRender(GuiGraphicsExtractor, slot);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 	}
 
 	@Inject(method = "renderBackground", at = @At("HEAD"))
-	public void moveSlots(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	public void moveSlots(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (override != null) {
 			for (Slot slot : menu.slots) {
 				if (!hasRememberedSlots) {
@@ -171,8 +171,8 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 		}
 	}
 
-	@WrapWithCondition(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphics;FII)V"))
-	public boolean preventDrawingBackground(AbstractContainerScreen instance, GuiGraphics drawContext, float delta, int mouseX, int mouseY) {
+	@WrapWithCondition(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphicsExtractor;FII)V"))
+	public boolean preventDrawingBackground(AbstractContainerScreen instance, GuiGraphicsExtractor drawContext, float delta, int mouseX, int mouseY) {
 		if (override != null) {
 			override.render(drawContext, delta, mouseX, mouseY);
 		}

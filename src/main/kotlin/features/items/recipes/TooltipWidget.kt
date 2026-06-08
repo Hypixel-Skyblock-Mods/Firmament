@@ -3,7 +3,7 @@ package moe.nea.firmament.features.items.recipes
 import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 import moe.nea.firmament.repo.recipes.RecipeLayouter
 
@@ -17,14 +17,14 @@ class TooltipWidget(
 	}
 
 	var formattedComponent = label.map { it.visualOrderText }
-	override fun render(
-		guiGraphics: GuiGraphics,
+	override fun extractRenderState(
+		GuiGraphicsExtractor: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
 	) {
 		if (rect.contains(mouseX, mouseY))
-			guiGraphics.setTooltipForNextFrame(formattedComponent, mouseX, mouseY)
+			GuiGraphicsExtractor.setTooltipForNextFrame(formattedComponent, mouseX, mouseY)
 	}
 
 }

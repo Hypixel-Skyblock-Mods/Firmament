@@ -2,7 +2,7 @@ package moe.nea.firmament.util.customgui
 
 import me.shedaniel.math.Rectangle
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.input.CharacterEvent
 import net.minecraft.client.input.KeyEvent
 import net.minecraft.world.inventory.Slot
@@ -26,7 +26,7 @@ abstract class CustomGui {
 	}
 
 	open fun render(
-        drawContext: GuiGraphics,
+        drawContext: GuiGraphicsExtractor,
         delta: Float,
         mouseX: Int,
         mouseY: Int
@@ -37,8 +37,8 @@ abstract class CustomGui {
 		return false
 	}
 
-	open fun afterSlotRender(context: GuiGraphics, slot: Slot) {}
-	open fun beforeSlotRender(context: GuiGraphics, slot: Slot) {}
+	open fun afterSlotRender(context: GuiGraphicsExtractor, slot: Slot) {}
+	open fun beforeSlotRender(context: GuiGraphicsExtractor, slot: Slot) {}
 	open fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
 		return false
 	}

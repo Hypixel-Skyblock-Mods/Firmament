@@ -5,7 +5,7 @@ import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -45,8 +45,8 @@ class ItemSlotWidget(
 		get() = Rectangle(backgroundTopLeft, backgroundSize)
 
 	@OptIn(ExpensiveItemCacheApi::class)
-	override fun render(
-		guiGraphics: GuiGraphics,
+	override fun extractRenderState(
+		context: GuiGraphicsExtractor,
 		mouseX: Int,
 		mouseY: Int,
 		partialTick: Float
@@ -54,15 +54,15 @@ class ItemSlotWidget(
 		val stack = current().asImmutableItemStack()
 		// TODO: draw slot background
 		if (stack.isEmpty) return
-		guiGraphics.renderItem(stack, position.x, position.y)
-		guiGraphics.renderItemDecorations(
+		context.item(stack, position.x, position.y)
+		context.itemDecorations(
 			MC.font, stack, position.x, position.y,
 			if (stack.count >= SHORT_NUM_CUTOFF) shortFormat(stack.count.toDouble())
 			else null
 		)
 		if (itemRect.contains(mouseX, mouseY)
-			&& guiGraphics.containsPointInScissor(mouseX, mouseY)
-		) guiGraphics.setTooltipForNextFrame(
+			&& context.containsPointInScissor(mouseX, mouseY)
+		) context.setTooltipForNextFrame(
 			MC.font, getTooltip(stack), Optional.empty(),
 			mouseX, mouseY
 		)

@@ -2,9 +2,9 @@ package moe.nea.firmament.util.render
 
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.client.gui.render.pip.PictureInPictureRenderer
-import net.minecraft.client.gui.render.state.GuiRenderState
-import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState
 import net.minecraft.client.renderer.MultiBufferSource
+import net.minecraft.client.renderer.state.gui.GuiRenderState
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState
 
 abstract class MultiSpecialGuiRenderState : PictureInPictureRenderState {
 	// I wish i had manifolds @Self type here... Maybe i should switch to java after all :(

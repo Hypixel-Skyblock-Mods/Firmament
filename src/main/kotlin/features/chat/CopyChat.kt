@@ -3,7 +3,7 @@ package moe.nea.firmament.features.chat
 import org.joml.Matrix3x2f
 import net.minecraft.client.gui.ActiveTextCollector
 import net.minecraft.client.gui.TextAlignment
-import net.minecraft.client.gui.render.state.GuiTextRenderState
+import net.minecraft.client.renderer.state.gui.GuiTextRenderState
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 import net.minecraft.util.FormattedCharSequence

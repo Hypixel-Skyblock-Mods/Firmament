@@ -4,12 +4,12 @@ package moe.nea.firmament.util.render
 import org.joml.Matrix4f
 import util.render.CustomRenderLayers
 import net.minecraft.client.gui.Font
-import net.minecraft.client.renderer.LightTexture
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.renderer.rendertype.RenderTypes
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.core.BlockPos
+import net.minecraft.util.LightCoordsUtil
 import moe.nea.firmament.util.FirmFormatters
 import moe.nea.firmament.util.MC
 import moe.nea.firmament.util.assertTrueOr
@@ -38,14 +38,14 @@ class FacingThePlayerContext(val worldContext: RenderInWorldContext) {
                 worldContext.vertexConsumers.getBuffer(RenderTypes.textBackgroundSeeThrough())
             val matrix4f = worldContext.matrixStack.last().pose()
             vertexConsumer.addVertex(matrix4f, -1.0f, -1.0f, 0.0f).setColor(background)
-                .setLight(LightTexture.FULL_BLOCK)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, -1.0f, MC.font.lineHeight.toFloat(), 0.0f).setColor(background)
-                .setLight(LightTexture.FULL_BLOCK)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, width.toFloat(), MC.font.lineHeight.toFloat(), 0.0f)
                 .setColor(background)
-                .setLight(LightTexture.FULL_BLOCK)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, width.toFloat(), -1.0f, 0.0f).setColor(background)
-                .setLight(LightTexture.FULL_BLOCK)
+                .setLight(LightCoordsUtil.FULL_BRIGHT)
             worldContext.matrixStack.translate(0F, 0F, 0.01F)
 
             MC.font.drawInBatch(
@@ -58,7 +58,7 @@ class FacingThePlayerContext(val worldContext: RenderInWorldContext) {
                 worldContext.vertexConsumers,
                 Font.DisplayMode.SEE_THROUGH,
                 0,
-                LightTexture.FULL_BRIGHT
+				LightCoordsUtil.FULL_BRIGHT
             )
             worldContext.matrixStack.popPose()
         }

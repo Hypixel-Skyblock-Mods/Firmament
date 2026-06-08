@@ -94,11 +94,11 @@ object PowerUserTools {
 	@Subscribe
 	fun onRender(event: SlotRenderEvents.After) {
 		if (TConfig.showSlotNumbers.isPressed()) {
-			event.context.drawString(
+			event.context.text(
 				MC.font,
 				event.slot.index.toString(), event.slot.x, event.slot.y, 0xFF00FF00.toInt(), true
 			)
-			event.context.drawString(
+			event.context.text(
 				MC.font,
 				event.slot.containerSlot.toString(), event.slot.x, event.slot.y + MC.font.lineHeight, 0xFFFF0000.toInt(), true
 			)

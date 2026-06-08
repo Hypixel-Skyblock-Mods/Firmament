@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import net.minecraft.client.gui.Font
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.client.gui.screens.inventory.HangingSignEditScreen
@@ -88,7 +88,7 @@ object CustomScreenLayouts : SimplePreparableReloadListener<List<CustomScreenLay
         val width: Int,
         val height: Int,
 	) {
-		fun renderDirect(context: GuiGraphics) {
+		fun renderDirect(context: GuiGraphicsExtractor) {
 			context.blit(
 				RenderPipelines.GUI_TEXTURED,
 				this.texture,
@@ -98,7 +98,7 @@ object CustomScreenLayouts : SimplePreparableReloadListener<List<CustomScreenLay
 			)
 		}
 
-		fun renderGeneric(context: GuiGraphics, screen: AbstractContainerScreen<*>) {
+		fun renderGeneric(context: GuiGraphicsExtractor, screen: AbstractContainerScreen<*>) {
 			screen.castAccessor()
 			val originalX: Int = (screen.width - screen.backgroundWidth_Firmament) / 2
 			val originalY: Int = (screen.height - screen.backgroundHeight_Firmament) / 2

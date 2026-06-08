@@ -6,7 +6,7 @@ import moe.nea.firmament.events.HotbarItemRenderEvent;
 import moe.nea.firmament.events.HudRenderEvent;
 import moe.nea.firmament.features.fixes.Fixes;
 import moe.nea.firmament.util.SBData;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.world.entity.player.Player;
@@ -19,12 +19,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Gui.class)
 public class HudRenderEventsPatch {
     @Inject(method = "renderSleepOverlay", at = @At(value = "HEAD"))
-    public void renderCallBack(GuiGraphics context, DeltaTracker tickCounter, CallbackInfo ci) {
+    public void renderCallBack(GuiGraphicsExtractor context, DeltaTracker tickCounter, CallbackInfo ci) {
         HudRenderEvent.Companion.publish(new HudRenderEvent(context, tickCounter));
     }
 
     @Inject(method = "renderSlot", at = @At("HEAD"))
-    public void onRenderHotbarItem(GuiGraphics context, int x, int y, DeltaTracker tickCounter, Player player, ItemStack stack, int seed, CallbackInfo ci) {
+    public void onRenderHotbarItem(GuiGraphicsExtractor context, int x, int y, DeltaTracker tickCounter, Player player, ItemStack stack, int seed, CallbackInfo ci) {
         if (stack != null && !stack.isEmpty())
             HotbarItemRenderEvent.Companion.publish(new HotbarItemRenderEvent(stack, context, x, y, tickCounter));
     }

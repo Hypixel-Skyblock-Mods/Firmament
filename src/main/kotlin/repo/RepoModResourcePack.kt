@@ -4,30 +4,30 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.Optional
-import net.fabricmc.fabric.api.resource.ModResourcePack
+import net.fabricmc.fabric.api.resource.v1.pack.ModPackResources
 import net.fabricmc.fabric.impl.resource.pack.ModPackResourcesSorter
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.metadata.ModMetadata
 import kotlin.io.path.exists
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.relativeTo
+import kotlin.jvm.optionals.getOrNull
 import kotlin.streams.asSequence
-import net.minecraft.server.packs.AbstractPackResources
-import net.minecraft.server.packs.resources.IoSupplier
-import net.minecraft.server.packs.resources.FallbackResourceManager
-import net.minecraft.server.packs.resources.Resource
-import net.minecraft.server.packs.PackResources
-import net.minecraft.server.packs.PackLocationInfo
-import net.minecraft.server.packs.repository.PackSource
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.resources.ResourceMetadata
-import net.minecraft.server.packs.metadata.MetadataSectionType
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
+import net.minecraft.server.packs.PackLocationInfo
+import net.minecraft.server.packs.PackResources
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.metadata.MetadataSectionType
+import net.minecraft.server.packs.repository.PackSource
+import net.minecraft.server.packs.resources.FallbackResourceManager
+import net.minecraft.server.packs.resources.IoSupplier
+import net.minecraft.server.packs.resources.Resource
+import net.minecraft.server.packs.resources.ResourceMetadata
 import net.minecraft.util.FileUtil
 import moe.nea.firmament.Firmament
 
-class RepoModResourcePack(val basePath: Path) : ModResourcePack {
+class RepoModResourcePack(val basePath: Path) : ModPackResources {
 	companion object {
 		fun append(packs: ModPackResourcesSorter) {
 			Firmament.logger.info("Registering mod resource pack")
@@ -101,17 +101,22 @@ class RepoModResourcePack(val basePath: Path) : ModResourcePack {
 		return setOf("neurepo")
 	}
 
-	override fun <T : Any> getMetadataSection(metadataSerializer: MetadataSectionType<T>): T? {
-		return AbstractPackResources.getMetadataFromStream(
-			metadataSerializer, """
-{
-    "pack": {
-        "pack_format": 12,
-        "description": "NEU Repo Resources"
-    }
-}
-""".trimIndent().byteInputStream(), location()
+	val metadata by lazy {
+		ResourceMetadata.fromJsonStream(
+			"""
+				{
+					"pack": {
+						"pack_format": 12,
+						"description": "NEU Repo Resources"
+					}
+				}
+				""".trimIndent().byteInputStream()
 		)
+	}
+
+	override fun <T : Any> getMetadataSection(metadataSerializer: MetadataSectionType<T>): T? {
+		return metadata.getSection(metadataSerializer).getOrNull()
+
 	}
 
 
@@ -124,7 +129,7 @@ class RepoModResourcePack(val basePath: Path) : ModResourcePack {
 			.get().metadata
 	}
 
-	override fun createOverlay(overlay: String): ModResourcePack {
+	override fun createOverlay(overlay: String): ModPackResources {
 		return RepoModResourcePack(basePath.resolve(overlay))
 	}
 }

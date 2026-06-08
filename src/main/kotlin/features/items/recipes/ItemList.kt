@@ -4,7 +4,7 @@ import io.github.notenoughupdates.moulconfig.observer.GetSetter
 import io.github.notenoughupdates.moulconfig.observer.Property
 import java.util.Optional
 import me.shedaniel.math.Rectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Renderable
 import net.minecraft.client.gui.components.events.GuiEventListener
 import net.minecraft.client.gui.navigation.ScreenAxis
@@ -26,7 +26,6 @@ import moe.nea.firmament.repo.SBItemStack
 import moe.nea.firmament.util.MC
 import moe.nea.firmament.util.accessors.castAccessor
 import moe.nea.firmament.util.render.drawAlignedBox
-import moe.nea.firmament.util.render.drawLine
 import moe.nea.firmament.util.skyblockId
 
 object ItemList {
@@ -125,25 +124,25 @@ object ItemList {
 				rectangle.width, MC.font.lineHeight
 			)
 
-		override fun render(
-			guiGraphics: GuiGraphics,
+		override fun extractRenderState(
+			GuiGraphicsExtractor: GuiGraphicsExtractor,
 			mouseX: Int,
 			mouseY: Int,
 			partialTick: Float
 		) {
-			guiGraphics.fill(rectangle.minX, rectangle.minY, rectangle.maxX, rectangle.maxY, 0xFF000000.toInt())
-			guiGraphics.drawAlignedBox(rectangle.x, rectangle.y, rectangle.width, rectangle.height, -1)
+			GuiGraphicsExtractor.fill(rectangle.minX, rectangle.minY, rectangle.maxX, rectangle.maxY, 0xFF000000.toInt())
+			GuiGraphicsExtractor.drawAlignedBox(rectangle.x, rectangle.y, rectangle.width, rectangle.height, -1)
 			val sel = selected.get()
 			for ((index, element) in options.withIndex()) {
 				val b = bb(index)
 				val tw = MC.font.width(element.component())
-				guiGraphics.drawString(
+				GuiGraphicsExtractor.text(
 					MC.font, element.component(), b.centerX - tw / 2,
 					b.y + 1,
 					if (element == sel) 0xFFA0B000.toInt() else -1
 				)
 				if (b.contains(mouseX, mouseY))
-					guiGraphics.hLine(b.centerX - tw / 2, b.centerX + tw / 2 - 1, b.maxY + 1, -1)
+					GuiGraphicsExtractor.horizontalLine(b.centerX - tw / 2, b.centerX + tw / 2 - 1, b.maxY + 1, -1)
 			}
 		}
 
@@ -170,15 +169,15 @@ object ItemList {
 		val width = options.maxOf { MC.font.width(it.component()) } + 4
 		override val rectangle: Rectangle = Rectangle(x, y, width, height)
 
-		override fun render(
-			guiGraphics: GuiGraphics,
+		override fun extractRenderState(
+			context: GuiGraphicsExtractor,
 			mouseX: Int,
 			mouseY: Int,
 			partialTick: Float
 		) {
-			guiGraphics.drawCenteredString(MC.font, selected.get().component(), rectangle.centerX, rectangle.y + 2, -1)
+			context.centeredText(MC.font, selected.get().component(), rectangle.centerX, rectangle.y + 2, -1)
 			if (isMouseOver(mouseX.toDouble(), mouseY.toDouble())) {
-				guiGraphics.hLine(rectangle.minX, rectangle.maxX - 1, rectangle.maxY - 2, -1)
+				context.horizontalLine(rectangle.minX, rectangle.maxX - 1, rectangle.maxY - 2, -1)
 			}
 		}
 
@@ -257,7 +256,7 @@ object ItemList {
 		lastRenderPositions.forEach { (pos, stack) ->
 			val realStack = stack.asLazyImmutableItemStack()
 			val toRender = realStack ?: ItemStack(Items.PAINTING)
-			event.context.renderItem(toRender, pos.left() + 1, pos.top() + 1)
+			event.context.item(toRender, pos.left() + 1, pos.top() + 1)
 			if (!isPopupHovered && pos.containsPoint(event.mouseX, event.mouseY)) {
 				lastHoveredItemStack = pos to stack
 				event.context.setTooltipForNextFrame(
@@ -293,9 +292,9 @@ object ItemList {
 			it.rectangle.translate(startX, 0)
 			startX += it.rectangle.width + 2
 		}
-		le.forEach { it.render(event.context, event.mouseX, event.mouseY, event.delta) }
+		le.forEach { it.extractRenderState(event.context, event.mouseX, event.mouseY, event.delta) }
 		listElements = le
-		popupElement?.render(event.context, event.mouseX, event.mouseY, event.delta)
+		popupElement?.extractRenderState(event.context, event.mouseX, event.mouseY, event.delta)
 	}
 
 	enum class SortOrder(val component: Component) : HasLabel {

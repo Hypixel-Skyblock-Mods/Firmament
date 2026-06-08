@@ -20,7 +20,7 @@ object HideComposterNoises {
 		SoundEvents.PISTON_EXTEND,
 		SoundEvents.WATER_AMBIENT,
 		SoundEvents.CHICKEN_EGG,
-		SoundEvents.WOLF_SOUNDS[WolfSoundVariants.SoundSet.CLASSIC]!!.growlSound().value(),
+		SoundEvents.WOLF_SOUNDS[WolfSoundVariants.SoundSet.CLASSIC]!!.adultSounds.growlSound.value(),
 	)
 
 	@Subscribe

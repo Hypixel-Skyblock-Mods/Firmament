@@ -12,7 +12,7 @@ var ItemStack.loreAccordingToNbt: List<Component>
     }
 
 var ItemStack.displayNameAccordingToNbt: Component
-    get() = get(DataComponents.CUSTOM_NAME) ?: get(DataComponents.ITEM_NAME) ?: item.name
+    get() = get(DataComponents.CUSTOM_NAME) ?: get(DataComponents.ITEM_NAME) ?: item.getName(this)
     set(value) {
         set(DataComponents.CUSTOM_NAME, value)
     }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlin.time.Duration.Companion.seconds
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.item.Items
@@ -75,14 +75,14 @@ object HotmPresets {
 			hasScrolled = false
 		}
 
-		override fun render(drawContext: GuiGraphics, delta: Float, mouseX: Int, mouseY: Int) {
+		override fun render(drawContext: GuiGraphicsExtractor, delta: Float, mouseX: Int, mouseY: Int) {
 			drawContext.drawGuiTexture(
 				CommonTextures.genericWidget(),
 				bounds.x, bounds.y,
 				bounds.width,
 				bounds.height,
 			)
-			drawContext.drawCenteredString(
+			drawContext.centeredText(
 				MC.font,
 				if (hasAll) {
 					Component.translatable("firmament.hotmpreset.copied")

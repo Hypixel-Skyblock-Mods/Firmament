@@ -4,7 +4,7 @@ import io.github.notenoughupdates.moulconfig.gui.GuiContext
 import io.github.notenoughupdates.moulconfig.gui.GuiImmediateContext
 import io.github.notenoughupdates.moulconfig.platform.MoulConfigScreenComponent
 import me.shedaniel.math.Point
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.network.chat.Component
 
 class MoulConfigFragment(
@@ -16,7 +16,7 @@ class MoulConfigFragment(
 		this.init(MC.screen!!.width, MC.screen!!.height)
 	}
 
-	override fun createContext(drawContext: GuiGraphics?): GuiImmediateContext {
+	override fun createContext(drawContext: GuiGraphicsExtractor?): GuiImmediateContext {
 		val oldContext = super.createContext(drawContext)
 		return oldContext.translated(
 			position.x,
@@ -27,7 +27,7 @@ class MoulConfigFragment(
 	}
 
 
-	override fun render(drawContext: GuiGraphics, i: Int, j: Int, f: Float) {
+	override fun extractRenderState(drawContext: GuiGraphicsExtractor, i: Int, j: Int, f: Float) {
 		val ctx = createContext(drawContext)
 		val m = drawContext.pose()
 		m.pushMatrix()

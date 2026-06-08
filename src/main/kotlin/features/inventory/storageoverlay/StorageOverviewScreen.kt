@@ -6,7 +6,7 @@ import org.lwjgl.glfw.GLFW
 import kotlin.math.max
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.input.KeyEvent
 import net.minecraft.world.item.Item
@@ -42,8 +42,8 @@ class StorageOverviewScreen() : Screen(Component.empty()) {
 		super.onClose()
 	}
 
-    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-        super.render(context, mouseX, mouseY, delta)
+    override fun extractRenderState(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+        super.extractRenderState(context, mouseX, mouseY, delta)
         context.fill(0, 0, width, height, 0x90000000.toInt())
         layoutedForEach { (key, value), offsetX, offsetY ->
             context.pose().pushMatrix()
@@ -106,13 +106,13 @@ class StorageOverviewScreen() : Screen(Component.empty()) {
 
 	private fun getMaxScroll() = lastRenderedHeight - height + 2 * StorageOverlay.TConfig.margin
 
-    private fun renderStoragePage(context: GuiGraphics, page: StorageData.StorageInventory, mouseX: Int, mouseY: Int) {
-        context.drawString(MC.font, content.displayName(page.slot), 2, 2, -1, true)
+    private fun renderStoragePage(context: GuiGraphicsExtractor, page: StorageData.StorageInventory, mouseX: Int, mouseY: Int) {
+        context.text(MC.font, content.displayName(page.slot), 2, 2, -1, true)
         val inventory = page.inventory
         if (inventory == null) {
             // TODO: Missing texture
             context.fill(0, 0, pageWidth, 60, DyeColor.RED.toShedaniel().darker(4.0).color)
-            context.drawCenteredString(MC.font, Component.literal("Not loaded yet"), pageWidth / 2, 30, -1)
+            context.centeredText(MC.font, Component.literal("Not loaded yet"), pageWidth / 2, 30, -1)
             return
         }
 
@@ -124,8 +124,8 @@ class StorageOverviewScreen() : Screen(Component.empty()) {
             } else {
                 context.fill(x, y, x + 18, y + 18, 0x40808080.toInt())
             }
-            context.renderItem(stack, x + 1, y + 1)
-            context.renderItemDecorations(MC.font, stack, x + 1, y + 1)
+            context.item(stack, x + 1, y + 1)
+            context.itemDecorations(MC.font, stack, x + 1, y + 1)
         }
     }
 

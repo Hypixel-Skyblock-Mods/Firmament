@@ -1,7 +1,7 @@
 package moe.nea.firmament.util.accessors
 
 import net.minecraft.client.gui.components.ChatComponent
-import net.minecraft.client.GuiMessage
+import net.minecraft.client.multiplayer.chat.GuiMessage
 import moe.nea.firmament.mixins.accessor.AccessorChatHud
 
 val ChatComponent.messages: MutableList<GuiMessage>

@@ -69,8 +69,8 @@ object CraftingOverlay {
 		}
 		if (!slot.hasItem()) {
 			val itemStack = SBItemStack(expectedItem)?.asImmutableItemStack() ?: return
-			event.context.renderItem(itemStack, event.slot.x, event.slot.y)
-			event.context.renderItemDecorations(
+			event.context.item(itemStack, event.slot.x, event.slot.y)
+			event.context.itemDecorations(
 				MC.font,
 				itemStack,
 				event.slot.x,

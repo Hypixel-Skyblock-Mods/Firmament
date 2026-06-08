@@ -7,7 +7,7 @@ import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import net.minecraft.client.input.MouseButtonEvent
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.input.CharacterEvent
 import net.minecraft.client.input.KeyEvent
@@ -22,8 +22,8 @@ abstract class FragmentGuiScreen(
         popup = MoulConfigFragment(context, position) { popup = null }
     }
 
-	fun renderPopup(context: GuiGraphics, mouseX: Int, mouseY: Int, delta: Float) {
-		popup?.render(context, mouseX, mouseY, delta)
+	fun renderPopup(context: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
+		popup?.extractRenderState(context, mouseX, mouseY, delta)
 	}
 
     private inline fun ifPopup(ifYes: (MoulConfigFragment) -> Unit): Boolean {
