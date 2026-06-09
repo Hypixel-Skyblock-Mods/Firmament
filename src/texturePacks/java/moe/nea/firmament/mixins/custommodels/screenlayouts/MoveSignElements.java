@@ -17,8 +17,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(AbstractSignEditScreen.class)
 public class MoveSignElements {
 	@WrapWithCondition(
-		method = "renderSign",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractSignEditScreen;renderSignBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;)V"))
+		method = "extractSign",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractSignEditScreen;extractSignBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;)V"))
 	private boolean onDrawBackgroundSign(AbstractSignEditScreen instance, GuiGraphicsExtractor drawContext) {
 		final var override = CustomScreenLayouts.getActiveScreenOverride();
 		if (override == null || override.getBackground() == null) return true;
@@ -26,12 +26,12 @@ public class MoveSignElements {
 		return false;
 	}
 
-	@WrapOperation(method = "renderSignText", at = {
+	@WrapOperation(method = "extractSignText", at = {
 		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;textHighlight(IIIIZ)V")}
 	)
 	private void onRenderSignTextSelection(
 		GuiGraphicsExtractor instance, int i, int j, int k, int l, boolean bl, Operation<Void> original,
-		@Local(index = 9) int messageIndex) {
+		@Local(name = "cursorY") int messageIndex) {
 		instance.pose().pushMatrix();
 		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
 		if (override != null) {
@@ -40,24 +40,40 @@ public class MoveSignElements {
 		original.call(instance, i, j, k, l, bl);
 		instance.pose().popMatrix();
 	}
-	@WrapOperation(method = "renderSignText", at = {
-		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(IIIII)V")}
+	@WrapOperation(method = "extractSignText", at = {
+		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/TextCursorUtils;extractAppendCursor(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/client/gui/Font;IIIZ)V")}
 	)
-	private void onRenderSignTextFill(
-            GuiGraphicsExtractor instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original, @Local(index = 9) int messageIndex) {
+	private void onRenderSignTextAppendCursor(
+		GuiGraphicsExtractor instance, Font font, int x, int y, int color, boolean shadow, Operation<Void> original,
+		@Local(name = "cursorY") int messageIndex) {
 		instance.pose().pushMatrix();
 		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
 		if (override != null) {
 			instance.pose().translate(override.getX(), override.getY());
 		}
-		original.call(instance, x1, y1, x2, y2, color);
+		original.call(instance, font, x, y, color, shadow);
+		instance.pose().popMatrix();
+	}
+	@WrapOperation(method = "extractSignText", at = {
+		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/TextCursorUtils;extractInsertCursor(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIII)V")}
+	)
+	private void onRenderSignTextInsertCursor(
+		GuiGraphicsExtractor instance, int x, int y, int color, int lineHeight, Operation<Void> original,
+		@Local(name = "cursorY") int messageIndex
+		) {
+		instance.pose().pushMatrix();
+		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
+		if (override != null) {
+			instance.pose().translate(override.getX(), override.getY());
+		}
+		original.call(instance, x, y, color, lineHeight);
 		instance.pose().popMatrix();
 	}
 
-	@WrapOperation(method = "renderSignText", at = {
-		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V")},
+	@WrapOperation(method = "extractSignText", at = {
+		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V")},
 		expect = 2)
-	private void onRenderSignTextRendering(GuiGraphicsExtractor instance, Font textRenderer, String text, int x, int y, int color, boolean shadow, Operation<Void> original, @Local(index = 9) int messageIndex) {
+	private void onRenderSignTextRendering(GuiGraphicsExtractor instance, Font textRenderer, String text, int x, int y, int color, boolean shadow, Operation<Void> original, @Local(name = "cursorY") int messageIndex) {
 		instance.pose().pushMatrix();
 		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
 		if (override != null) {

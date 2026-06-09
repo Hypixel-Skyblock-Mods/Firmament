@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.Slice;
 public class ReplaceTextColorInHandledScreen {
 
 	@WrapOperation(
-		method = "renderLabels",
+		method = "extractLabels",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"),
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"),
 		slice = @Slice(
 			from = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;title:Lnet/minecraft/network/chat/Component;", opcode = Opcodes.GETFIELD),
 			to = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;playerInventoryTitle:Lnet/minecraft/network/chat/Component;", opcode = Opcodes.GETFIELD)
@@ -38,10 +38,10 @@ public class ReplaceTextColorInHandledScreen {
 	}
 
 	@WrapOperation(
-		method = "renderLabels",
+		method = "extractLabels",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"),
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"),
 		slice = @Slice(
 			from = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;playerInventoryTitle:Lnet/minecraft/network/chat/Component;", opcode = Opcodes.GETFIELD),
 			to = @At(value = "TAIL")

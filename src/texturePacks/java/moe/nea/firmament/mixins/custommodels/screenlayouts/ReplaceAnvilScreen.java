@@ -41,8 +41,8 @@ public abstract class ReplaceAnvilScreen extends ItemCombinerScreen<AnvilMenu> {
 			name.setHeight(override.getHeight());
 	}
 
-	@WrapOperation(method = "renderLabels",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),
+	@WrapOperation(method = "extractLabels",
+		at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),
 		allow = 1)
 	private void onDrawRepairCost(GuiGraphicsExtractor instance, Font textRenderer, Component text, int x, int y, int color, Operation<Void> original) {
 		var textOverride = CustomScreenLayouts.getTextMover(CustomScreenLayouts.CustomScreenLayout::getRepairCostTitle);

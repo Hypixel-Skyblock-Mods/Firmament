@@ -17,17 +17,17 @@ public class ReplaceTextsInDrawContext {
 	// JUNE I WILL RIP ALL OF THIS OUT AND MAKE YOU REWRITE EVERYTHING
 	// TODO: be in a mood to rewrite this
 
-	@ModifyVariable(method = "drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V", at = @At("HEAD"), argsOnly = true)
 	private Component replaceTextInDrawText(Component text) {
 		return CustomTextReplacements.replaceText(text);
 	}
 
-	@ModifyVariable(method = "drawCenteredString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "centeredText(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V", at = @At("HEAD"), argsOnly = true)
 	private Component replaceTextInDrawCenteredTextWithShadow(Component text) {
 		return CustomTextReplacements.replaceText(text);
 	}
 
-	@ModifyVariable(method = "drawWordWrap*", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "textWithWordWrap(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)V", at = @At("HEAD"), argsOnly = true)
 	private FormattedText replaceTextInDrawWrappedText(FormattedText stringVisitable) {
 		return stringVisitable instanceof Component text ? CustomTextReplacements.replaceText(text) : stringVisitable;
 	}
@@ -47,7 +47,7 @@ public class ReplaceTextsInDrawContext {
 		return CustomTextReplacements.replaceText(text);
 	}
 
-	@ModifyExpressionValue(method = "renderComponentHoverEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/HoverEvent$ShowText;value()Lnet/minecraft/network/chat/Component;"))
+	@ModifyExpressionValue(method = "componentHoverEffect", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/HoverEvent$ShowText;value()Lnet/minecraft/network/chat/Component;"))
 	private Component replaceShowTextInHover(Component text) {
 		return CustomTextReplacements.replaceText(text);
 	}
