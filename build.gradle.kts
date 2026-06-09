@@ -121,11 +121,13 @@ fun createIsolatedSourceSet(
 		return ss
 	}
 	configurations {
-		(ss.implementationConfigurationName) {
+		(ss.compileOnlyConfigurationName) {
 			if (inheritsFromMain) {
+				// TODO: if not inheriting from main maybe inherit minecraft
+				extendsFrom(configurations.named(mainSS.compileClasspathConfigurationName))
 				// Inherit from individual configurations to avoid inheriting transitively from minecraftNamedCompile
-				extendsFrom(getByName(mainSS.implementationConfigurationName))
-				extendsFrom(getByName(mainSS.compileOnlyConfigurationName))
+//				extendsFrom(getByName(mainSS.implementationConfigurationName))
+//				extendsFrom(getByName(mainSS.compileOnlyConfigurationName))
 			}
 		}
 		(ss.annotationProcessorConfigurationName) {
