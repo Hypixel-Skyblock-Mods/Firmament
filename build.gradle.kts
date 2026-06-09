@@ -198,7 +198,7 @@ val yaclSourceSet = createIsolatedSourceSet("yacl")
 val wildfireGenderSourceSet = createIsolatedSourceSet("wildfireGender")
 val jadeSourceSet = createIsolatedSourceSet("jade")
 val modmenuSourceSet = createIsolatedSourceSet("modmenu")
-val reiSourceSet = createIsolatedSourceSet("rei", isEnabled = true)
+val reiSourceSet = createIsolatedSourceSet("rei", isEnabled = false)
 val moulconfigSourceSet = createIsolatedSourceSet("moulconfig")
 val irisSourceSet = createIsolatedSourceSet("iris")
 val customTexturesSourceSet = createIsolatedSourceSet("texturePacks", "texturePacks")
@@ -229,7 +229,6 @@ dependencies {
 	configurations.named(jarvisSourceSet.compileOnlyConfigurationName) {
 		extendsFrom(configurations.named("minecraftLibraries"))
 	}
-	configurations.forEach { println(it.name) }
 	(jarvisSourceSet.implementationConfigurationName)(libs.jspecify)
 	(jarvisSourceSet.implementationConfigurationName)(libs.jbAnnotations)
 	(jarvisSourceSet.implementationConfigurationName)(libs.fabric.api)
