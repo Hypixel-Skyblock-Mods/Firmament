@@ -40,3 +40,5 @@ accessible class net/minecraft/client/renderer/rendertype/RenderSetup$TextureBin
 accessible field net/minecraft/client/renderer/rendertype/RenderType state Lnet/minecraft/client/renderer/rendertype/RenderSetup;
 accessible field net/minecraft/client/renderer/rendertype/RenderSetup textures Ljava/util/Map;
 accessible method net/minecraft/client/gui/GuiGraphicsExtractor innerBlit (Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIIIFFFFI)V
+accessible class net/minecraft/client/resources/model/BlockStateModelLoader$LoadedBlockStateModelDispatcher
+accessible method net/minecraft/client/resources/model/BlockStateModelLoader$LoadedBlockStateModelDispatcher <init> (Ljava/lang/String;Lnet/minecraft/client/renderer/block/dispatch/BlockStateModelDispatcher;)V
