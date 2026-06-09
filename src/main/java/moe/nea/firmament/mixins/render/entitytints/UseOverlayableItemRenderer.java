@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
  */
 @Mixin(ItemStackRenderState.LayerRenderState.class)
 public class UseOverlayableItemRenderer {
-	@ModifyExpressionValue(method = "submit", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState$LayerRenderState;renderType:Lnet/minecraft/client/renderer/rendertype/RenderType;", opcode = Opcodes.GETFIELD))
+	@ModifyExpressionValue(method = "submit", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/item/ItemStackRenderState$LayerRenderState;specialRenderer:Lnet/minecraft/client/renderer/special/SpecialModelRenderer;", opcode = Opcodes.GETFIELD))
 	private RenderType replace(RenderType original) {
 		RenderSetup.TextureBinding  binding;
 		if (EntityRenderTintEvent.overlayOverride != null && (binding = original.state.textures.get("Sampler0")) != null)

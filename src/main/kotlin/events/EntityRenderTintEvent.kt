@@ -23,7 +23,7 @@ class EntityRenderTintEvent(
 
 	companion object : FirmamentEventBus<EntityRenderTintEvent>() {
 		/**
-		 * Static variable containing an override for [GameRenderer.getOverlayTexture]. Should be only set briefly.
+		 * Static variable containing an override for [GameRenderer.overlayTexture]. Should be only set briefly.
 		 *
 		 * This variable only affects render layers that naturally make use of the overlay texture, have proper overlay UVs set (`overlay u != 0`), and have a shader that makes use of the overlay (does not have the `NO_OVERLAY` flag set in its json definition).
 		 *

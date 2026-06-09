@@ -98,7 +98,7 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 		}
 	}
 
-	@Inject(method = "renderLabels", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "extractLabels", at = @At("HEAD"), cancellable = true)
 	private void onDrawForeground(GuiGraphicsExtractor context, int mouseX, int mouseY, CallbackInfo ci) {
 		if (override != null && !override.shouldDrawForeground())
 			ci.cancel();
@@ -106,10 +106,10 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 
 
 	@WrapOperation(
-		method = "renderSlots",
+		method = "extractSlots",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/inventory/Slot;II)V"))
+			target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;extractSlot(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/inventory/Slot;II)V"))
 	private void beforeSlotRender(AbstractContainerScreen instance, GuiGraphicsExtractor GuiGraphicsExtractor, Slot slot, int i, int j, Operation<Void> original) {
 		if (override != null) {
 			override.beforeSlotRender(GuiGraphicsExtractor, slot);
@@ -143,7 +143,7 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 		}
 	}
 
-	@Inject(method = "renderBackground", at = @At("HEAD"))
+	@Inject(method = "extractContents", at = @At("HEAD"))
 	public void moveSlots(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (override != null) {
 			for (Slot slot : menu.slots) {
@@ -170,14 +170,14 @@ public class PatchHandledScreen<T extends AbstractContainerMenu> extends Screen 
 				ci.cancel();
 		}
 	}
-
-	@WrapWithCondition(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphicsExtractor;FII)V"))
-	public boolean preventDrawingBackground(AbstractContainerScreen instance, GuiGraphicsExtractor drawContext, float delta, int mouseX, int mouseY) {
-		if (override != null) {
-			override.render(drawContext, delta, mouseX, mouseY);
-		}
-		return override == null;
-	}
+// TODO: prevent extraction in superclass (Screen)
+//	@WrapWithCondition(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphicsExtractor;FII)V"))
+//	public boolean preventDrawingBackground(AbstractContainerScreen instance, GuiGraphicsExtractor drawContext, float delta, int mouseX, int mouseY) {
+//		if (override != null) {
+//			override.render(drawContext, delta, mouseX, mouseY);
+//		}
+//		return override == null;
+//	}
 
 	@WrapOperation(
 		method = "mouseClicked",
