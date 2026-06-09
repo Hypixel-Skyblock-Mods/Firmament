@@ -252,7 +252,7 @@ dependencies {
 	implementation(libs.nealisp)
 	shadowMe(libs.nealisp)
 
-	compileOnly(libs.fabric.api)
+	implementation(libs.fabric.api)
 	runtimeOnly(libs.fabric.api.deprecated)
 
 	(irisSourceSet.implementationConfigurationName)(libs.iris)
