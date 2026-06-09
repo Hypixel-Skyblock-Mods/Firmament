@@ -18,11 +18,11 @@ public abstract class ReplaceGenericBackgrounds extends AbstractContainerScreen<
 		super(handler, inventory, title);
 	}
 
-	@Inject(method = "renderBg", at = @At("HEAD"), cancellable = true)
-	private void replaceDrawBackground(GuiGraphicsExtractor context, float deltaTicks, int mouseX, int mouseY, CallbackInfo ci) {
+	@Inject(method = "extractBackground", at = @At("HEAD"), cancellable = true)
+	private void replaceDrawBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
 		final var override = CustomScreenLayouts.getActiveScreenOverride();
 		if (override == null || override.getBackground() == null) return;
-		override.getBackground().renderGeneric(context, this);
+		override.getBackground().renderGeneric(graphics, this);
 		ci.cancel();
 	}
 }

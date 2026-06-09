@@ -8,6 +8,7 @@ import moe.nea.firmament.util.mc.IntrospectableItemModelManager;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.MissingItemModel;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.Identifier;
@@ -21,9 +22,10 @@ import java.util.function.Function;
 
 @Mixin(ItemModelResolver.class)
 public class ReplaceItemModelPatch implements IntrospectableItemModelManager {
+
 	@Shadow
 	@Final
-	private Function<Identifier, ItemModel> modelGetter;
+	private ModelManager modelManager;
 
 	@WrapOperation(
 		method = "appendItemLayers",
@@ -38,6 +40,6 @@ public class ReplaceItemModelPatch implements IntrospectableItemModelManager {
 
 	@Override
 	public boolean hasModel_firmament(@NotNull Identifier identifier) {
-		return !(modelGetter.apply(identifier) instanceof MissingItemModel);
+		return !(modelManager.getItemModel(identifier) instanceof MissingItemModel);
 	}
 }

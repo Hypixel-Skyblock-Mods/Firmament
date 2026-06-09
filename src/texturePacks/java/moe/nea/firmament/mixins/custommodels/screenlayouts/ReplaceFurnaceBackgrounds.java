@@ -20,7 +20,7 @@ public abstract class ReplaceFurnaceBackgrounds<T extends AbstractFurnaceMenu> e
 		super(handler, recipeBook, inventory, title);
 	}
 
-	@WrapWithCondition(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"), allow = 1)
+	@WrapWithCondition(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"), allow = 1)
 	private boolean onDrawBackground(GuiGraphicsExtractor instance, RenderPipeline pipeline, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
 		final var override = CustomScreenLayouts.getActiveScreenOverride();
 		if (override == null || override.getBackground() == null) return true;
