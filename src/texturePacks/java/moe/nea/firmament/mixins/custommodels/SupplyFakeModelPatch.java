@@ -9,13 +9,13 @@ import moe.nea.firmament.features.texturepack.HeadModelChooser;
 import moe.nea.firmament.features.texturepack.PredicateModel;
 import moe.nea.firmament.util.ErrorUtil;
 import net.minecraft.client.renderer.item.ClientItem;
-import net.minecraft.client.resources.model.ClientItemInfoLoader;
-import net.minecraft.client.renderer.item.BlockModelWrapper;
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.resources.model.ClientItemInfoLoader;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.PackResources;
-import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -59,7 +59,7 @@ public class SupplyFakeModelPatch {
 			var genericModelId = itemModelId.withPrefix("item/");
 			var itemAssetId = itemModelId.withPrefix("items/");
 			// TODO: inject tint indexes based on the json data here
-			ItemModel.Unbaked unbakedModel = new BlockModelWrapper.Unbaked(genericModelId, List.of());
+			ItemModel.Unbaked unbakedModel = new CuboidItemModelWrapper.Unbaked(genericModelId, Optional.empty(), List.of());
 			// TODO: add a filter using the pack.mcmeta to opt out of this behaviour
 			try (var is = resource.open()) {
 				var jsonObject = Firmament.INSTANCE.getGson().fromJson(new InputStreamReader(is), JsonObject.class);

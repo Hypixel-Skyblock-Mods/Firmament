@@ -3,18 +3,19 @@ package moe.nea.firmament.features.texturepack
 import com.google.gson.JsonObject
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.client.renderer.item.ItemModelResolver
-import net.minecraft.client.renderer.item.ItemStackRenderState
-import net.minecraft.client.renderer.item.BlockModelWrapper
-import net.minecraft.client.renderer.item.ItemModel
-import net.minecraft.client.renderer.item.ItemModels
-import net.minecraft.client.resources.model.ResolvableModel
+import java.util.Optional
+import org.joml.Matrix4fc
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.world.entity.LivingEntity
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper
+import net.minecraft.client.renderer.item.ItemModel
+import net.minecraft.client.renderer.item.ItemModelResolver
+import net.minecraft.client.renderer.item.ItemModels
+import net.minecraft.client.renderer.item.ItemStackRenderState
+import net.minecraft.client.resources.model.ResolvableModel
+import net.minecraft.resources.Identifier
+import net.minecraft.world.entity.ItemOwner
 import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.entity.ItemOwner
-import net.minecraft.resources.Identifier
 
 object HeadModelChooser {
 	val IS_CHOOSING_HEAD_MODEL = ThreadLocal.withInitial { false }
@@ -59,10 +60,13 @@ object HeadModelChooser {
 			return CODEC
 		}
 
-		override fun bake(context: ItemModel.BakingContext): ItemModel {
+		override fun bake(
+			context: ItemModel.BakingContext,
+			transformation: Matrix4fc
+		): ItemModel {
 			return Baked(
-				head.bake(context),
-				regular.bake(context)
+				head.bake(context, transformation),
+				regular.bake(context, transformation)
 			)
 		}
 
@@ -76,7 +80,7 @@ object HeadModelChooser {
 			fun fromLegacyJson(jsonObject: JsonObject, unbakedModel: ItemModel.Unbaked): ItemModel.Unbaked {
 				val model = jsonObject["firmament:head_model"] ?: return unbakedModel
 				val modelUrl = model.asJsonPrimitive.asString
-				val headModel = BlockModelWrapper.Unbaked(Identifier.parse(modelUrl), listOf())
+				val headModel = CuboidItemModelWrapper.Unbaked(Identifier.parse(modelUrl), Optional.empty(), listOf())
 				return Unbaked(headModel, unbakedModel)
 			}
 

@@ -22,16 +22,16 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.serializer
 import kotlin.jvm.optionals.getOrNull
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelDispatcher
+import net.minecraft.client.renderer.block.dispatch.SingleVariant
+import net.minecraft.client.renderer.block.dispatch.Variant
+import net.minecraft.client.resources.model.BlockStateDefinitions
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.Blocks
 import net.minecraft.client.resources.model.ModelBaker
-import net.minecraft.client.renderer.block.model.BlockStateModel
 import net.minecraft.client.resources.model.BlockStateModelLoader
 import net.minecraft.client.resources.model.ModelDiscovery
-import net.minecraft.client.renderer.block.model.SingleVariant
-import net.minecraft.client.renderer.block.model.BlockModelDefinition
-import net.minecraft.client.renderer.block.model.Variant
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.core.registries.Registries
@@ -429,17 +429,17 @@ object CustomBlockTextures {
 	) {
 		extra.collectAllReplacements().forEach {
 			val blockId = BuiltInRegistries.BLOCK.getResourceKey(it.overridingBlock).getOrNull()?.identifier() ?: return@forEach
-			val allModels = mutableListOf<BlockStateModelLoader.LoadedBlockModelDefinition>()
+			val allModels = mutableListOf<BlockStateModelLoader.LoadedBlockStateModelDispatcher>()
 			val stateManager = stateManagers.apply(blockId) ?: return@forEach
 			for (resource in original[BlockStateModelLoader.BLOCKSTATE_LISTER.idToFile(it.block)] ?: return@forEach) {
 				try {
 					resource.openAsReader().use { reader ->
 						val jsonElement = JsonParser.parseReader(reader)
 						val blockModelDefinition =
-							BlockModelDefinition.CODEC.parse(JsonOps.INSTANCE, jsonElement)
+							BlockStateModelDispatcher.CODEC.parse(JsonOps.INSTANCE, jsonElement)
 								.getOrThrow { msg: String? -> JsonParseException(msg) }
 						allModels.add(
-							BlockStateModelLoader.LoadedBlockModelDefinition(
+							BlockStateModelLoader.LoadedBlockStateModelDispatcher(
 								resource.sourcePackId(),
 								blockModelDefinition
 							)

@@ -4,38 +4,39 @@ import com.google.gson.JsonObject
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.client.renderer.item.ItemModelResolver
-import net.minecraft.client.renderer.item.ItemStackRenderState
-import net.minecraft.client.renderer.item.BlockModelWrapper
-import net.minecraft.client.renderer.item.ItemModel
-import net.minecraft.client.renderer.item.ItemModels
-import net.minecraft.client.resources.model.ResolvableModel
+import java.util.Optional
+import org.joml.Matrix4fc
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.world.entity.LivingEntity
+import net.minecraft.client.renderer.item.CuboidItemModelWrapper
+import net.minecraft.client.renderer.item.ItemModel
+import net.minecraft.client.renderer.item.ItemModelResolver
+import net.minecraft.client.renderer.item.ItemModels
+import net.minecraft.client.renderer.item.ItemStackRenderState
+import net.minecraft.client.resources.model.ResolvableModel
+import net.minecraft.resources.Identifier
+import net.minecraft.world.entity.ItemOwner
 import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.entity.ItemOwner
-import net.minecraft.resources.Identifier
 import moe.nea.firmament.features.texturepack.predicates.AndPredicate
 
 class PredicateModel {
 	data class Baked(
-        val fallback: ItemModel,
-        val overrides: List<Override>
+		val fallback: ItemModel,
+		val overrides: List<Override>
 	) : ItemModel {
 		data class Override(
-            val model: ItemModel,
-            val predicate: FirmamentModelPredicate,
+			val model: ItemModel,
+			val predicate: FirmamentModelPredicate,
 		)
 
 		override fun update(
-            state: ItemStackRenderState,
-            stack: ItemStack,
-            resolver: ItemModelResolver,
-            displayContext: ItemDisplayContext,
-            world: ClientLevel?,
-            heldItemContext: ItemOwner?,
-            seed: Int
+			state: ItemStackRenderState,
+			stack: ItemStack,
+			resolver: ItemModelResolver,
+			displayContext: ItemDisplayContext,
+			world: ClientLevel?,
+			heldItemContext: ItemOwner?,
+			seed: Int
 		) {
 			val model =
 				overrides
@@ -47,8 +48,8 @@ class PredicateModel {
 	}
 
 	data class Unbaked(
-        val fallback: ItemModel.Unbaked,
-        val overrides: List<Override>,
+		val fallback: ItemModel.Unbaked,
+		val overrides: List<Override>,
 	) : ItemModel.Unbaked {
 		companion object {
 			@JvmStatic
@@ -57,12 +58,16 @@ class PredicateModel {
 				val newOverrides = ArrayList<Override>()
 				for (legacyOverride in legacyOverrides) {
 					legacyOverride as JsonObject
-					val overrideModel = Identifier.tryParse(legacyOverride.get("model")?.asString ?: continue) ?: continue
-					val predicate = CustomModelOverrideParser.parsePredicates(legacyOverride.getAsJsonObject("predicate"))
-					newOverrides.add(Override(
-						BlockModelWrapper.Unbaked(overrideModel, listOf()),
-						AndPredicate(predicate.toTypedArray())
-					))
+					val overrideModel =
+						Identifier.tryParse(legacyOverride.get("model")?.asString ?: continue) ?: continue
+					val predicate =
+						CustomModelOverrideParser.parsePredicates(legacyOverride.getAsJsonObject("predicate"))
+					newOverrides.add(
+						Override(
+							CuboidItemModelWrapper.Unbaked(overrideModel, Optional.empty(), listOf()),
+							AndPredicate(predicate.toTypedArray())
+						)
+					)
 				}
 				return Unbaked(fallback, newOverrides)
 			}
@@ -83,8 +88,8 @@ class PredicateModel {
 		}
 
 		data class Override(
-            val model: ItemModel.Unbaked,
-            val predicate: FirmamentModelPredicate,
+			val model: ItemModel.Unbaked,
+			val predicate: FirmamentModelPredicate,
 		)
 
 		override fun resolveDependencies(resolver: ResolvableModel.Resolver) {
@@ -96,10 +101,10 @@ class PredicateModel {
 			return CODEC
 		}
 
-		override fun bake(context: ItemModel.BakingContext): ItemModel {
+		override fun bake(context: ItemModel.BakingContext, transformation: Matrix4fc): ItemModel {
 			return Baked(
-				fallback.bake(context),
-				overrides.map { Baked.Override(it.model.bake(context), it.predicate) }
+				fallback.bake(context, transformation),
+				overrides.map { Baked.Override(it.model.bake(context, transformation), it.predicate) }
 			)
 		}
 	}
