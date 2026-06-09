@@ -177,7 +177,7 @@ class MCConfigEditorIntegration : FirmamentConfigScreenProvider {
 		register(StringHandler::class.java) { handler, option, categoryAccordionId, configObject ->
 			object : ProcessedEditableOptionFirm<String>(option, categoryAccordionId, configObject) {
 				override fun createEditor(): GuiOptionEditor {
-					return GuiOptionEditorText(this)
+					return GuiOptionEditorText(this, "")
 				}
 
 				override fun getType(): Type {
