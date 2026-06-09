@@ -201,6 +201,7 @@ val moulconfigSourceSet = createIsolatedSourceSet("moulconfig")
 val irisSourceSet = createIsolatedSourceSet("iris")
 val customTexturesSourceSet = createIsolatedSourceSet("texturePacks", "texturePacks")
 val apiSourceSet = createIsolatedSourceSet("api", "api", inheritsFromMain = false, enableKsp = false)
+val jarvisSourceSet = createIsolatedSourceSet("jarvis", "vendor/jarvis", inheritsFromMain = false, enableKsp = false)
 
 dependencies {
 	// Minecraft dependencies
@@ -216,11 +217,21 @@ dependencies {
 	implementation(libs.manninghamMills)
 	implementation(libs.basicMath)
 	implementation(apiSourceSet.output)
+	implementation(jarvisSourceSet.output)
 	// We need to depend via compileOnly to avoid DeobfSpecContext.getModsFromConfiguration from instantiating minecraft
 	// during preparation of the minecraft dependency, creating a circular dependency
 	(apiSourceSet.compileOnlyConfigurationName)(loom.namedMinecraftJars)
 	(apiSourceSet.implementationConfigurationName)(libs.jspecify)
 	(apiSourceSet.implementationConfigurationName)(libs.jbAnnotations)
+	(jarvisSourceSet.compileOnlyConfigurationName)(loom.namedMinecraftJars)
+	configurations.named(jarvisSourceSet.compileOnlyConfigurationName) {
+		extendsFrom(configurations.named("minecraftLibraries"))
+	}
+	configurations.forEach { println(it.name) }
+	(jarvisSourceSet.implementationConfigurationName)(libs.jspecify)
+	(jarvisSourceSet.implementationConfigurationName)(libs.jbAnnotations)
+	(jarvisSourceSet.implementationConfigurationName)(libs.fabric.api)
+	(jarvisSourceSet.implementationConfigurationName)(libs.fabric.loader)
 	include(libs.basicMath)
 	(modmenuSourceSet.implementationConfigurationName)(libs.modmenu)
 	implementation(libs.hypixelmodapi)
@@ -242,7 +253,6 @@ dependencies {
 
 	compileOnly(libs.fabric.api)
 	runtimeOnly(libs.fabric.api.deprecated)
-	include(libs.jarvis.fabric)
 
 	(irisSourceSet.implementationConfigurationName)(libs.iris)
 	(wildfireGenderSourceSet.implementationConfigurationName)(libs.femalegender)
@@ -262,7 +272,6 @@ dependencies {
 
 	// Dev environment preinstalled mods
 	runtimeOnly(libs.devauth)
-	runtimeOnly(libs.jarvis.fabric)
 	runtimeOnly(libs.modmenu)
 	runtimeOnly(libs.noChatRestrictions)
 

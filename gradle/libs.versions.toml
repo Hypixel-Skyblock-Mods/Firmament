@@ -58,9 +58,6 @@ hotswap_agent = "2.0.3"
 # Update from https://github.com/LlamaLad7/MixinExtras/tags
 mixinextras = "0.5.3"
 
-# Update from https://repo.nea.moe/#/releases/moe/nea/jarvis/
-jarvis = "2.1.0"
-
 nealisp = "1.1.0"
 
 # Update from https://github.com/NotEnoughUpdates/MoulConfig/tags
@@ -104,13 +101,11 @@ rei_dev_api = { module = "com.github.shedaniel.roughlyenoughitems:RoughlyEnoughI
 rei_dev_fabric = { module = "com.github.shedaniel.roughlyenoughitems:RoughlyEnoughItems-fabric", version.ref = "reidev" }
 
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
-jbAnnotations = { module = "org.jetbrains:annotations", version = "26.0.2" }
+jbAnnotations = { module = "org.jetbrains:annotations", version = "26.1.0" }
 
 moulconfig = { module = "org.notenoughupdates.moulconfig:modern-26.1", version.ref = "moulconfig" }
 repoparser = { module = "moe.nea:neurepoparser", version.ref = "neurepoparser" }
 mixinextras = { module = "io.github.llamalad7:mixinextras-fabric", version.ref = "mixinextras" }
-jarvis_api = { module = "moe.nea.jarvis:jarvis-api", version.ref = "jarvis" }
-jarvis_fabric = { module = "moe.nea.jarvis:jarvis-fabric", version.ref = "jarvis" }
 nealisp = { module = "moe.nea:nealisp", version.ref = "nealisp" }
 manninghamMills = { module = "me.shedaniel:mm", version.ref = "manninghamMills" }
 aaronhmapi = { module = "net.azureaaron:hm-api", version = "1.0.0+1.21" }
