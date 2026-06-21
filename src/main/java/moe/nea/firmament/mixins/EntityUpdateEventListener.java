@@ -43,7 +43,7 @@ public abstract class EntityUpdateEventListener extends ClientCommonPacketListen
 	}
 
 	@Inject(method = "handleSetEntityData", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;assignValues(Ljava/util/List;)V", shift = At.Shift.AFTER))
-	private void onEntityTracker(ClientboundSetEntityDataPacket packet, CallbackInfo ci, @Local(name = "entity") Entity entity) {
+	private void onEntityTracker(ClientboundSetEntityDataPacket packet, CallbackInfo ci, @Local Entity entity) {
 		EntityUpdateEvent.Companion.publish(new EntityUpdateEvent.TrackedDataUpdate(entity, packet.packedItems()));
 	}
 }

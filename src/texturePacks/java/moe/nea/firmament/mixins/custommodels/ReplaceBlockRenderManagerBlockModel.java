@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(SectionCompiler.class)
 public class ReplaceBlockRenderManagerBlockModel {
 	@WrapOperation(method = "compile", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/block/BlockStateModelSet;get(Lnet/minecraft/world/level/block/state/BlockState;)Lnet/minecraft/client/renderer/block/dispatch/BlockStateModel;"))
-	private BlockStateModel replaceModelInRenderBlock(BlockStateModelSet instance, BlockState state, Operation<BlockStateModel> original, @Local(name = "pos") BlockPos pos) {//@Local(ordinal = 2) BlockPos pos
+	private BlockStateModel replaceModelInRenderBlock(BlockStateModelSet instance, BlockState state, Operation<BlockStateModel> original, @Local(ordinal = 2) BlockPos pos) {//@Local(ordinal = 2) BlockPos pos
 		var replacement = CustomBlockTextures.getReplacementModel(state, pos);
 		if (replacement != null) return replacement;
 		CustomBlockTextures.enterFallbackCall();
