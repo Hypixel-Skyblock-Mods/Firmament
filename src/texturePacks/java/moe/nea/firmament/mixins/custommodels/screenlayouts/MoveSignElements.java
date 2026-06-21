@@ -1,12 +1,9 @@
 package moe.nea.firmament.mixins.custommodels.screenlayouts;
 
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
 import moe.nea.firmament.features.texturepack.CustomScreenLayouts;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -30,14 +27,14 @@ public class MoveSignElements {
 		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;textHighlight(IIIIZ)V")}
 	)
 	private void onRenderSignTextSelection(
-		GuiGraphicsExtractor instance, int i, int j, int k, int l, boolean bl, Operation<Void> original,
-		@Local(name = "cursorY") int messageIndex) {
+		GuiGraphicsExtractor instance, int i, int j, int k, int l, boolean invertText, Operation<Void> original,
+		@Local(index = 9) int cursorY) {
 		instance.pose().pushMatrix();
-		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
+		final var override = CustomScreenLayouts.getSignTextMover(cursorY);
 		if (override != null) {
 			instance.pose().translate(override.getX(), override.getY());
 		}
-		original.call(instance, i, j, k, l, bl);
+		original.call(instance, i, j, k, l, invertText);
 		instance.pose().popMatrix();
 	}
 	@WrapOperation(method = "extractSignText", at = {
@@ -45,9 +42,9 @@ public class MoveSignElements {
 	)
 	private void onRenderSignTextAppendCursor(
 		GuiGraphicsExtractor instance, Font font, int x, int y, int color, boolean shadow, Operation<Void> original,
-		@Local(name = "cursorY") int messageIndex) {
+		@Local(index = 9) int cursorY) {
 		instance.pose().pushMatrix();
-		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
+		final var override = CustomScreenLayouts.getSignTextMover(cursorY);
 		if (override != null) {
 			instance.pose().translate(override.getX(), override.getY());
 		}
@@ -59,10 +56,10 @@ public class MoveSignElements {
 	)
 	private void onRenderSignTextInsertCursor(
 		GuiGraphicsExtractor instance, int x, int y, int color, int lineHeight, Operation<Void> original,
-		@Local(name = "cursorY") int messageIndex
+		@Local(index = 9) int cursorY
 		) {
 		instance.pose().pushMatrix();
-		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
+		final var override = CustomScreenLayouts.getSignTextMover(cursorY);
 		if (override != null) {
 			instance.pose().translate(override.getX(), override.getY());
 		}
@@ -73,9 +70,9 @@ public class MoveSignElements {
 	@WrapOperation(method = "extractSignText", at = {
 		@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V")},
 		expect = 2)
-	private void onRenderSignTextRendering(GuiGraphicsExtractor instance, Font textRenderer, String text, int x, int y, int color, boolean shadow, Operation<Void> original, @Local(name = "cursorY") int messageIndex) {
+	private void onRenderSignTextRendering(GuiGraphicsExtractor instance, Font textRenderer, String text, int x, int y, int color, boolean shadow, Operation<Void> original, @Local(index = 9) int cursorY) {
 		instance.pose().pushMatrix();
-		final var override = CustomScreenLayouts.getSignTextMover(messageIndex);
+		final var override = CustomScreenLayouts.getSignTextMover(cursorY);
 		if (override != null) {
 			instance.pose().translate(override.getX(), override.getY());
 		}

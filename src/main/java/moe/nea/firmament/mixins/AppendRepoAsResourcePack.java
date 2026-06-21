@@ -26,7 +26,7 @@ public class AppendRepoAsResourcePack {
 	)
 	private static void onAppendModResourcePack(
 		FabricLoader fabricLoader, PackType type, @Nullable String subPath, CallbackInfoReturnable<List<ModResourcePack>> cir,
-		@Local(name = "sorter") ModPackResourcesSorter sorter
+		@Local ModPackResourcesSorter sorter
 	) {
 		RepoModResourcePack.Companion.append(sorter);
 	}

@@ -21,14 +21,14 @@ public class SlotClickEventPatch {
 
     @Inject(method = "handleContainerInput", at = @At(value = "FIELD", target =
 		"Lnet/minecraft/world/inventory/AbstractContainerMenu;slots:Lnet/minecraft/core/NonNullList;", opcode = Opcodes.GETFIELD))
-    private void onSlotClickSaveSlot(int containerId, int slotNum, int buttonNum, ContainerInput containerInput, Player player, CallbackInfo ci, @Local(name = "containerMenu") AbstractContainerMenu containerMenu, @Share("slotContent") LocalRef<ItemStack> slotContent) {
+    private void onSlotClickSaveSlot(int containerId, int slotNum, int buttonNum, ContainerInput containerInput, Player player, CallbackInfo ci, @Local AbstractContainerMenu containerMenu, @Share("slotContent") LocalRef<ItemStack> slotContent) {
         if (0 <= slotNum && slotNum < containerMenu.slots.size()) {
             slotContent.set(containerMenu.getSlot(slotNum).getItem().copy());
         }
     }
 
     @Inject(method = "handleContainerInput", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientPacketListener;send(Lnet/minecraft/network/protocol/Packet;)V"))
-    private void onSlotClick(int containerId, int slotNum, int buttonNum, ContainerInput containerInput, Player player, CallbackInfo ci, @Local(name = "containerMenu") AbstractContainerMenu containerMenu, @Share("slotContent") LocalRef<ItemStack> slotContent) {
+    private void onSlotClick(int containerId, int slotNum, int buttonNum, ContainerInput containerInput, Player player, CallbackInfo ci, @Local AbstractContainerMenu containerMenu, @Share("slotContent") LocalRef<ItemStack> slotContent) {
         if (0 <= slotNum && slotNum < containerMenu.slots.size()) {
             SlotClickEvent.Companion.publish(new SlotClickEvent(
                 containerMenu.getSlot(slotNum),
