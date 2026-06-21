@@ -29,7 +29,8 @@
             "moe.nea.firmament.init.EarlyRiser"
         ],
         "client": [
-            "moe.nea.firmament.Firmament::onClientInitialize"
+            "moe.nea.firmament.Firmament::onClientInitialize",
+			"moe.nea.jarvis.fabric.JarvisMain"
         ],
         "rei_client": [
             "moe.nea.firmament.compat.rei.FirmamentReiPlugin"

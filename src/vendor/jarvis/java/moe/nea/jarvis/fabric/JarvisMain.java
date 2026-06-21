@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 import java.util.Optional;
 
-public class Main implements ClientModInitializer {
+public class JarvisMain implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
