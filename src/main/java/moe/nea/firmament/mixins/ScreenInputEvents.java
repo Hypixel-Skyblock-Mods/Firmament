@@ -24,7 +24,7 @@ public class ScreenInputEvents {
 	}
 
 	@SuppressWarnings("MissingUnique")
-	public boolean onMouseClicked$firmament(MouseButtonEvent click, boolean doubled) {
+	public boolean onMouseClicked_firmament_generic(MouseButtonEvent click, boolean doubled) {
 		return HandledScreenKeyPressedEvent.Companion.publish(
 			new HandledScreenKeyPressedEvent((Screen) (Object) this,
 				GenericInputAction.mouse(click), InputModifiers.current())).getCancelled();

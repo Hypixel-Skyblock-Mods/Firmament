@@ -21,6 +21,7 @@ import moe.nea.firmament.util.customgui.customGui
 import moe.nea.firmament.util.data.Config
 import moe.nea.firmament.util.data.ManagedConfig
 import moe.nea.firmament.util.data.ProfileSpecificDataHolder
+import moe.nea.firmament.util.mc.LazyItemStack
 
 object StorageOverlay {
 
@@ -186,7 +187,7 @@ object StorageOverlay {
 		data: SortedMap<StoragePageSlot, StorageData.StorageInventory>
 	) {
 		val newStacks =
-			VirtualInventory(handler.handler.items.take(handler.handler.rowCount * 9).drop(9).map { it.copy() })
+			VirtualInventory(handler.handler.items.take(handler.handler.rowCount * 9).drop(9).map { LazyItemStack.fromItemStack(it.copy()) })
 		data.compute(handler.storagePageSlot) { slot, existingInventory ->
 			(existingInventory ?: StorageData.StorageInventory(
 				slot,

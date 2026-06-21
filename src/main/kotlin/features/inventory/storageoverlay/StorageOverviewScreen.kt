@@ -14,8 +14,10 @@ import net.minecraft.world.item.Items
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.DyeColor
 import moe.nea.firmament.util.MC
+import moe.nea.firmament.util.mc.RequiresComponents
 import moe.nea.firmament.util.toShedaniel
 
+@OptIn(RequiresComponents::class)
 class StorageOverviewScreen() : Screen(Component.empty()) {
     companion object {
         val emptyStorageSlotItems = listOf<Item>(
@@ -124,8 +126,8 @@ class StorageOverviewScreen() : Screen(Component.empty()) {
             } else {
                 context.fill(x, y, x + 18, y + 18, 0x40808080.toInt())
             }
-            context.item(stack, x + 1, y + 1)
-            context.itemDecorations(MC.font, stack, x + 1, y + 1)
+            context.item(stack.upgrade(), x + 1, y + 1)
+            context.itemDecorations(MC.font, stack.upgrade(), x + 1, y + 1)
         }
     }
 

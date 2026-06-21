@@ -24,11 +24,12 @@ import moe.nea.firmament.features.inventory.storageoverlay.VirtualInventory.Seri
 import moe.nea.firmament.util.Base64Util
 import moe.nea.firmament.util.ErrorUtil
 import moe.nea.firmament.util.MC
+import moe.nea.firmament.util.mc.LazyItemStack
 import moe.nea.firmament.util.mc.TolerantRegistriesOps
 
 @Serializable(with = VirtualInventory.Serializer::class)
 data class VirtualInventory(
-	val stacks: List<ItemStack>
+	val stacks: List<LazyItemStack>
 ) {
 	val rows = stacks.size / 9
 
@@ -47,15 +48,9 @@ data class VirtualInventory(
 			val list = ListTag()
 			val ops = getOps()
 			value.stacks.forEach {
-				if (it.isEmpty) list.add(CompoundTag())
-				else list.add(ErrorUtil.catch("Could not serialize item") {
-					ItemStack.CODEC.encode(
-						it,
-						ops,
-						CompoundTag()
-					).orThrow
-				}
-					.or { CompoundTag() })
+				list.add(ErrorUtil.catch("Could not serialize item") {
+					LazyItemStack.CODEC.encodeStart(ops, it).orThrow
+				}.or { CompoundTag() })
 			}
 			val baos = ByteArrayOutputStream()
 			NbtIo.writeCompressed(CompoundTag().also { it.put(INVENTORY, list) }, baos)
@@ -68,15 +63,14 @@ data class VirtualInventory(
 
 		override fun deserialize(decoder: Decoder): VirtualInventory {
 			val s = decoder.decodeString()
-			val n = NbtIo.readCompressed(ByteArrayInputStream(Base64Util.decodeBytes(s)), NbtAccounter.create(100_000_000))
+			val n =
+				NbtIo.readCompressed(ByteArrayInputStream(Base64Util.decodeBytes(s)), NbtAccounter.create(100_000_000))
 			val items = n.getList(INVENTORY).getOrNull()
 			val ops = getOps()
 			return VirtualInventory(items?.map {
-				it as CompoundTag
-				if (it.isEmpty) ItemStack.EMPTY
-				else ErrorUtil.catch("Could not deserialize item") {
-					ItemStack.CODEC.parse(ops, it).orThrow
-				}.or { ItemStack.EMPTY }
+				ErrorUtil.catch("Could not deserialize item") {
+					LazyItemStack.CODEC.decode(ops, it).orThrow.first
+				}.or { LazyItemStack.empty() }
 			} ?: listOf())
 		}
 
