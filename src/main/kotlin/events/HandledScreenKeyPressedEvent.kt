@@ -44,7 +44,7 @@ data class HandledScreenKeyPressedEvent(
 }
 
 data class HandledScreenKeyReleasedEvent(
-	override val screen: AbstractContainerScreen<*>,
+	override val screen: Screen,
 	override val input: GenericInputAction,
 	override val modifiers: InputModifiers,
 ) : FirmamentEvent.Cancellable(), HandledScreenInputEvent {

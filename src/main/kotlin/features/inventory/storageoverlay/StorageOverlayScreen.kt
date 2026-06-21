@@ -39,6 +39,7 @@ import moe.nea.firmament.util.StringUtil.words
 import moe.nea.firmament.util.assertTrueOr
 import moe.nea.firmament.util.customgui.customGui
 import moe.nea.firmament.util.mc.FakeSlot
+import moe.nea.firmament.util.mc.RequiresComponents
 import moe.nea.firmament.util.mc.displayNameAccordingToNbt
 import moe.nea.firmament.util.mc.loreAccordingToNbt
 import moe.nea.firmament.util.render.drawAlignedBox
@@ -47,6 +48,7 @@ import moe.nea.firmament.util.render.enableScissorWithoutTranslation
 import moe.nea.firmament.util.tr
 import moe.nea.firmament.util.unformattedString
 
+@OptIn(RequiresComponents::class)
 class StorageOverlayScreen : Screen(Component.literal("")) {
 
 	companion object {
@@ -435,7 +437,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		val result =
 			data.storageInventories
 				.entries.asSequence()
-				.filter { it.value.inventory?.stacks?.any { matchesSearch(it, searchValue) } ?: true }
+				.filter { it.value.inventory?.stacks?.any { matchesSearch(it.upgrade(), searchValue) } ?: true }
 				.map { it.key }
 				.toSet()
 		searchCache = searchValue
@@ -540,6 +542,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 		inv.stacks.forEachIndexed { index, stack ->
 			val slotX = (index % 9) * SLOT_SIZE + x + 3
 			val slotY = (index / 9) * SLOT_SIZE + y + 5 + font.lineHeight + 1
+			val stack = stack.upgrade()
 			if (slots == null) {
 				val fakeSlot = FakeSlot(stack, slotX, slotY)
 				SlotRenderEvents.Before.publish(SlotRenderEvents.Before(context, fakeSlot))
