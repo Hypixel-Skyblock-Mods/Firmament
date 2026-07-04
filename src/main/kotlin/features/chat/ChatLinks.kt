@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.chat
+package moe.nea.firmod.features.chat
 
 import com.mojang.blaze3d.platform.NativeImage
 import java.net.URI
@@ -20,18 +20,18 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ModifyChatEvent
-import moe.nea.firmament.events.ScreenRenderPostEvent
-import moe.nea.firmament.jarvis.JarvisIntegration
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.net.HttpUtil
-import moe.nea.firmament.util.render.drawTexture
-import moe.nea.firmament.util.transformEachRecursively
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ModifyChatEvent
+import moe.nea.firmod.events.ScreenRenderPostEvent
+import moe.nea.firmod.jarvis.JarvisIntegration
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.net.HttpUtil
+import moe.nea.firmod.util.render.drawTexture
+import moe.nea.firmod.util.transformEachRecursively
+import moe.nea.firmod.util.unformattedString
 
 
 object ChatLinks {
@@ -72,13 +72,13 @@ object ChatLinks {
 		if (url in imageCache) {
 			return
 		}
-		imageCache[url] = Firmament.coroutineScope.async {
+		imageCache[url] = Firmod.coroutineScope.async {
 			try {
 				val inputStream = HttpUtil.request(url)
 					.forInputStream()
 					.await()
 				val image = NativeImage.read(inputStream)
-				val texId = Firmament.identifier("dynamic_image_preview${nextTexId.getAndIncrement()}")
+				val texId = Firmod.identifier("dynamic_image_preview${nextTexId.getAndIncrement()}")
 				MC.textureManager.register(
 					texId,
 					DynamicTexture({ texId.path }, image)

@@ -1,14 +1,14 @@
-package moe.nea.firmament.features.mining
+package moe.nea.firmod.features.mining
 
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.unformattedString
 
 object CommissionFeatures {
 	@Config
@@ -23,7 +23,7 @@ object CommissionFeatures {
 		if (MC.screenName != "Commissions") return
 		val stack = event.slot.item
 		if (stack.accessor().loreAccordingToNbt.any { it.unformattedString == "COMPLETED" }) {
-			event.highlight(Firmament.identifier("completed_commission_background"))
+			event.highlight(Firmod.identifier("completed_commission_background"))
 		}
 	}
 }

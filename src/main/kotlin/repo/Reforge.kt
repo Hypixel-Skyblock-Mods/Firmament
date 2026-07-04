@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo
+package moe.nea.firmod.repo
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -17,10 +17,10 @@ import net.minecraft.world.item.Item
 import net.minecraft.resources.ResourceKey
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.util.ReforgeId
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.skyblock.ItemType
-import moe.nea.firmament.util.skyblock.Rarity
+import moe.nea.firmod.util.ReforgeId
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.skyblock.ItemType
+import moe.nea.firmod.util.skyblock.Rarity
 
 @Serializable
 data class Reforge(

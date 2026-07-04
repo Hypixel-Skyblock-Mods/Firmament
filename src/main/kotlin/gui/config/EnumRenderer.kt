@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.config
+package moe.nea.firmod.gui.config
 
 import net.minecraft.network.chat.Component
 

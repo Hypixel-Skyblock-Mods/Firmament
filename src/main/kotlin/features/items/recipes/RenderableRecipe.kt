@@ -1,9 +1,9 @@
-package moe.nea.firmament.features.items.recipes
+package moe.nea.firmod.features.items.recipes
 
 import java.util.Objects
 import me.shedaniel.math.Rectangle
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.repo.recipes.GenericRecipeRenderer
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.repo.recipes.GenericRecipeRenderer
 
 class RenderableRecipe<T : Any>(
 	val recipe: T,

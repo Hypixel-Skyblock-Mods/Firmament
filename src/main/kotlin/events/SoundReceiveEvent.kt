@@ -1,5 +1,5 @@
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.core.Holder
 import net.minecraft.sounds.SoundSource
@@ -13,6 +13,6 @@ data class SoundReceiveEvent(
     val pitch: Float,
     val volume: Float,
     val seed: Long
-) : FirmamentEvent.Cancellable() {
-    companion object : FirmamentEventBus<SoundReceiveEvent>()
+) : FirmodEvent.Cancellable() {
+    companion object : FirmodEventBus<SoundReceiveEvent>()
 }

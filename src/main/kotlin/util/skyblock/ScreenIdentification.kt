@@ -1,11 +1,11 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.ContainerScreen
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.unformattedString
 
 
 object ScreenIdentification {

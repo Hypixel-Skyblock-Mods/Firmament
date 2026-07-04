@@ -1,6 +1,6 @@
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
-class ClientStartedEvent : FirmamentEvent() {
-    companion object : FirmamentEventBus<ClientStartedEvent>()
+class ClientStartedEvent : FirmodEvent() {
+    companion object : FirmodEventBus<ClientStartedEvent>()
 }

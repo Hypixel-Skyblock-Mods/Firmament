@@ -1,4 +1,4 @@
-package moe.nea.firmament.apis
+package moe.nea.firmod.apis
 
 import java.net.URI
 import java.net.http.HttpResponse
@@ -13,8 +13,8 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.DeserializationStrategy
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.client.Minecraft
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.util.net.HttpUtil
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.util.net.HttpUtil
 
 object UrsaManager {
 	private data class Token(
@@ -64,7 +64,7 @@ object UrsaManager {
 				currentToken = Token(validUntil, savedToken, host)
 			}
 			if (response.statusCode() != 200) {
-				Firmament.logger.error("Failed to contact ursa minor: ${response.statusCode()}")
+				Firmod.logger.error("Failed to contact ursa minor: ${response.statusCode()}")
 			}
 			return response.body()
 		} finally {

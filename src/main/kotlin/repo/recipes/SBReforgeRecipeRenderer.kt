@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo.recipes
+package moe.nea.firmod.repo.recipes
 
 import io.github.moulberry.repo.NEURepository
 import me.shedaniel.math.Point
@@ -10,21 +10,21 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.npc.villager.VillagerProfession
 import net.minecraft.world.item.ItemStackTemplate
 import net.minecraft.world.item.Items
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.gui.entity.EntityRenderer
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.Reforge
-import moe.nea.firmament.repo.ReforgeStore
-import moe.nea.firmament.repo.RepoItemTypeCache
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.FirmFormatters.formatCommas
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.gold
-import moe.nea.firmament.util.grey
-import moe.nea.firmament.util.skyblock.Rarity
-import moe.nea.firmament.util.skyblock.SkyBlockItems
-import moe.nea.firmament.util.skyblockId
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.gui.entity.EntityRenderer
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.Reforge
+import moe.nea.firmod.repo.ReforgeStore
+import moe.nea.firmod.repo.RepoItemTypeCache
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.FirmFormatters.formatCommas
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.gold
+import moe.nea.firmod.util.grey
+import moe.nea.firmod.util.skyblock.Rarity
+import moe.nea.firmod.util.skyblock.SkyBlockItems
+import moe.nea.firmod.util.skyblockId
+import moe.nea.firmod.util.tr
 
 object SBReforgeRecipeRenderer : GenericRecipeRenderer<Reforge> {
 	@OptIn(ExpensiveItemCacheApi::class)
@@ -116,7 +116,7 @@ object SBReforgeRecipeRenderer : GenericRecipeRenderer<Reforge> {
 			layouter.createTooltip(
 				d,
 				tr(
-					"firmament.recipecategory.reforge.basic",
+					"firmod.recipecategory.reforge.basic",
 					"This is a basic reforge, available at the Blacksmith."
 				).grey()
 			)
@@ -153,9 +153,9 @@ object SBReforgeRecipeRenderer : GenericRecipeRenderer<Reforge> {
 
 	override val icon: ItemStackTemplate = ItemStackTemplate(Items.ANVIL)
 	override val title: Component
-		get() = tr("firmament.recipecategory.reforge", "Reforge")
+		get() = tr("firmod.recipecategory.reforge", "Reforge")
 	override val identifier: Identifier
-		get() = Firmament.identifier("reforge_recipe")
+		get() = Firmod.identifier("reforge_recipe")
 
 	override fun findAllRecipes(neuRepository: NEURepository): Iterable<Reforge> {
 		return ReforgeStore.allReforges

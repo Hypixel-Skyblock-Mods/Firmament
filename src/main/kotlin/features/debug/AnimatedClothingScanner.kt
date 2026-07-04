@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.debug
+package moe.nea.firmod.features.debug
 
 import net.minecraft.commands.arguments.ResourceKeyArgument
 import net.minecraft.core.component.DataComponentType
@@ -8,20 +8,20 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.nbt.Tag
 import net.minecraft.nbt.NbtOps
 import net.minecraft.core.registries.Registries
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.get
-import moe.nea.firmament.commands.thenArgument
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.EntityUpdateEvent
-import moe.nea.firmament.events.WorldReadyEvent
-import moe.nea.firmament.util.ClipboardUtils
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.math.GChainReconciliation
-import moe.nea.firmament.util.math.GChainReconciliation.shortenCycle
-import moe.nea.firmament.util.mc.NbtPrism
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.get
+import moe.nea.firmod.commands.thenArgument
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.EntityUpdateEvent
+import moe.nea.firmod.events.WorldReadyEvent
+import moe.nea.firmod.util.ClipboardUtils
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.math.GChainReconciliation
+import moe.nea.firmod.util.math.GChainReconciliation.shortenCycle
+import moe.nea.firmod.util.mc.NbtPrism
+import moe.nea.firmod.util.tr
 
 object AnimatedClothingScanner {
 
@@ -69,14 +69,14 @@ object AnimatedClothingScanner {
 						subject = null
 						metaHistory.clear()
 						history.clear()
-						MC.sendChat(tr("firmament.fitstealer.clear", "Cleared fit stealing history"))
+						MC.sendChat(tr("firmod.fitstealer.clear", "Cleared fit stealing history"))
 					}
 				}
 				thenLiteral("copy") {
 					thenExecute {
 						val history = reduceHistory { a, b -> a + b }
 						copyHistory(history)
-						MC.sendChat(tr("firmament.fitstealer.copied", "Copied the history"))
+						MC.sendChat(tr("firmod.fitstealer.copied", "Copied the history"))
 					}
 					thenLiteral("deduplicated") {
 						thenExecute {
@@ -86,7 +86,7 @@ object AnimatedClothingScanner {
 							copyHistory(history)
 							MC.sendChat(
 								tr(
-									"firmament.fitstealer.copied.deduplicated",
+									"firmod.fitstealer.copied.deduplicated",
 									"Copied the deduplicated history"
 								)
 							)
@@ -96,7 +96,7 @@ object AnimatedClothingScanner {
 						thenExecute {
 							val history = reduceHistory(GChainReconciliation::reconcileCycles)
 							copyHistory(history)
-							MC.sendChat(tr("firmament.fitstealer.copied.merged", "Copied the merged history"))
+							MC.sendChat(tr("firmod.fitstealer.copied.merged", "Copied the merged history"))
 						}
 					}
 				}
@@ -110,7 +110,7 @@ object AnimatedClothingScanner {
 						thenExecute {
 							source.sendFeedback(
 								tr(
-									"firmament.fitstealer.stealingpet",
+									"firmod.fitstealer.stealingpet",
 									"Observing nearest marker armourstand"
 								)
 							)
@@ -128,7 +128,7 @@ object AnimatedClothingScanner {
 						if (ent == null) {
 							source.sendFeedback(
 								tr(
-									"firmament.fitstealer.notargetundercursor",
+									"firmod.fitstealer.notargetundercursor",
 									"No entity under cursor"
 								)
 							)
@@ -150,7 +150,7 @@ object AnimatedClothingScanner {
 								)
 								source.sendFeedback(
 									tr(
-										"firmament.fitstealer.lensset",
+										"firmod.fitstealer.lensset",
 										"Analyzing path ${get(path)} for component ${get(component).identifier()}"
 									)
 								)
@@ -184,10 +184,10 @@ object AnimatedClothingScanner {
 		MC.sendChat(
 			subject?.let {
 				tr(
-					"firmament.fitstealer.targeted",
+					"firmod.fitstealer.targeted",
 					"Observing the equipment of ${it.name}."
 				)
-			} ?: tr("firmament.fitstealer.targetlost", "No longer logging equipment."),
+			} ?: tr("firmod.fitstealer.targetlost", "No longer logging equipment."),
 		)
 	}
 }

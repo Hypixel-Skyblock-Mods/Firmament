@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.util.Stack
 import net.minecraft.nbt.NumericTag

@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.entity
+package moe.nea.firmod.gui.entity
 
 import com.google.gson.JsonObject
 import net.minecraft.core.component.DataComponents
@@ -8,12 +8,12 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.arbitraryUUID
-import moe.nea.firmament.util.mc.setEncodedSkullOwner
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.arbitraryUUID
+import moe.nea.firmod.util.mc.setEncodedSkullOwner
 
 object ModifyEquipment : EntityModifier {
 	val names = mapOf(

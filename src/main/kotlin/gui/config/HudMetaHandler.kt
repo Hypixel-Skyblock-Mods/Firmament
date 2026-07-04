@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.config
+package moe.nea.firmod.gui.config
 
 import io.github.notenoughupdates.moulconfig.gui.component.TextComponent
 import kotlinx.serialization.json.Json
@@ -8,11 +8,11 @@ import kotlinx.serialization.json.encodeToJsonElement
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.gui.FirmButtonComponent
-import moe.nea.firmament.jarvis.JarvisIntegration
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.ManagedConfig
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.gui.FirmButtonComponent
+import moe.nea.firmod.jarvis.JarvisIntegration
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.ManagedConfig
 
 class HudMetaHandler(
     val config: ManagedConfig,
@@ -27,7 +27,7 @@ class HudMetaHandler(
 	}
 
 	override fun fromJson(element: JsonElement): HudMeta {
-		return HudMeta(Json.decodeFromJsonElement(element), Firmament.identifier(propertyName), label, width, height)
+		return HudMeta(Json.decodeFromJsonElement(element), Firmod.identifier(propertyName), label, width, height)
 	}
 
 	fun openEditor(option: ManagedOption<HudMeta>, oldScreen: Screen) {
@@ -42,7 +42,7 @@ class HudMetaHandler(
 			opt.labelText,
 			FirmButtonComponent(
 				TextComponent(
-					Component.translatableEscape("firmament.hud.edit", label).string
+					Component.translatableEscape("firmod.hud.edit", label).string
 				),
 			) {
 				openEditor(opt, guiAppender.screenAccessor())

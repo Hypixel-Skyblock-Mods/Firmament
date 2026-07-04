@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.config.storage
+package moe.nea.firmod.gui.config.storage
 
 import java.io.PrintWriter
 import java.nio.file.Path
@@ -9,16 +9,16 @@ import kotlin.io.path.Path
 import kotlin.io.path.copyToRecursively
 import kotlin.io.path.createParentDirectories
 import kotlin.io.path.writeText
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 data class ConfigLoadContext(
 	val loadId: String,
 ) : AutoCloseable {
-	val backupPath = Path("backups").resolve(Firmament.MOD_ID)
+	val backupPath = Path("backups").resolve(Firmod.MOD_ID)
 		.resolve("config-$loadId")
 		.toAbsolutePath()
 	val logFile = Path("logs")
-		.resolve(Firmament.MOD_ID)
+		.resolve(Firmod.MOD_ID)
 		.resolve("config-$loadId.log")
 		.toAbsolutePath()
 	val logBuffer = StringBuilder()
@@ -33,15 +33,15 @@ data class ConfigLoadContext(
 	}
 
 	fun logInfo(message: String) {
-		if (Firmament.DEBUG)
-			Firmament.logger.info("[ConfigUpgrade] $message")
+		if (Firmod.DEBUG)
+			Firmod.logger.info("[ConfigUpgrade] $message")
 		logBuffer.append("[INFO] ").append(message).appendLine()
 	}
 
 	fun logError(message: String, exception: Throwable) {
 		markShouldSaveLogBuffer()
-		if (Firmament.DEBUG)
-			Firmament.logger.error("[ConfigUpgrade] $message", exception)
+		if (Firmod.DEBUG)
+			Firmod.logger.error("[ConfigUpgrade] $message", exception)
 		logBuffer.append("[ERROR] ").append(message).appendLine()
 		PrintWriter(StringBuilderWriter(logBuffer)).use {
 			exception.printStackTrace(it)
@@ -51,7 +51,7 @@ data class ConfigLoadContext(
 
 	fun logError(message: String) {
 		markShouldSaveLogBuffer()
-		Firmament.logger.error("[ConfigUpgrade] $message")
+		Firmod.logger.error("[ConfigUpgrade] $message")
 		logBuffer.append("[ERROR] ").append(message).appendLine()
 	}
 

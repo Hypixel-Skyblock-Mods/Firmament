@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
 import java.util.regex.Matcher
 import org.joml.Vector2i
@@ -7,41 +7,41 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Component
 import net.minecraft.ChatFormatting
 import net.minecraft.util.StringRepresentable
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HudRenderEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.events.ProfileSwitchEvent
-import moe.nea.firmament.events.SlotClickEvent
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.jarvis.JarvisIntegration
-import moe.nea.firmament.repo.ExpLadders
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.ItemCache.asItemStack
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.FirmFormatters.formatPercent
-import moe.nea.firmament.util.FirmFormatters.shortFormat
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.SkyBlockIsland
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.formattedString
-import moe.nea.firmament.util.mc.DataComponentAccessor
-import moe.nea.firmament.util.mc.LazyItemStack
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.lazy
-import moe.nea.firmament.util.parseShortNumber
-import moe.nea.firmament.util.petData
-import moe.nea.firmament.util.render.drawGuiTexture
-import moe.nea.firmament.util.skyblock.Rarity
-import moe.nea.firmament.util.skyblock.TabListAPI
-import moe.nea.firmament.util.skyblockUUID
-import moe.nea.firmament.util.titleCase
-import moe.nea.firmament.util.unformattedString
-import moe.nea.firmament.util.useMatch
-import moe.nea.firmament.util.withColor
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HudRenderEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.events.ProfileSwitchEvent
+import moe.nea.firmod.events.SlotClickEvent
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.jarvis.JarvisIntegration
+import moe.nea.firmod.repo.ExpLadders
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.ItemCache.asItemStack
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.FirmFormatters.formatPercent
+import moe.nea.firmod.util.FirmFormatters.shortFormat
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.SkyBlockIsland
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.formattedString
+import moe.nea.firmod.util.mc.DataComponentAccessor
+import moe.nea.firmod.util.mc.LazyItemStack
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.lazy
+import moe.nea.firmod.util.parseShortNumber
+import moe.nea.firmod.util.petData
+import moe.nea.firmod.util.render.drawGuiTexture
+import moe.nea.firmod.util.skyblock.Rarity
+import moe.nea.firmod.util.skyblock.TabListAPI
+import moe.nea.firmod.util.skyblockUUID
+import moe.nea.firmod.util.titleCase
+import moe.nea.firmod.util.unformattedString
+import moe.nea.firmod.util.useMatch
+import moe.nea.firmod.util.withColor
 
 object PetFeatures {
 	val identifier: String
@@ -98,7 +98,7 @@ object PetFeatures {
 				// Highlight active pet feature
 				if (!TConfig.highlightEquippedPet) return
 				event.context.drawGuiTexture(
-					Firmament.identifier("selected_pet_background"),
+					Firmod.identifier("selected_pet_background"),
 					event.slot.x, event.slot.y, 16, 16,
 				)
 			}

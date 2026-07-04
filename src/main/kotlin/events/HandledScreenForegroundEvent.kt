@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
@@ -11,6 +11,6 @@ data class HandledScreenForegroundEvent(
     val mouseX: Int,
     val mouseY: Int,
     val delta: Float
-) : FirmamentEvent() {
-    companion object : FirmamentEventBus<HandledScreenForegroundEvent>()
+) : FirmodEvent() {
+    companion object : FirmodEventBus<HandledScreenForegroundEvent>()
 }

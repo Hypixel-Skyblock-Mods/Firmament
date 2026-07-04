@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.features.inventory.storageoverlay
+package moe.nea.firmod.features.inventory.storageoverlay
 
 import org.lwjgl.glfw.GLFW
 import kotlin.math.max
@@ -13,9 +13,9 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.Items
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.DyeColor
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.toShedaniel
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.toShedaniel
 
 @OptIn(RequiresComponents::class)
 class StorageOverviewScreen() : Screen(Component.empty()) {

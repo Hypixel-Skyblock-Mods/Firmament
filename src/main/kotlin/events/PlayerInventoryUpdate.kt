@@ -1,9 +1,9 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.world.item.ItemStack
 
-sealed class PlayerInventoryUpdate : FirmamentEvent() {
-	companion object : FirmamentEventBus<PlayerInventoryUpdate>()
+sealed class PlayerInventoryUpdate : FirmodEvent() {
+	companion object : FirmodEventBus<PlayerInventoryUpdate>()
 	data class Single(val slot: Int, val stack: ItemStack) : PlayerInventoryUpdate() {
 		override fun getOrNull(slot: Int): ItemStack? {
 			if (slot == this.slot) return stack

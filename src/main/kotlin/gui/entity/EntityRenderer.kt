@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.entity
+package moe.nea.firmod.gui.entity
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
@@ -15,11 +15,11 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.EntitySpawnReason
 import net.minecraft.resources.Identifier
 import net.minecraft.world.level.Level
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.iterate
-import moe.nea.firmament.util.openFirmamentResource
-import moe.nea.firmament.util.render.enableScissorWithTranslation
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.iterate
+import moe.nea.firmod.util.openFirmodResource
+import moe.nea.firmod.util.render.enableScissorWithTranslation
 
 object EntityRenderer {
 	val fakeWorld: Level get() = MC.lastWorld!!
@@ -143,7 +143,7 @@ object EntityRenderer {
 	fun constructEntity(location: Identifier): LivingEntity? {
 		return constructEntity(
 			gson.fromJson(
-				location.openFirmamentResource().bufferedReader(), JsonObject::class.java
+				location.openFirmodResource().bufferedReader(), JsonObject::class.java
 			)
 		)
 	}

@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.items
+package moe.nea.firmod.features.items
 
 import io.github.notenoughupdates.moulconfig.ChromaColour
 import net.minecraft.world.level.block.Blocks
@@ -12,17 +12,17 @@ import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.phys.shapes.Shapes
 import net.minecraft.world.level.BlockGetter
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.WorldRenderLastEvent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.extraAttributes
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.render.RenderInWorldContext
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SkyBlockItems
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.WorldRenderLastEvent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.extraAttributes
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.render.RenderInWorldContext
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SkyBlockItems
+import moe.nea.firmod.util.tr
 
 object EtherwarpOverlay {
 	val identifier: String
@@ -44,11 +44,11 @@ object EtherwarpOverlay {
 	enum class EtherwarpResult(val label: Component?, val color: () -> ChromaColour) {
 		SUCCESS(null, TConfig::cubeColour),
 		INTERACTION_BLOCKED(
-			tr("firmament.etherwarp.fail.tooclosetointeractable", "Too close to interactable"),
+			tr("firmod.etherwarp.fail.tooclosetointeractable", "Too close to interactable"),
 			TConfig::tooCloseCubeColour
 		),
-		TOO_DISTANT(tr("firmament.etherwarp.fail.toofar", "Too far away"), TConfig::tooFarCubeColour),
-		OCCUPIED(tr("firmament.etherwarp.fail.occupied", "Occupied"), TConfig::failureCubeColour),
+		TOO_DISTANT(tr("firmod.etherwarp.fail.toofar", "Too far away"), TConfig::tooFarCubeColour),
+		OCCUPIED(tr("firmod.etherwarp.fail.occupied", "Occupied"), TConfig::failureCubeColour),
 	}
 
 	val interactionBlocked = Checker(

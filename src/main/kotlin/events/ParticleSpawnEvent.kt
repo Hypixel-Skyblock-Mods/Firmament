@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import org.joml.Vector3f
 import net.minecraft.core.particles.ParticleOptions
@@ -13,6 +13,6 @@ data class ParticleSpawnEvent(
     val longDistance: Boolean,
     val count: Int,
     val speed: Float,
-) : FirmamentEvent.Cancellable() {
-    companion object : FirmamentEventBus<ParticleSpawnEvent>()
+) : FirmodEvent.Cancellable() {
+    companion object : FirmodEventBus<ParticleSpawnEvent>()
 }

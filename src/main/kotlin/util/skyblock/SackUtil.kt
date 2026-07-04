@@ -1,28 +1,28 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
 import net.minecraft.client.gui.screens.inventory.ContainerScreen
 import net.minecraft.network.chat.HoverEvent
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ChestInventoryUpdateEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.gui.config.storage.ConfigFixEvent
-import moe.nea.firmament.gui.config.storage.ConfigStorageClass
-import moe.nea.firmament.repo.ItemNameLookup
-import moe.nea.firmament.util.SHORT_NUMBER_FORMAT
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ProfileSpecificDataHolder
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.iterableView
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.parseShortNumber
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.unformattedString
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ChestInventoryUpdateEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.gui.config.storage.ConfigFixEvent
+import moe.nea.firmod.gui.config.storage.ConfigStorageClass
+import moe.nea.firmod.repo.ItemNameLookup
+import moe.nea.firmod.util.SHORT_NUMBER_FORMAT
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ProfileSpecificDataHolder
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.iterableView
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.parseShortNumber
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.unformattedString
+import moe.nea.firmod.util.useMatch
 
 object SackUtil {
 	@Serializable

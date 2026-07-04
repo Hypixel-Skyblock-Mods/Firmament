@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.config.storage
+package moe.nea.firmod.gui.config.storage
 
 enum class ConfigStorageClass { // TODO: make this encode type info somehow
 	PROFILE,

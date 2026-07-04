@@ -21,7 +21,7 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "Firmament"
+rootProject.name = "Firmod"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include("symbols")

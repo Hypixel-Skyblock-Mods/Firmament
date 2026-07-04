@@ -1,9 +1,9 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
-import moe.nea.firmament.annotations.Subscribe
+import moe.nea.firmod.annotations.Subscribe
 
-class ComponentsLoadedEvent : FirmamentEvent() {
-	companion object : FirmamentEventBus<ComponentsLoadedEvent>() {
+class ComponentsLoadedEvent : FirmodEvent() {
+	companion object : FirmodEventBus<ComponentsLoadedEvent>() {
 		var generation = -1
 
 		@Subscribe

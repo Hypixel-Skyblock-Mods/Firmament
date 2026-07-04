@@ -1,15 +1,15 @@
-package moe.nea.firmament.features.debug
+package moe.nea.firmod.features.debug
 
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.SoundReceiveEvent
-import moe.nea.firmament.events.WorldReadyEvent
-import moe.nea.firmament.events.WorldRenderLastEvent
-import moe.nea.firmament.util.red
-import moe.nea.firmament.util.render.RenderInWorldContext
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.SoundReceiveEvent
+import moe.nea.firmod.events.WorldReadyEvent
+import moe.nea.firmod.events.WorldRenderLastEvent
+import moe.nea.firmod.util.red
+import moe.nea.firmod.util.render.RenderInWorldContext
 
 object SoundVisualizer {
 

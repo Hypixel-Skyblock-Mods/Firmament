@@ -1,12 +1,12 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import org.lwjgl.glfw.GLFW
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
-import moe.nea.firmament.events.HandledScreenKeyPressedEvent.Companion.internalPollAction
-import moe.nea.firmament.keybindings.GenericInputAction
-import moe.nea.firmament.keybindings.InputModifiers
-import moe.nea.firmament.keybindings.SavedKeyBinding
+import moe.nea.firmod.events.HandledScreenKeyPressedEvent.Companion.internalPollAction
+import moe.nea.firmod.keybindings.GenericInputAction
+import moe.nea.firmod.keybindings.InputModifiers
+import moe.nea.firmod.keybindings.SavedKeyBinding
 
 sealed interface HandledScreenInputEvent {
 	val screen: Screen
@@ -18,7 +18,7 @@ data class HandledScreenKeyPressedEvent(
 	override val screen: Screen,
 	override val input: GenericInputAction,
 	override val modifiers: InputModifiers,
-) : FirmamentEvent.Cancellable(), HandledScreenInputEvent {
+) : FirmodEvent.Cancellable(), HandledScreenInputEvent {
 	val isRepeat: Boolean = internalPollAction() == GLFW.GLFW_REPEAT
 	fun matches(keyBinding: SavedKeyBinding, atLeast: Boolean = false): Boolean {
 		return keyBinding.matches(input, modifiers, atLeast)
@@ -26,7 +26,7 @@ data class HandledScreenKeyPressedEvent(
 
 	fun isLeftClick() = input == GenericInputAction.mouse(GLFW.GLFW_MOUSE_BUTTON_LEFT)
 
-	companion object : FirmamentEventBus<HandledScreenKeyPressedEvent>() {
+	companion object : FirmodEventBus<HandledScreenKeyPressedEvent>() {
 		private var lastAction = -1
 
 		/**
@@ -47,10 +47,10 @@ data class HandledScreenKeyReleasedEvent(
 	override val screen: Screen,
 	override val input: GenericInputAction,
 	override val modifiers: InputModifiers,
-) : FirmamentEvent.Cancellable(), HandledScreenInputEvent {
+) : FirmodEvent.Cancellable(), HandledScreenInputEvent {
 	fun matches(keyBinding: SavedKeyBinding, atLeast: Boolean = false): Boolean {
 		return keyBinding.matches(input, modifiers, atLeast)
 	}
 
-	companion object : FirmamentEventBus<HandledScreenKeyReleasedEvent>()
+	companion object : FirmodEventBus<HandledScreenKeyReleasedEvent>()
 }

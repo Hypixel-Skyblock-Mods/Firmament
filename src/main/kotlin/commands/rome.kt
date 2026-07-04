@@ -1,4 +1,4 @@
-package moe.nea.firmament.commands
+package moe.nea.firmod.commands
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -11,54 +11,54 @@ import net.minecraft.commands.CommandBuildContext
 import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.ComponentSerialization
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.apis.UrsaManager
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.FirmamentEventBus
-import moe.nea.firmament.features.debug.DebugLogger
-import moe.nea.firmament.features.debug.DeveloperFeatures
-import moe.nea.firmament.features.debug.PowerUserTools
-import moe.nea.firmament.features.inventory.buttons.InventoryButtons
-import moe.nea.firmament.features.inventory.storageoverlay.StorageOverlay
-import moe.nea.firmament.features.inventory.storageoverlay.StorageOverlayScreen
-import moe.nea.firmament.features.inventory.storageoverlay.StorageOverviewScreen
-import moe.nea.firmament.features.inventory.storageoverlay.StoragePageSlot
-import moe.nea.firmament.features.mining.MiningBlockInfoUi
-import moe.nea.firmament.gui.config.AllConfigsGui
-import moe.nea.firmament.gui.config.BooleanHandler
-import moe.nea.firmament.gui.config.ManagedOption
-import moe.nea.firmament.init.MixinPlugin
-import moe.nea.firmament.repo.HypixelStaticData
-import moe.nea.firmament.repo.ItemCache
-import moe.nea.firmament.repo.RepoDownloadManager
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.FirmFormatters.debugPath
-import moe.nea.firmament.util.FirmFormatters.formatBool
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.ScreenUtil
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.accessors.messages
-import moe.nea.firmament.util.asBazaarStock
-import moe.nea.firmament.util.collections.InstanceList
-import moe.nea.firmament.util.collections.WeakCache
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.SNbtFormatter
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.apis.UrsaManager
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.FirmodEventBus
+import moe.nea.firmod.features.debug.DebugLogger
+import moe.nea.firmod.features.debug.DeveloperFeatures
+import moe.nea.firmod.features.debug.PowerUserTools
+import moe.nea.firmod.features.inventory.buttons.InventoryButtons
+import moe.nea.firmod.features.inventory.storageoverlay.StorageOverlay
+import moe.nea.firmod.features.inventory.storageoverlay.StorageOverlayScreen
+import moe.nea.firmod.features.inventory.storageoverlay.StorageOverviewScreen
+import moe.nea.firmod.features.inventory.storageoverlay.StoragePageSlot
+import moe.nea.firmod.features.mining.MiningBlockInfoUi
+import moe.nea.firmod.gui.config.AllConfigsGui
+import moe.nea.firmod.gui.config.BooleanHandler
+import moe.nea.firmod.gui.config.ManagedOption
+import moe.nea.firmod.init.MixinPlugin
+import moe.nea.firmod.repo.HypixelStaticData
+import moe.nea.firmod.repo.ItemCache
+import moe.nea.firmod.repo.RepoDownloadManager
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.FirmFormatters.debugPath
+import moe.nea.firmod.util.FirmFormatters.formatBool
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.ScreenUtil
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.accessors.messages
+import moe.nea.firmod.util.asBazaarStock
+import moe.nea.firmod.util.collections.InstanceList
+import moe.nea.firmod.util.collections.WeakCache
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.SNbtFormatter
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.unformattedString
 
 
 private fun setStorageName(source: DefaultSource, slot: StoragePageSlot, name: String) {
 	StorageOverlay.Data.data.customNames[slot] = name
 	StorageOverlay.Data.markDirty()
-	source.sendFeedback(tr("firmament.command.storagename.set", "Renamed ${slot.defaultName()} to \"$name\"."))
+	source.sendFeedback(tr("firmod.command.storagename.set", "Renamed ${slot.defaultName()} to \"$name\"."))
 }
 
 private fun resetStorageName(source: DefaultSource, slot: StoragePageSlot) {
 	StorageOverlay.Data.data.customNames.remove(slot)
 	StorageOverlay.Data.markDirty()
-	source.sendFeedback(tr("firmament.command.storagename.reset", "Reset the name of ${slot.defaultName()}."))
+	source.sendFeedback(tr("firmod.command.storagename.reset", "Reset the name of ${slot.defaultName()}."))
 }
 
 private fun LiteralArgumentBuilder<DefaultSource>.storageNameBranch(
@@ -74,7 +74,7 @@ private fun LiteralArgumentBuilder<DefaultSource>.storageNameBranch(
 	}
 }
 
-fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
+fun firmodCommand(ctx: CommandBuildContext) = literal("firmod") {
 	thenLiteral("config") {
 		thenExecute {
 			AllConfigsGui.showAllGuis()
@@ -100,7 +100,7 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 						if (configObj == null) {
 							source.sendFeedback(
 								Component.translatableEscape(
-									"firmament.command.toggle.no-config-found",
+									"firmod.command.toggle.no-config-found",
 									config
 								)
 							)
@@ -109,13 +109,13 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 						val propertyObj = configObj.allOptions[property]
 						if (propertyObj == null) {
 							source.sendFeedback(
-								Component.translatableEscape("firmament.command.toggle.no-property-found", property)
+								Component.translatableEscape("firmod.command.toggle.no-property-found", property)
 							)
 							return@thenExecute
 						}
 						if (propertyObj.handler !is BooleanHandler) {
 							source.sendFeedback(
-								Component.translatableEscape("firmament.command.toggle.not-a-toggle", property)
+								Component.translatableEscape("firmod.command.toggle.not-a-toggle", property)
 							)
 							return@thenExecute
 						}
@@ -124,9 +124,9 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 						configObj.markDirty()
 						source.sendFeedback(
 							Component.translatableEscape(
-								"firmament.command.toggle.toggled", configObj.labelText,
+								"firmod.command.toggle.toggled", configObj.labelText,
 								propertyObj.labelText,
-								Component.translatable("firmament.toggle.${propertyObj.value}")
+								Component.translatable("firmod.toggle.${propertyObj.value}")
 							)
 						)
 					}
@@ -172,7 +172,7 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 			thenArgument("prnum", IntegerArgumentType.integer(1)) { prnum ->
 				thenExecute {
 					val prnum = this[prnum]
-					source.sendFeedback(tr("firmament.repo.reload.pr", "Temporarily reloading repo from PR #${prnum}."))
+					source.sendFeedback(tr("firmod.repo.reload.pr", "Temporarily reloading repo from PR #${prnum}."))
 					RepoManager.downloadOverridenBranch("refs/pull/$prnum/head")
 				}
 			}
@@ -180,13 +180,13 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 		thenLiteral("reload") {
 			thenLiteral("fetch") {
 				thenExecute {
-					source.sendFeedback(Component.translatable("firmament.repo.reload.network")) // TODO better reporting
+					source.sendFeedback(Component.translatable("firmod.repo.reload.network")) // TODO better reporting
 					RepoManager.launchAsyncUpdate()
 				}
 			}
 			thenExecute {
-				source.sendFeedback(Component.translatable("firmament.repo.reload.disk"))
-				Firmament.coroutineScope.launch { RepoManager.reload() }
+				source.sendFeedback(Component.translatable("firmod.repo.reload.disk"))
+				Firmod.coroutineScope.launch { RepoManager.reload() }
 			}
 		}
 	}
@@ -195,34 +195,34 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 			suggestsList { RepoManager.neuRepo.items.items.keys }
 			thenExecute {
 				val itemName = SkyblockId(get(item))
-				source.sendFeedback(Component.translatableEscape("firmament.price", itemName.neuItem))
+				source.sendFeedback(Component.translatableEscape("firmod.price", itemName.neuItem))
 				val bazaarData = HypixelStaticData.bazaarData[itemName.asBazaarStock]
 				if (bazaarData != null) {
-					source.sendFeedback(Component.translatable("firmament.price.bazaar"))
+					source.sendFeedback(Component.translatable("firmod.price.bazaar"))
 					source.sendFeedback(
-						Component.translatableEscape("firmament.price.bazaar.productid", bazaarData.productId.bazaarId)
+						Component.translatableEscape("firmod.price.bazaar.productid", bazaarData.productId.bazaarId)
 					)
 					source.sendFeedback(
 						Component.translatableEscape(
-							"firmament.price.bazaar.buy.price",
+							"firmod.price.bazaar.buy.price",
 							FirmFormatters.formatCommas(bazaarData.quickStatus.buyPrice, 1)
 						)
 					)
 					source.sendFeedback(
 						Component.translatableEscape(
-							"firmament.price.bazaar.buy.order",
+							"firmod.price.bazaar.buy.order",
 							bazaarData.quickStatus.buyOrders
 						)
 					)
 					source.sendFeedback(
 						Component.translatableEscape(
-							"firmament.price.bazaar.sell.price",
+							"firmod.price.bazaar.sell.price",
 							FirmFormatters.formatCommas(bazaarData.quickStatus.sellPrice, 1)
 						)
 					)
 					source.sendFeedback(
 						Component.translatableEscape(
-							"firmament.price.bazaar.sell.order",
+							"firmod.price.bazaar.sell.order",
 							bazaarData.quickStatus.sellOrders
 						)
 					)
@@ -231,7 +231,7 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 				if (lowestBin != null) {
 					source.sendFeedback(
 						Component.translatableEscape(
-							"firmament.price.lowestbin",
+							"firmod.price.lowestbin",
 							FirmFormatters.formatCommas(lowestBin, 1)
 						)
 					)
@@ -303,18 +303,18 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 		}
 		thenLiteral("sbdata") {
 			thenExecute {
-				source.sendFeedback(Component.translatableEscape("firmament.sbinfo.profile", SBData.profileId ?: "null"))
+				source.sendFeedback(Component.translatableEscape("firmod.sbinfo.profile", SBData.profileId ?: "null"))
 				val locrawInfo = SBData.locraw
 				if (locrawInfo == null) {
-					source.sendFeedback(Component.translatable("firmament.sbinfo.nolocraw"))
+					source.sendFeedback(Component.translatable("firmod.sbinfo.nolocraw"))
 				} else {
-					source.sendFeedback(Component.translatableEscape("firmament.sbinfo.server", locrawInfo.server ?: "null"))
-					source.sendFeedback(Component.translatableEscape("firmament.sbinfo.gametype", locrawInfo.gametype ?: "null"))
-					source.sendFeedback(Component.translatableEscape("firmament.sbinfo.mode", locrawInfo.mode ?: "null"))
-					source.sendFeedback(Component.translatableEscape("firmament.sbinfo.map", locrawInfo.map ?: "null"))
+					source.sendFeedback(Component.translatableEscape("firmod.sbinfo.server", locrawInfo.server ?: "null"))
+					source.sendFeedback(Component.translatableEscape("firmod.sbinfo.gametype", locrawInfo.gametype ?: "null"))
+					source.sendFeedback(Component.translatableEscape("firmod.sbinfo.mode", locrawInfo.mode ?: "null"))
+					source.sendFeedback(Component.translatableEscape("firmod.sbinfo.map", locrawInfo.map ?: "null"))
 					source.sendFeedback(
 						tr(
-							"firmament.sbinfo.custommining",
+							"firmod.sbinfo.custommining",
 							"Custom Mining: ${formatBool(locrawInfo.skyblockLocation?.hasCustomMining ?: false)}"
 						)
 					)
@@ -332,29 +332,29 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 		thenLiteral("callUrsa") {
 			thenArgument("path", string()) { path ->
 				thenExecute {
-					Firmament.coroutineScope.launch {
-						source.sendFeedback(Component.translatable("firmament.ursa.debugrequest.start"))
+					Firmod.coroutineScope.launch {
+						source.sendFeedback(Component.translatable("firmod.ursa.debugrequest.start"))
 						val text = UrsaManager.request(get(path).split("/"), HttpResponse.BodyHandlers.ofString())
-						source.sendFeedback(Component.translatableEscape("firmament.ursa.debugrequest.result", text))
+						source.sendFeedback(Component.translatableEscape("firmod.ursa.debugrequest.result", text))
 					}
 				}
 			}
 		}
 		thenLiteral("events") {
 			thenExecute {
-				source.sendFeedback(tr("firmament.event.start", "Event Bus Readout:"))
-				FirmamentEventBus.allEventBuses.forEach { eventBus ->
-					val prefixName = eventBus.eventType.typeName.removePrefix("moe.nea.firmament")
+				source.sendFeedback(tr("firmod.event.start", "Event Bus Readout:"))
+				FirmodEventBus.allEventBuses.forEach { eventBus ->
+					val prefixName = eventBus.eventType.typeName.removePrefix("moe.nea.firmod")
 					source.sendFeedback(
 						tr(
-							"firmament.event.bustype",
+							"firmod.event.bustype",
 							"- $prefixName:"
 						)
 					)
 					eventBus.handlers.forEach { handler ->
 						source.sendFeedback(
 							tr(
-								"firmament.event.handler",
+								"firmod.event.handler",
 								"   * ${handler.label}"
 							)
 						)
@@ -377,7 +377,7 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 		thenLiteral("mixins") {
 			thenExecute {
 				MixinPlugin.instances.forEach { plugin ->
-					source.sendFeedback(tr("firmament.mixins.start.package", "Mixins (base ${plugin.mixinPackage}):"))
+					source.sendFeedback(tr("firmod.mixins.start.package", "Mixins (base ${plugin.mixinPackage}):"))
 					plugin.appliedMixins
 						.map { it.removePrefix(plugin.mixinPackage) }
 						.forEach {
@@ -391,22 +391,22 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 		}
 		thenLiteral("repo") {
 			thenExecute {
-				source.sendFeedback(tr("firmament.repo.info.ref", "Repo Upstream: ${RepoManager.getRepoRef()}"))
+				source.sendFeedback(tr("firmod.repo.info.ref", "Repo Upstream: ${RepoManager.getRepoRef()}"))
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.downloadedref",
+						"firmod.repo.info.downloadedref",
 						"Downloaded ref: ${RepoDownloadManager.latestSavedVersionHash}"
 					)
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.location",
+						"firmod.repo.info.location",
 						"Saved location: ${debugPath(RepoDownloadManager.repoSavedLocation)}"
 					)
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.reloadstatus",
+						"firmod.repo.info.reloadstatus",
 						"Incomplete: ${
 							formatBool(
 								RepoManager.neuRepo.isIncomplete,
@@ -417,25 +417,25 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.items",
+						"firmod.repo.info.items",
 						"Loaded items: ${RepoManager.neuRepo.items?.items?.size}"
 					)
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.overlays",
+						"firmod.repo.info.overlays",
 						"Overlays: ${RepoManager.overlayData.overlays.size}"
 					)
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.itemcache",
+						"firmod.repo.info.itemcache",
 						"ItemCache flawless: ${formatBool(ItemCache.isFlawless)}"
 					)
 				)
 				source.sendFeedback(
 					tr(
-						"firmament.repo.info.itemdir",
+						"firmod.repo.info.itemdir",
 						"Items on disk: ${debugPath(RepoDownloadManager.repoSavedLocation.resolve("items"))}"
 					)
 				)
@@ -449,10 +449,10 @@ fun firmamentCommand(ctx: CommandBuildContext) = literal("firmament") {
 }
 
 
-fun registerFirmamentCommand(dispatcher: CommandDispatcher<FabricClientCommandSource>, ctx: CommandBuildContext) {
-	val firmament = dispatcher.register(firmamentCommand(ctx))
+fun registerFirmodCommand(dispatcher: CommandDispatcher<FabricClientCommandSource>, ctx: CommandBuildContext) {
+	val firmod = dispatcher.register(firmodCommand(ctx))
 	dispatcher.register(literal("firm") {
-		redirect(firmament)
+		redirect(firmod)
 	})
 }
 

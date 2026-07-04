@@ -4,7 +4,7 @@
 > [!WARNING]
 > This wiki is currently being reworked. Most information should still be correct, but i cant be sure.
 
-Firmament generally tries to emulate the vanilla structure of resourcepacks whenever possible. Because of that it is extremely helpful to know the general structure of vanilla resource packs. The [minecraft wiki](https://minecraft.wiki/w/Resource_pack) is a good starting place to learn, but some basic terms will be explained here as well.
+Firmod generally tries to emulate the vanilla structure of resourcepacks whenever possible. Because of that it is extremely helpful to know the general structure of vanilla resource packs. The [minecraft wiki](https://minecraft.wiki/w/Resource_pack) is a good starting place to learn, but some basic terms will be explained here as well.
 
 ## Identifiers
 
@@ -46,7 +46,7 @@ the hash of the old skin.
 
 ## Armor Skull Models
 
-You can replace the models of skull items (or other items) by specifying the `firmament:head_model` property on your
+You can replace the models of skull items (or other items) by specifying the `firmod:head_model` property on your
 model. Note that this is resolved *after* all [overrides](#predicates) and further predicates are not resolved on the
 head model.
 
@@ -56,7 +56,7 @@ head model.
     "textures": {
         "layer0": "firmskyblock:item/regular_texture"
     },
-    "firmament:head_model": "minecraft:block/diamond_block" // when wearing on the head render a diamond block instead (can be any item model, including custom ones)
+    "firmod:head_model": "minecraft:block/diamond_block" // when wearing on the head render a diamond block instead (can be any item model, including custom ones)
 }
 ```
 
@@ -83,7 +83,7 @@ Some items, however, tint *all* layers. For those items you can instead specify 
     "textures": {
         "layer0": "firmskyblock:item/regular_texture"
     },
-    "firmament:tint_overrides": {
+    "firmod:tint_overrides": {
         "0": -1
     }
 }
@@ -97,10 +97,10 @@ behaviour.
 
 ## Predicates
 
-Firmament adds the ability for more complex [item model predicates](https://minecraft.wiki/w/Tutorials/Models#Item_predicates).
+Firmod adds the ability for more complex [item model predicates](https://minecraft.wiki/w/Tutorials/Models#Item_predicates).
 Those predicates work on any model, including models for vanilla items, but they don't mix very well with vanilla model overrides.
 Vanilla predicates only ever get parsed at the top level, so including a vanilla predicate inside of a more complex
-firmament parser will result in an ignored predicate.
+firmod parser will result in an ignored predicate.
 
 ### Example usage
 
@@ -113,7 +113,7 @@ firmament parser will result in an ignored predicate.
     "overrides": [
         {
             "predicate": {
-                "firmament:display_name": {
+                "firmod:display_name": {
                     "regex": ".*§d.*",
                     "color": "preserve"
                 }
@@ -128,14 +128,14 @@ You specify an override like normally, with a `model` that will replace the curr
 that must match before that override takes place.
 
 At the top level `predicate` you can still use all the normal vanilla predicates, as well as the custom ones, which are
-all prefixed with `firmament:`.
+all prefixed with `firmod:`.
 
 #### Display Name
 
 Matches the display name against a [string matcher](#string-matcher)
 
 ```json
-"firmament:display_name": "Display Name Test"
+"firmod:display_name": "Display Name Test"
 ```
 
 #### Lore
@@ -143,7 +143,7 @@ Matches the display name against a [string matcher](#string-matcher)
 Tries to find at least one lore line that matches the given [string matcher](#string-matcher).
 
 ```json
-"firmament:lore": {
+"firmod:lore": {
   "regex": "Mode: Red Mushrooms",
   "color": "strip"
 }
@@ -154,7 +154,7 @@ Tries to find at least one lore line that matches the given [string matcher](#st
 Filter by item type:
 
 ```json
-"firmament:item": "minecraft:clock"
+"firmod:item": "minecraft:clock"
 ```
 
 #### Skulls
@@ -162,7 +162,7 @@ Filter by item type:
 You can match skulls using the skull textures and other properties using the skull predicate. If there are no properties specified this is equivalent to checking if the item is a `minecraft:player_head`.
 
 ```json
-"firmament:skull": {
+"firmod:skull": {
 	"profileId": "cca2d452-c6d3-39cb-b695-5ec92b2d6729",
 	"textureProfileId": "1d5233d388624bafb00e3150a7aa3a89",
 	"skinUrl": "http://textures.minecraft.net/texture/7bf01c198f6e16965e230235cd22a5a9f4a40e40941234478948ff9a56e51775",
@@ -188,7 +188,7 @@ Then either specify a `match` sub-object or directly inline that object in the f
 Inlined match:
 
 ```json5
-"firmament:extra_attributes": {
+"firmod:extra_attributes": {
     "path": "gems.JADE_0",
     "string": "PERFECT"
 }
@@ -197,7 +197,7 @@ Inlined match:
 Sub object match:
 
 ```json5
-"firmament:extra_attributes": {
+"firmod:extra_attributes": {
     "path": "gems.JADE_0",
     "match": {
         "string": "PERFECT"
@@ -215,13 +215,13 @@ variable is the identifier of a component type that will then be encoded to nbt 
 using a [nbt matcher](#nbt-matcher).
 
 ```json5
-"firmament:component": {
+"firmod:component": {
     "path": "rgb",
 	"component": "minecraft:dyed_color",
 	"int": 255
 }
 // Alternatively
-"firmament:component": {
+"firmod:component": {
 	"path": "rgb",
 	"component": "minecraft:dyed_color",
 	"match": {
@@ -237,7 +237,7 @@ Filter by pet information. While you can already filter by the skyblock id for p
 further filter by level and some other pet info.
 
 ```json5
-"firmament:pet" {
+"firmod:pet" {
     "id": "WOLF",
     "exp": ">=25353230",
     "tier": "[RARE,LEGENDARY]",
@@ -259,29 +259,29 @@ Every part of this matcher is optional.
 
 #### Logic Operators
 
-Logic operators allow to combine other firmament predicates into one. This is done by building boolean operators:
+Logic operators allow to combine other firmod predicates into one. This is done by building boolean operators:
 
 ```json5
-"firmament:any": [
+"firmod:any": [
   {
-    "firmament:display_name": "SkyBlock Menu (Click)"
+    "firmod:display_name": "SkyBlock Menu (Click)"
   },
   {
-    "firmament:display_name": "SkyBlock",
-    "firmament:lore": "Some Lore Requirement"
+    "firmod:display_name": "SkyBlock",
+    "firmod:lore": "Some Lore Requirement"
   }    
 ]
 ```
 
-This `firmament:any` test if the display name is either "SkyBlock Menu (Click)" or "SkyBlock" (aka any of the child predicates match).
+This `firmod:any` test if the display name is either "SkyBlock Menu (Click)" or "SkyBlock" (aka any of the child predicates match).
 
-Similarly, there is `firmament:all`, which requires all of its children to match.
+Similarly, there is `firmod:all`, which requires all of its children to match.
 
-There is also `firmament:not`, which requires none of its children to match. Unlike `any` or `all`, however, `not`
+There is also `firmod:not`, which requires none of its children to match. Unlike `any` or `all`, however, `not`
 only takes in one predicate `{}` directly, not an array of predicates `[{}]`.
 
 Note also that by default all predicate dictionaries require all predicates in it to match, so you can imagine that all
-things are wrapped in an implicit `firmament:all` element.
+things are wrapped in an implicit `firmod:all` element.
 
 ### String Matcher
 
@@ -291,7 +291,7 @@ styles of creating one.
 #### Direct
 
 ```json
-"firmament:display_name": "Test"
+"firmod:display_name": "Test"
 ```
 
 Directly specifying a raw string value expects the string to be *exactly* equal, after removing all formatting codes.
@@ -302,7 +302,7 @@ A complex string matcher allows you to specify whether the string will get its c
 
 
 ```json5
-"firmament:display_name": {
+"firmod:display_name": {
   "color": "strip",
   "color": "preserve", 
   // When omitting the color property alltogether, you will fall back to "strip"
@@ -312,7 +312,7 @@ In that same object you can then also specify how the string will be matched usi
 specify one of these other matchers and one color preserving property.
 
 ```json5
-"firmament:display_name": {
+"firmod:display_name": {
   "color": "strip",
   // You can use a "regex" property to use a java.util.Pattern regex. It will try to match the entire string.
   "regex": "So[me] Regex",
@@ -330,7 +330,7 @@ This matches a number against either a range or a specific number.
 
 You can directly specify a number using that value directly:
 ```json5
-"firmament:pet": {
+"firmod:pet": {
     "level": 100
 }
 ```
@@ -343,7 +343,7 @@ For ranges you can instead use an interval. This uses the standard mathematical 
 
 
 ```json5
-"firmament:pet": {
+"firmod:pet": {
     "level": "(50,100]"
 }
 ```
@@ -366,7 +366,7 @@ If instead of specifying a range you just need to specify one boundary you can a
 compare your number:
 
 ```json5
-"firmament:pet": {
+"firmod:pet": {
     "level": "<50"
 }
 ```
@@ -475,7 +475,7 @@ You can override that like so:
 
 ## Armor textures
 
-You can re-*texture* armors, but not re-*model* them with firmament. 
+You can re-*texture* armors, but not re-*model* them with firmod. 
 
 To retexture a piece of armor place a json file at `assets/firmskyblock/overrides/armor_models/*.json`.
 
@@ -537,7 +537,7 @@ The leg armor piece uses a different texture, same as with vanilla.
 ### Overrides
 
 You can also apply overrides to these layers. These work similar to item predicate overrides, but only the custom
-Firmament predicates will work. You will also just directly specify new layers instead of delegating to another file.
+Firmod predicates will work. You will also just directly specify new layers instead of delegating to another file.
 
 ```json
 {
@@ -559,7 +559,7 @@ Firmament predicates will work. You will also just directly specify new layers i
                 }
             ],
             "predicate": {
-                "firmament:lore": {
+                "firmod:lore": {
                     "regex": "Piece Bonus: +285.*"
                 }
             }
@@ -747,7 +747,7 @@ Available options
 > [!WARNING]
 > This syntax is _experimental_ and may be reworked with no backwards compatibility guarantees. If you have a use case for this syntax, please contact me so that I can figure out what kind of features are needed for the final version of this API.
 
-Firmament allows you to replace arbitrary texts with other texts during rendering. This only affects rendering, not what other mods see.
+Firmod allows you to replace arbitrary texts with other texts during rendering. This only affects rendering, not what other mods see.
 
 To do this, place a text override in `firmskyblock:overrides/texts/<my-override>.json`:
 
@@ -853,7 +853,7 @@ per override.
     "screen": "testrp:chocolate_factory",
     "model": "testrp:time_tower",
     "predicate": {
-        "firmament:display_name": {
+        "firmod:display_name": {
             "regex": "Time Tower.*"
         }
     }
@@ -885,12 +885,12 @@ to avoid collisions with other texture packs that might use the same id for a sc
 ```
 
 Currently, the only supported filter is `title`, which accepts a [string matcher](#string-matcher). You can also use
-`firmament:always` as an always on filter (this is the recommended way).
+`firmod:always` as an always on filter (this is the recommended way).
 
 ## Block Model Replacements
 
-Firmament adds the ability to retexture block models. Supported renderers are vanilla, indigo (fabric), sodium (and 
-anything sodium based). Firmament performs gentle world reloading so that even when the world data gets updated very
+Firmod adds the ability to retexture block models. Supported renderers are vanilla, indigo (fabric), sodium (and 
+anything sodium based). Firmod performs gentle world reloading so that even when the world data gets updated very
 late by the server there should be no flicker.
 
 If you want to replace block textures in the world you can do so using block overrides. Those are stored in 

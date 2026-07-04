@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.features.inventory.storageoverlay
+package moe.nea.firmod.features.inventory.storageoverlay
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -9,7 +9,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import moe.nea.firmament.util.MC
+import moe.nea.firmod.util.MC
 
 @Serializable(with = StoragePageSlot.Serializer::class)
 data class StoragePageSlot(val index: Int) : Comparable<StoragePageSlot> {

@@ -1,9 +1,9 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
 import net.minecraft.world.item.ItemStack
-import moe.nea.firmament.util.mc.DataComponentAccessor
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.petData
+import moe.nea.firmod.util.mc.DataComponentAccessor
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.petData
 
 
 data class ItemType private constructor(val name: String) {

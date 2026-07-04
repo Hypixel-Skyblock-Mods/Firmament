@@ -8,16 +8,16 @@ SPDX-License-Identifier: CC0-1.0
 
 <div align="center">
 
-# Firmament
+# Firmod
 
-![firmament logo](./docs/firmament_logo_256_nobg.webp)
+![firmod logo](./docs/firmod_logo_256_nobg.webp)
 
 <hr>
 
-[![Forum Thread](https://img.shields.io/badge/Forum%20Thread-blue?style=flat-square)](https://hypixel.net/threads/firmament-a-skyblock-mod-for-1-20-1.5446366/)
+[![Forum Thread](https://img.shields.io/badge/Forum%20Thread-blue?style=flat-square)](https://hypixel.net/threads/firmod-a-skyblock-mod-for-1-20-1.5446366/)
 [![Discord](https://img.shields.io/discord/1088154030628417616?style=flat-square&logo=discord)](https://discord.gg/64pFP94AWA)
-[![Modrinth](https://img.shields.io/modrinth/dt/IJNUBZ2a?style=flat-square&logo=modrinth)](https://modrinth.com/mod/firmament)
-[![Github Releases](https://img.shields.io/github/downloads/nea89o/Firmament/total?style=flat-square&logo=github)](https://github.com/nea89o/firmament/releases)
+[![Modrinth](https://img.shields.io/modrinth/dt/IJNUBZ2a?style=flat-square&logo=modrinth)](https://modrinth.com/mod/firmod)
+[![Github Releases](https://img.shields.io/github/downloads/nea89o/Firmod/total?style=flat-square&logo=github)](https://github.com/nea89o/firmod/releases)
 
 </div>
 
@@ -43,7 +43,7 @@ SPDX-License-Identifier: CC0-1.0
 
 ## Installation
 
-Firmament needs the following libraries to work:
+Firmod needs the following libraries to work:
 
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
@@ -55,8 +55,8 @@ As well as (for the item list):
 - [Cloth Config](https://modrinth.com/mod/cloth-config)
 
 
-You can download Firmament itself on [Modrinth](https://modrinth.com/mod/firmament) or on
-[GitHub](https://github.com/romangraef/firmament/releases).
+You can download Firmod itself on [Modrinth](https://modrinth.com/mod/firmod) or on
+[GitHub](https://github.com/romangraef/firmod/releases).
 
 ### Usage
 
@@ -84,7 +84,7 @@ appropriate reuse `.license` file. (Note that an incompatible deviating license 
 rejected.)
 
 Contributions are tentatively welcomed. The structure of the mod is probably not really transparent to newcomers, but if
-you are interested, feel free to tackle any [issues](https://github.com/nea89o/Firmament/issues/) or create your own
+you are interested, feel free to tackle any [issues](https://github.com/nea89o/Firmod/issues/) or create your own
 features. If you need any help contributing feel free to join the [discord].
 
 ### Development

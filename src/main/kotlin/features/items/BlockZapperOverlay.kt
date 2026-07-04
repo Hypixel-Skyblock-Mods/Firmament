@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.items
+package moe.nea.firmod.features.items
 
 import io.github.notenoughupdates.moulconfig.ChromaColour
 import java.util.LinkedList
@@ -8,16 +8,16 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.core.BlockPos
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.WorldKeyboardEvent
-import moe.nea.firmament.events.WorldRenderLastEvent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.render.RenderInWorldContext
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SkyBlockItems
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.WorldKeyboardEvent
+import moe.nea.firmod.events.WorldRenderLastEvent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.render.RenderInWorldContext
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SkyBlockItems
 
 object BlockZapperOverlay {
 	val identifier: String

@@ -3,15 +3,15 @@
 # SPDX-License-Identifier: CC0-1.0
 
 name: Mod Bug Report
-description: Report a bug or crash in Firmament
+description: Report a bug or crash in Firmod
 labels:
     - bug
 body:
     -   type: input
         id: version
         attributes:
-            label: Firmament Version
-            description: Which version of Firmament are you using. Please provide the full version name (found in the file name, or the mod list). Please **don't** say latest.
+            label: Firmod Version
+            description: Which version of Firmod are you using. Please provide the full version name (found in the file name, or the mod list). Please **don't** say latest.
         validations:
             required: true
     -   type: textarea

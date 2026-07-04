@@ -1,11 +1,11 @@
-package moe.nea.firmament.test.util
+package moe.nea.firmod.test.util
 
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import moe.nea.firmament.test.testutil.ItemResources
-import moe.nea.firmament.util.getLegacyFormatString
+import moe.nea.firmod.test.testutil.ItemResources
+import moe.nea.firmod.util.getLegacyFormatString
 
 class TextUtilText {
 	@Test

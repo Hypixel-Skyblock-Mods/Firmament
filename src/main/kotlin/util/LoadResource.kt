@@ -1,14 +1,14 @@
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.io.InputStream
 import kotlin.io.path.inputStream
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.repo.RepoDownloadManager
+import moe.nea.firmod.repo.RepoDownloadManager
 
 
-fun Identifier.openFirmamentResource(): InputStream {
+fun Identifier.openFirmodResource(): InputStream {
     val resource = MC.resourceManager.getResource(this).getOrNull()
     if (resource == null) {
         if (namespace == "neurepo")

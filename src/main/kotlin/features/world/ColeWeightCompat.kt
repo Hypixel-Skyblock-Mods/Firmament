@@ -1,17 +1,17 @@
-package moe.nea.firmament.features.world
+package moe.nea.firmod.features.world
 
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.core.BlockPos
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.DefaultSource
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.util.ClipboardUtils
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.DefaultSource
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.util.ClipboardUtils
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.tr
 
 object ColeWeightCompat {
 	@Serializable
@@ -55,7 +55,7 @@ object ColeWeightCompat {
 			return
 		}
 		val data =
-			Firmament.tightJson.encodeToString<List<ColeWeightWaypoint>>(waypoints)
+			Firmod.tightJson.encodeToString<List<ColeWeightWaypoint>>(waypoints)
 		ClipboardUtils.setTextContent(data)
 		source.sendFeedback(positiveFeedback(waypoints.size))
 	}
@@ -69,9 +69,9 @@ object ColeWeightCompat {
 		val wr = tryParse(text).map { intoFirm(it, pos ?: BlockPos.ZERO) }
 		val waypoints = wr.getOrElse {
 			source.sendError(
-				tr("firmament.command.waypoint.import.cw.error",
+				tr("firmod.command.waypoint.import.cw.error",
 				   "Could not import ColeWeight waypoints."))
-			Firmament.logger.error(it)
+			Firmod.logger.error(it)
 			return
 		}
 		waypoints.lastRelativeImport = pos
@@ -85,7 +85,7 @@ object ColeWeightCompat {
 			thenLiteral("exportcw") {
 				thenExecute {
 					copyAndInform(source, BlockPos.ZERO) {
-						tr("firmament.command.waypoint.export.cw",
+						tr("firmod.command.waypoint.export.cw",
 						   "Copied $it waypoints to clipboard in ColeWeight format.")
 					}
 				}
@@ -93,7 +93,7 @@ object ColeWeightCompat {
 			thenLiteral("exportrelativecw") {
 				thenExecute {
 					copyAndInform(source, MC.player?.blockPosition() ?: BlockPos.ZERO) {
-						tr("firmament.command.waypoint.export.cw.relative",
+						tr("firmod.command.waypoint.export.cw.relative",
 						   "Copied $it relative waypoints to clipboard in ColeWeight format. Make sure to stand in the same position when importing.")
 					}
 				}
@@ -101,7 +101,7 @@ object ColeWeightCompat {
 			thenLiteral("importcw") {
 				thenExecute {
 					importAndInform(source, null) {
-						tr("firmament.command.waypoint.import.cw.success",
+						tr("firmod.command.waypoint.import.cw.success",
 							"Imported $it waypoints from ColeWeight.")
 					}
 				}
@@ -109,7 +109,7 @@ object ColeWeightCompat {
 			thenLiteral("importrelativecw") {
 				thenExecute {
 					importAndInform(source, MC.player!!.blockPosition()) {
-						tr("firmament.command.waypoint.import.cw.relative",
+						tr("firmod.command.waypoint.import.cw.relative",
 						   "Imported $it relative waypoints from clipboard. Make sure you stand in the same position as when you exported these waypoints for them to line up correctly.")
 					}
 				}
@@ -119,7 +119,7 @@ object ColeWeightCompat {
 
 	fun tryParse(string: String): Result<List<ColeWeightWaypoint>> {
 		return runCatching {
-			Firmament.tightJson.decodeFromString<List<ColeWeightWaypoint>>(string)
+			Firmod.tightJson.decodeFromString<List<ColeWeightWaypoint>>(string)
 		}
 	}
 }

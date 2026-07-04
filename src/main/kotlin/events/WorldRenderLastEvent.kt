@@ -1,4 +1,4 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.renderer.MultiBufferSource
 import com.mojang.blaze3d.vertex.PoseStack
@@ -12,6 +12,6 @@ data class WorldRenderLastEvent(
 	val tickCounter: Int,
 	val camera: CameraRenderState,
 	val vertexConsumers: MultiBufferSource.BufferSource,
-) : FirmamentEvent() {
-	companion object : FirmamentEventBus<WorldRenderLastEvent>()
+) : FirmodEvent() {
+	companion object : FirmodEventBus<WorldRenderLastEvent>()
 }

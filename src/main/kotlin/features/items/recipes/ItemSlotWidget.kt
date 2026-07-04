@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.items.recipes
+package moe.nea.firmod.features.items.recipes
 
 import java.util.Optional
 import me.shedaniel.math.Dimension
@@ -10,21 +10,21 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
-import moe.nea.firmament.api.v1.FirmamentItemWidget
-import moe.nea.firmament.events.ItemTooltipEvent
-import moe.nea.firmament.keybindings.SavedKeyBinding
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.repo.recipes.RecipeLayouter
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.FirmFormatters.shortFormat
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.darkGrey
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.isEmpty
-import moe.nea.firmament.util.mc.loreAccordingToNbt
+import moe.nea.firmod.api.v1.FirmodItemWidget
+import moe.nea.firmod.events.ItemTooltipEvent
+import moe.nea.firmod.keybindings.SavedKeyBinding
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.repo.recipes.RecipeLayouter
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.FirmFormatters.shortFormat
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.darkGrey
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.isEmpty
+import moe.nea.firmod.util.mc.loreAccordingToNbt
 
 class ItemSlotWidget(
 	point: Point,
@@ -32,7 +32,7 @@ class ItemSlotWidget(
 	val slotKind: RecipeLayouter.SlotKind
 ) : RecipeWidget(),
 	RecipeLayouter.CyclingItemSlot,
-	FirmamentItemWidget {
+	FirmodItemWidget {
 	override var position = point
 	override val size get() = Dimension(16, 16)
 	val itemRect get() = Rectangle(position, Dimension(16, 16))
@@ -129,8 +129,8 @@ class ItemSlotWidget(
 		index = index.coerceIn(content.indices)
 	}
 
-	override fun getPlacement(): FirmamentItemWidget.Placement {
-		return FirmamentItemWidget.Placement.RECIPE_SCREEN
+	override fun getPlacement(): FirmodItemWidget.Placement {
+		return FirmodItemWidget.Placement.RECIPE_SCREEN
 	}
 
 	@OptIn(ExpensiveItemCacheApi::class)

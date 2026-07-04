@@ -1,10 +1,10 @@
-package moe.nea.firmament.features.world
+package moe.nea.firmod.features.world
 
 import io.github.notenoughupdates.moulconfig.observer.ObservableList
 import io.github.notenoughupdates.moulconfig.xml.Bind
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.features.events.anniversity.AnniversaryFeatures.atOnce
-import moe.nea.firmament.keybindings.SavedKeyBinding
+import moe.nea.firmod.features.events.anniversity.AnniversaryFeatures.atOnce
+import moe.nea.firmod.keybindings.SavedKeyBinding
 
 class NpcWaypointGui(
     val allWaypoints: List<NavigableWaypoint>,

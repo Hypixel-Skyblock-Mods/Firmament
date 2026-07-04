@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.debug.itemeditor
+package moe.nea.firmod.features.debug.itemeditor
 
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
@@ -21,39 +21,39 @@ import net.minecraft.world.item.AxeItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.RestArgumentType
-import moe.nea.firmament.commands.get
-import moe.nea.firmament.commands.thenArgument
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.HandledScreenKeyPressedEvent
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.features.debug.DeveloperFeatures
-import moe.nea.firmament.features.debug.ExportedTestConstantMeta
-import moe.nea.firmament.features.debug.PowerUserTools
-import moe.nea.firmament.repo.RepoDownloadManager
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.LegacyTagParser
-import moe.nea.firmament.util.LegacyTagWriter.Companion.toLegacyString
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.focusedItemStack
-import moe.nea.firmament.util.mc.LazyItemStack
-import moe.nea.firmament.util.mc.SNbtFormatter.Companion.toPrettyString
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.isItem
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.mc.setSkullOwner
-import moe.nea.firmament.util.mc.toNbtList
-import moe.nea.firmament.util.render.drawGuiTexture
-import moe.nea.firmament.util.setSkyBlockId
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.RestArgumentType
+import moe.nea.firmod.commands.get
+import moe.nea.firmod.commands.thenArgument
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.HandledScreenKeyPressedEvent
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.features.debug.DeveloperFeatures
+import moe.nea.firmod.features.debug.ExportedTestConstantMeta
+import moe.nea.firmod.features.debug.PowerUserTools
+import moe.nea.firmod.repo.RepoDownloadManager
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.LegacyTagParser
+import moe.nea.firmod.util.LegacyTagWriter.Companion.toLegacyString
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.focusedItemStack
+import moe.nea.firmod.util.mc.LazyItemStack
+import moe.nea.firmod.util.mc.SNbtFormatter.Companion.toPrettyString
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.isItem
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.mc.setSkullOwner
+import moe.nea.firmod.util.mc.toNbtList
+import moe.nea.firmod.util.render.drawGuiTexture
+import moe.nea.firmod.util.setSkyBlockId
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.unformattedString
 
 object ItemExporter {
 
@@ -65,7 +65,7 @@ object ItemExporter {
 		val fileName = json.jsonObject["internalname"]?.jsonPrimitive?.takeIf { it.isString }?.content
 		if (fileName == null) {
 			return tr(
-				"firmament.repoexport.nointernalname",
+				"firmod.repoexport.nointernalname",
 				"Could not find internal name to export for this item (null.json)"
 			)
 		}
@@ -73,7 +73,7 @@ object ItemExporter {
 		itemFile.createParentDirectories()
 		if (itemFile.exists()) {
 			val existing = try {
-				Firmament.json.decodeFromString<JsonObject>(itemFile.readText())
+				Firmod.json.decodeFromString<JsonObject>(itemFile.readText())
 			} catch (ex: Exception) {
 				ex.printStackTrace()
 				JsonObject(mapOf())
@@ -89,7 +89,7 @@ object ItemExporter {
 			}
 			json = JsonObject(mut)
 		}
-		val jsonFormatted = Firmament.twoSpaceJson.encodeToString(json)
+		val jsonFormatted = Firmod.twoSpaceJson.encodeToString(json)
 		itemFile.writeText(jsonFormatted)
 		val overlayFile = RepoDownloadManager.repoSavedLocation.resolve("itemsOverlay")
 			.resolve(ExportedTestConstantMeta.current.dataVersion.toString())
@@ -97,7 +97,7 @@ object ItemExporter {
 		overlayFile.createParentDirectories()
 		overlayFile.writeText(exporter.exportModernSnbt().toPrettyString())
 		return tr(
-			"firmament.repoexport.success",
+			"firmod.repoexport.success",
 			"Exported item to ${itemFile.relativeTo(RepoDownloadManager.repoSavedLocation)}${
 				exporter.warnings.joinToString(
 					""
@@ -118,9 +118,9 @@ object ItemExporter {
 	}
 
 	fun modifyJson(skyblockId: SkyblockId, modify: (JsonObject) -> JsonObject) {
-		val oldJson = Firmament.json.decodeFromString<JsonObject>(pathFor(skyblockId).readText())
+		val oldJson = Firmod.json.decodeFromString<JsonObject>(pathFor(skyblockId).readText())
 		val newJson = modify(oldJson)
-		pathFor(skyblockId).writeText(Firmament.twoSpaceJson.encodeToString(JsonObject(newJson)))
+		pathFor(skyblockId).writeText(Firmod.twoSpaceJson.encodeToString(JsonObject(newJson)))
 	}
 
 	fun appendRecipe(skyblockId: SkyblockId, recipe: JsonObject) {
@@ -160,7 +160,7 @@ object ItemExporter {
 							if (pathFor(itemid).notExists()) {
 								MC.sendChat(
 									tr(
-										"firmament.repo.export.relore.fail",
+										"firmod.repo.export.relore.fail",
 										"Could not find json file to relore for ${itemid}"
 									)
 								)
@@ -168,7 +168,7 @@ object ItemExporter {
 							fixLoreNbtFor(itemid)
 							MC.sendChat(
 								tr(
-									"firmament.repo.export.relore",
+									"firmod.repo.export.relore",
 									"Updated lore / display name for $itemid"
 								)
 							)
@@ -180,11 +180,11 @@ object ItemExporter {
 						var i = 0
 						val chunkSize = 100
 						val items = RepoManager.neuRepo.items.items.keys
-						Firmament.coroutineScope.launch {
+						Firmod.coroutineScope.launch {
 							items.chunked(chunkSize).forEach { key ->
 								MC.sendChat(
 									tr(
-										"firmament.repo.export.relore.progress",
+										"firmod.repo.export.relore.progress",
 										"Updated lore / display for ${i * chunkSize} / ${items.size}."
 									)
 								)
@@ -193,7 +193,7 @@ object ItemExporter {
 									fixLoreNbtFor(SkyblockId(it))
 								}
 							}
-							MC.sendChat(tr("firmament.repo.export.relore.alldone", "All lores updated."))
+							MC.sendChat(tr("firmod.repo.export.relore.alldone", "All lores updated."))
 						}
 					}
 				}
@@ -231,7 +231,7 @@ object ItemExporter {
 		val warn = { reason: String ->
 			MC.sendChat(
 				tr(
-					"firmament.repo.modified.item",
+					"firmod.repo.modified.item",
 					"§cThis Item could be modified ($reason§c), please make sure to export a default item."
 				)
 			)
@@ -274,7 +274,7 @@ object ItemExporter {
 		}
 		if (!isExported)
 			event.context.drawGuiTexture(
-				Firmament.identifier("selected_pet_background"),
+				Firmod.identifier("selected_pet_background"),
 				event.slot.x, event.slot.y, 16, 16,
 			)
 	}
@@ -298,6 +298,6 @@ object ItemExporter {
 			}
 		})
 		MC.sendChat(exportText)
-		MC.sendChat(tr("firmament.repo.export.stub", "Exported a stub item for $skyblockId"))
+		MC.sendChat(tr("firmod.repo.export.stub", "Exported a stub item for $skyblockId"))
 	}
 }

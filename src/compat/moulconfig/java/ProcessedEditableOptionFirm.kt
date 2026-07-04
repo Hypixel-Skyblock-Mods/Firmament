@@ -1,10 +1,10 @@
-package moe.nea.firmament.compat.moulconfig
+package moe.nea.firmod.compat.moulconfig
 
 import io.github.notenoughupdates.moulconfig.Config
 import io.github.notenoughupdates.moulconfig.common.text.StructuredText
 import io.github.notenoughupdates.moulconfig.platform.MoulConfigPlatform
-import moe.nea.firmament.gui.config.ManagedOption
-import moe.nea.firmament.util.ErrorUtil
+import moe.nea.firmod.gui.config.ManagedOption
+import moe.nea.firmod.util.ErrorUtil
 
 abstract class ProcessedEditableOptionFirm<T : Any>(
 	val managedOption: ManagedOption<T>,
@@ -13,7 +13,7 @@ abstract class ProcessedEditableOptionFirm<T : Any>(
 ) : ProcessedOptionFirm(categoryAccordionId, configObject) {
 	val managedConfig = managedOption.element
 	override fun getDebugDeclarationLocation(): String {
-		return "FirmamentOption:${managedConfig.name}:${managedOption.propertyName}"
+		return "FirmodOption:${managedConfig.name}:${managedOption.propertyName}"
 	}
 
 	override fun getName(): StructuredText {

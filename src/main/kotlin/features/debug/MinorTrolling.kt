@@ -1,10 +1,10 @@
 
 
-package moe.nea.firmament.features.debug
+package moe.nea.firmod.features.debug
 
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ModifyChatEvent
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ModifyChatEvent
 
 // In memorian Dulkir
 object MinorTrolling {

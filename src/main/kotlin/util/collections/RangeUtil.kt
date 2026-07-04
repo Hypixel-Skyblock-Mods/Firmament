@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.collections
+package moe.nea.firmod.util.collections
 
 import kotlin.math.floor
 

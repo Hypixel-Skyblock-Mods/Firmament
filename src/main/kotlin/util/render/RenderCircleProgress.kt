@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import com.mojang.blaze3d.vertex.VertexFormat
 import util.render.CustomRenderLayers
@@ -10,10 +10,10 @@ import com.mojang.blaze3d.vertex.ByteBufferBuilder
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.rendertype.RenderType
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.collections.nonNegligibleSubSectionsAlignedWith
-import moe.nea.firmament.util.math.Projections
-import moe.nea.firmament.util.mc.CustomRenderPassHelper
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.collections.nonNegligibleSubSectionsAlignedWith
+import moe.nea.firmod.util.math.Projections
+import moe.nea.firmod.util.mc.CustomRenderPassHelper
 
 object RenderCircleProgress {
 
@@ -114,7 +114,7 @@ object RenderCircleProgress {
 		}
 
 		override fun getTextureLabel(): String {
-			return "Firmament Circle"
+			return "Firmod Circle"
 		}
 	}
 

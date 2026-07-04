@@ -1,10 +1,10 @@
-package moe.nea.firmament.util.compatloader
+package moe.nea.firmod.util.compatloader
 
 import java.util.ServiceLoader
 import net.fabricmc.loader.api.FabricLoader
 import kotlin.reflect.KClass
 import kotlin.streams.asSequence
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 open class CompatLoader<T : Any>(val kClass: Class<T>) {
 	constructor(kClass: KClass<T>) : this(kClass.java)
@@ -18,7 +18,7 @@ open class CompatLoader<T : Any>(val kClass: Class<T>) {
 				runCatching {
 					shouldLoad(provider.type())
 				}.getOrElse {
-					Firmament.logger.error("Could not determine whether to load a ${kClass.name} subclass", it)
+					Firmod.logger.error("Could not determine whether to load a ${kClass.name} subclass", it)
 					false
 				}
 			}
@@ -26,7 +26,7 @@ open class CompatLoader<T : Any>(val kClass: Class<T>) {
 				runCatching {
 					provider.get()
 				}.getOrElse {
-					Firmament.logger.error(
+					Firmod.logger.error(
 						"Could not load desired instance ${provider.type().name} for ${kClass.name}",
 						it)
 					null

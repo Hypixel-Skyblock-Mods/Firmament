@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.events.anniversity
+package moe.nea.firmod.features.events.anniversity
 
 import io.github.notenoughupdates.moulconfig.observer.ObservableList
 import io.github.notenoughupdates.moulconfig.xml.Bind
@@ -7,25 +7,25 @@ import kotlin.time.Duration.Companion.seconds
 import net.minecraft.network.chat.Component
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.animal.pig.Pig
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.EntityInteractionEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.events.TickEvent
-import moe.nea.firmament.events.WorldReadyEvent
-import moe.nea.firmament.gui.hud.MoulConfigHud
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.ItemNameLookup
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SHORT_NUMBER_FORMAT
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.TimeMark
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.parseShortNumber
-import moe.nea.firmament.util.renderingName
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.EntityInteractionEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.events.TickEvent
+import moe.nea.firmod.events.WorldReadyEvent
+import moe.nea.firmod.gui.hud.MoulConfigHud
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.ItemNameLookup
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SHORT_NUMBER_FORMAT
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.TimeMark
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.parseShortNumber
+import moe.nea.firmod.util.renderingName
+import moe.nea.firmod.util.useMatch
 
 object AnniversaryFeatures {
 	val identifier: String

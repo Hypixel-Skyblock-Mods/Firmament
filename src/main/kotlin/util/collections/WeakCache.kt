@@ -1,8 +1,8 @@
-package moe.nea.firmament.util.collections
+package moe.nea.firmod.util.collections
 
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference
-import moe.nea.firmament.features.debug.DebugLogger
+import moe.nea.firmod.features.debug.DebugLogger
 
 /**
  * Cache class that uses [WeakReferences][WeakReference] to only cache values while there is still a life reference to

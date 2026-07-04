@@ -1,9 +1,9 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
-class WorldReadyEvent : FirmamentEvent() {
-	companion object : FirmamentEventBus<WorldReadyEvent>()
-//	class FullyLoaded : FirmamentEvent() {
-//		companion object : FirmamentEventBus<FullyLoaded>() {
+class WorldReadyEvent : FirmodEvent() {
+	companion object : FirmodEventBus<WorldReadyEvent>()
+//	class FullyLoaded : FirmodEvent() {
+//		companion object : FirmodEventBus<FullyLoaded>() {
 //			 TODO: check WorldLoadingState
 //		}
 //	}

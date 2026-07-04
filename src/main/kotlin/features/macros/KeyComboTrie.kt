@@ -1,9 +1,9 @@
-package moe.nea.firmament.features.macros
+package moe.nea.firmod.features.macros
 
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.keybindings.SavedKeyBinding
-import moe.nea.firmament.util.ErrorUtil
+import moe.nea.firmod.keybindings.SavedKeyBinding
+import moe.nea.firmod.util.ErrorUtil
 
 sealed interface KeyComboTrie {
 	val label: Component

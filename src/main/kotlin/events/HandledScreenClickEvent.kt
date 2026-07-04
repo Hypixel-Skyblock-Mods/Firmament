@@ -1,4 +1,4 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 
@@ -6,6 +6,6 @@ data class HandledScreenClickEvent(
 	val screen: AbstractContainerScreen<*>,
 	val mouseX: Double, val mouseY: Double, val button: Int
 ) :
-	FirmamentEvent.Cancellable() {
-	companion object : FirmamentEventBus<HandledScreenClickEvent>()
+	FirmodEvent.Cancellable() {
+	companion object : FirmodEventBus<HandledScreenClickEvent>()
 }

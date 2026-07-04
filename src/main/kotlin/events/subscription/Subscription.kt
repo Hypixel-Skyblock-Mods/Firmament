@@ -1,13 +1,13 @@
 
-package moe.nea.firmament.events.subscription
+package moe.nea.firmod.events.subscription
 
-import moe.nea.firmament.events.FirmamentEvent
-import moe.nea.firmament.events.FirmamentEventBus
+import moe.nea.firmod.events.FirmodEvent
+import moe.nea.firmod.events.FirmodEventBus
 
 
-data class Subscription<T : FirmamentEvent>(
+data class Subscription<T : FirmodEvent>(
     val owner: Any,
     val invoke: (T) -> Unit,
-    val eventBus: FirmamentEventBus<T>,
+    val eventBus: FirmodEventBus<T>,
     val methodName: String,
 )

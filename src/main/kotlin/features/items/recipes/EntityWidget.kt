@@ -1,10 +1,10 @@
-package moe.nea.firmament.features.items.recipes
+package moe.nea.firmod.features.items.recipes
 
 import me.shedaniel.math.Dimension
 import me.shedaniel.math.Point
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.world.entity.LivingEntity
-import moe.nea.firmament.gui.entity.EntityRenderer
+import moe.nea.firmod.gui.entity.EntityRenderer
 
 class EntityWidget(
 	override var position: Point,

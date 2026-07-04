@@ -1,23 +1,23 @@
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HandledScreenKeyPressedEvent
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.HypixelStaticData
-import moe.nea.firmament.repo.ItemCache.asItemStack
-import moe.nea.firmament.repo.ItemCache.isBroken
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.asBazaarStock
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.focusedItemStack
-import moe.nea.firmament.util.mc.LazyItemStack
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.lazy
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SBItemUtil.getSearchName
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HandledScreenKeyPressedEvent
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.HypixelStaticData
+import moe.nea.firmod.repo.ItemCache.asItemStack
+import moe.nea.firmod.repo.ItemCache.isBroken
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.asBazaarStock
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.focusedItemStack
+import moe.nea.firmod.util.mc.LazyItemStack
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.lazy
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SBItemUtil.getSearchName
 
 object ItemHotkeys {
 	@Config

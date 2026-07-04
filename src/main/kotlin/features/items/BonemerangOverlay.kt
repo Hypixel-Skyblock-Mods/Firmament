@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.items
+package moe.nea.firmod.features.items
 
 import me.shedaniel.math.Color
 import org.joml.Vector2i
@@ -7,17 +7,17 @@ import net.minecraft.world.entity.decoration.ArmorStand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.ChatFormatting
 import net.minecraft.world.phys.AABB
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.EntityRenderTintEvent
-import moe.nea.firmament.events.HudRenderEvent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.render.TintedOverlayTexture
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SkyBlockItems
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.EntityRenderTintEvent
+import moe.nea.firmod.events.HudRenderEvent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.render.TintedOverlayTexture
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SkyBlockItems
+import moe.nea.firmod.util.tr
 
 object BonemerangOverlay {
 	val identifier: String
@@ -70,7 +70,7 @@ object BonemerangOverlay {
 			TintedOverlayTexture().setColor(Color.ofOpaque(ChatFormatting.BLUE.color!!))
 		}
 
-		event.renderState.overlayTexture_firmament = tintOverlay
+		event.renderState.overlayTexture_firmod = tintOverlay
 	}
 
 
@@ -86,7 +86,7 @@ object BonemerangOverlay {
 		it.context.text(
 			MC.font, String.format(
 				tr(
-					"firmament.bonemerang-overlay.bonemerang-overlay.display", "Bonemerang Targets: %s"
+					"firmod.bonemerang-overlay.bonemerang-overlay.display", "Bonemerang Targets: %s"
 				).string, entities.size
 			), 0, 0, -1, true
 		)

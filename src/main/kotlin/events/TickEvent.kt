@@ -1,10 +1,10 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
-data class TickEvent(val tickCount: Int) : FirmamentEvent() {
+data class TickEvent(val tickCount: Int) : FirmodEvent() {
 	// TODO: introduce a client / server tick system.
 	//       client ticks should ignore the game state
 	//       server ticks should per-tick count packets received by the server
-    companion object : FirmamentEventBus<TickEvent>()
+    companion object : FirmodEventBus<TickEvent>()
 }

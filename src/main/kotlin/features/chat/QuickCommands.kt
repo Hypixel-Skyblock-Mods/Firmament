@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.chat
+package moe.nea.firmod.features.chat
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -8,20 +8,20 @@ import net.fabricmc.fabric.impl.command.client.ClientCommandInternals
 import net.minecraft.commands.CommandBuildContext
 import net.minecraft.network.protocol.game.ClientboundCommandsPacket
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.DefaultSource
-import moe.nea.firmament.commands.RestArgumentType
-import moe.nea.firmament.commands.get
-import moe.nea.firmament.commands.thenArgument
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.gui.config.ManagedOption
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.grey
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.DefaultSource
+import moe.nea.firmod.commands.RestArgumentType
+import moe.nea.firmod.commands.get
+import moe.nea.firmod.commands.thenArgument
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.gui.config.ManagedOption
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.grey
+import moe.nea.firmod.util.tr
 
 object QuickCommands {
 	val identifier: String
@@ -84,7 +84,7 @@ object QuickCommands {
 		}
 		event.register("dn") {
 			thenExecute {
-				MC.sendChat(tr("firmament.quickwarp.deez-nutz", "Warping to... Deez Nuts!").grey())
+				MC.sendChat(tr("firmod.quickwarp.deez-nutz", "Warping to... Deez Nuts!").grey())
 				MC.sendCommand("warp dhub")
 			}
 		}
@@ -103,11 +103,11 @@ object QuickCommands {
 					}
 					val joinName = getNameForFloor(what.replace(" ", "").lowercase())
 					if (joinName == null) {
-						source.sendFeedback(Component.translatableEscape("firmament.quick-commands.join.unknown", what))
+						source.sendFeedback(Component.translatableEscape("firmod.quick-commands.join.unknown", what))
 					} else {
 						source.sendFeedback(
 							Component.translatableEscape(
-								"firmament.quick-commands.join.success",
+								"firmod.quick-commands.join.success",
 								joinName
 							)
 						)
@@ -116,7 +116,7 @@ object QuickCommands {
 				}
 			}
 			thenExecute {
-				source.sendFeedback(Component.translatable("firmament.quick-commands.join.explain"))
+				source.sendFeedback(Component.translatable("firmod.quick-commands.join.explain"))
 			}
 		}
 	}
@@ -133,7 +133,7 @@ object QuickCommands {
 			if (l !in kuudraLevelNames.indices) {
 				source.sendFeedback(
 					Component.translatableEscape(
-						"firmament.quick-commands.join.unknown-kuudra",
+						"firmod.quick-commands.join.unknown-kuudra",
 						kuudraLevel
 					)
 				)
@@ -158,7 +158,7 @@ object QuickCommands {
 			if (l !in dungeonLevelNames.indices) {
 				source.sendFeedback(
 					Component.translatableEscape(
-						"firmament.quick-commands.join.unknown-catacombs",
+						"firmod.quick-commands.join.unknown-catacombs",
 						kuudraLevel ?: "null"
 					)
 				)

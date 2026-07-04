@@ -1,8 +1,8 @@
-package moe.nea.firmament.util.accessors
+package moe.nea.firmod.util.accessors
 
 import net.minecraft.client.gui.components.ChatComponent
 import net.minecraft.client.multiplayer.chat.GuiMessage
-import moe.nea.firmament.mixins.accessor.AccessorChatHud
+import moe.nea.firmod.mixins.accessor.AccessorChatHud
 
 val ChatComponent.messages: MutableList<GuiMessage>
-	get() = (this as AccessorChatHud).messages_firmament
+	get() = (this as AccessorChatHud).messages_firmod

@@ -1,12 +1,12 @@
 
 
 @file:UseSerializers(SortedMapSerializer::class)
-package moe.nea.firmament.features.inventory.storageoverlay
+package moe.nea.firmod.features.inventory.storageoverlay
 
 import java.util.SortedMap
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
-import moe.nea.firmament.util.SortedMapSerializer
+import moe.nea.firmod.util.SortedMapSerializer
 
 @Serializable
 data class StorageData(

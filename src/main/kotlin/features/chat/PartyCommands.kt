@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.chat
+package moe.nea.firmod.features.chat
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.StringReader
@@ -6,19 +6,19 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.tree.LiteralCommandNode
 import kotlin.time.Duration.Companion.seconds
 import net.minecraft.core.BlockPos
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.CaseInsensitiveLiteralCommandNode
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.PartyMessageReceivedEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.TimeMark
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.CaseInsensitiveLiteralCommandNode
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.PartyMessageReceivedEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.TimeMark
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.useMatch
 
 object PartyCommands {
 
@@ -104,7 +104,7 @@ object PartyCommands {
 		event.subcommand("partycommands") {
 			thenExecute {
 				// TODO: Better help, including descriptions and redirect detection
-				MC.sendChat(tr("firmament.partycommands.help", "Available party commands: ${dispatch.root.children.map { it.name }}. Available prefixes: $commandPrefixes"))
+				MC.sendChat(tr("firmod.partycommands.help", "Available party commands: ${dispatch.root.children.map { it.name }}. Available prefixes: $commandPrefixes"))
 			}
 		}
 	}
@@ -115,7 +115,7 @@ object PartyCommands {
 		if (event.message.firstOrNull() !in commandPrefixes) return
 		if (event.name == MC.playerName && TConfig.ignoreOwnCommands) return
 		if (lastCommand.passedTime() < TConfig.cooldown) {
-			MC.sendChat(tr("firmament.partycommands.cooldown", "Skipping party command. Cooldown not passed."))
+			MC.sendChat(tr("firmod.partycommands.cooldown", "Skipping party command. Cooldown not passed."))
 			return
 		}
 		// TODO: add trust levels
@@ -124,10 +124,10 @@ object PartyCommands {
 			dispatch.execute(StringReader(commandLine), PartyCommandContext(event.name))
 		} catch (ex: Exception) {
 			if (ex is CommandSyntaxException) {
-				MC.sendChat(tr("firmament.partycommands.unknowncommand", "Unknown party command."))
+				MC.sendChat(tr("firmod.partycommands.unknowncommand", "Unknown party command."))
 				return
 			} else {
-				MC.sendChat(tr("firmament.partycommands.unknownerror", "Unknown error during command execution."))
+				MC.sendChat(tr("firmod.partycommands.unknownerror", "Unknown error during command execution."))
 				ErrorUtil.softError("Unknown error during command execution.", ex)
 			}
 		}

@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.mc
+package moe.nea.firmod.util.mc
 
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.world.item.ItemStack
@@ -8,7 +8,7 @@ import net.minecraft.resources.RegistryOps
 import net.minecraft.core.HolderLookup
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStackTemplate
-import moe.nea.firmament.util.MC
+import moe.nea.firmod.util.MC
 
 fun DataComponentMutator.appendLore(args: List<Component>) {
 	if (args.isEmpty()) return

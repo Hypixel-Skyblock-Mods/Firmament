@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo.recipes
+package moe.nea.firmod.repo.recipes
 
 import io.github.moulberry.repo.NEURepository
 import me.shedaniel.math.Rectangle
@@ -7,13 +7,13 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStackTemplate
 import net.minecraft.world.item.Items
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.repo.EssenceRecipeProvider
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.repo.EssenceRecipeProvider
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.tr
 
 object SBEssenceUpgradeRecipeRenderer : GenericRecipeRenderer<EssenceRecipeProvider.EssenceUpgradeRecipe> {
 	override fun render(
@@ -64,8 +64,8 @@ object SBEssenceUpgradeRecipeRenderer : GenericRecipeRenderer<EssenceRecipeProvi
 	}
 
 	override val icon: ItemStackTemplate = ItemStackTemplate(Items.WITHER_SKELETON_SKULL)
-	override val title: Component = tr("firmament.category.essence", "Essence Upgrades")
-	override val identifier: Identifier = Firmament.identifier("essence_upgrade")
+	override val title: Component = tr("firmod.category.essence", "Essence Upgrades")
+	override val identifier: Identifier = Firmod.identifier("essence_upgrade")
 	override fun findAllRecipes(neuRepository: NEURepository): Iterable<EssenceRecipeProvider.EssenceUpgradeRecipe> {
 		return RepoManager.essenceRecipeProvider.recipes
 	}

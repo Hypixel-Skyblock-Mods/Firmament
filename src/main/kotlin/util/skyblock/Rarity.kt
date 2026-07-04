@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -11,13 +11,13 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Style
 import net.minecraft.network.chat.Component
 import net.minecraft.ChatFormatting
-import moe.nea.firmament.util.StringUtil.words
-import moe.nea.firmament.util.collections.lastNotNullOfOrNull
-import moe.nea.firmament.util.mc.DataComponentAccessor
-import moe.nea.firmament.util.mc.DataComponentMutator
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.petData
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.util.StringUtil.words
+import moe.nea.firmod.util.collections.lastNotNullOfOrNull
+import moe.nea.firmod.util.mc.DataComponentAccessor
+import moe.nea.firmod.util.mc.DataComponentMutator
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.petData
+import moe.nea.firmod.util.unformattedString
 
 typealias RepoRarity = io.github.moulberry.repo.data.Rarity
 

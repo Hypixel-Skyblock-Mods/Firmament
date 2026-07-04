@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalSerializationApi::class)
 
-package moe.nea.firmament.gui.config.storage
+package moe.nea.firmod.gui.config.storage
 
 import java.nio.file.Path
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -15,7 +15,7 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.listDirectoryEntries
 import kotlin.io.path.nameWithoutExtension
 import kotlin.io.path.outputStream
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 // TODO: make this class write / read async
 class FirstLevelSplitJsonFolder(
@@ -52,7 +52,7 @@ class FirstLevelSplitJsonFolder(
 		context.logDebug("Loading partial file from $path")
 		return try {
 			path.inputStream().use {
-				path.nameWithoutExtension to Firmament.json.decodeFromStream(JsonElement.serializer(), it)
+				path.nameWithoutExtension to Firmod.json.decodeFromStream(JsonElement.serializer(), it)
 			}
 		} catch (ex: Exception) {
 			context.logError("Could not load file from $path", ex)
@@ -97,7 +97,7 @@ class FirstLevelSplitJsonFolder(
 			val path = folder.resolve("$name.json")
 			context.ensureWritable(path)
 			path.outputStream().use {
-				Firmament.json.encodeToStream(JsonElement.serializer(), element, it)
+				Firmod.json.encodeToStream(JsonElement.serializer(), element, it)
 			}
 			return path
 		} catch (ex: Exception) {

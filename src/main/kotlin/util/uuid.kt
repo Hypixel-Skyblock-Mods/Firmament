@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.math.BigInteger
 import java.util.UUID

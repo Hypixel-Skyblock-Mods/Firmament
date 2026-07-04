@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.collections
+package moe.nea.firmod.util.collections
 
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference

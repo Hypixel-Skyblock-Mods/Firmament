@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.mc
+package moe.nea.firmod.util.mc
 
 import util.mc.FakeInventory
 import net.minecraft.world.item.ItemStack

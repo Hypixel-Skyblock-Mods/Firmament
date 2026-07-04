@@ -1,10 +1,10 @@
-package moe.nea.firmament.gui.config
+package moe.nea.firmod.gui.config
 
 import com.google.auto.service.AutoService
 import net.minecraft.client.gui.screens.Screen
 
-@AutoService(FirmamentConfigScreenProvider::class)
-class BuiltInConfigScreenProvider : FirmamentConfigScreenProvider {
+@AutoService(FirmodConfigScreenProvider::class)
+class BuiltInConfigScreenProvider : FirmodConfigScreenProvider {
     override val key: String
         get() = "builtin"
 

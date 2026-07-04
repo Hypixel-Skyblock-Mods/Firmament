@@ -1,17 +1,17 @@
-package moe.nea.firmament.features.items.recipes
+package moe.nea.firmod.features.items.recipes
 
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.renderer.RenderPipelines
-import moe.nea.firmament.util.mc.CommonTextures
-import moe.nea.firmament.util.render.enableScissorWithTranslation
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.util.mc.CommonTextures
+import moe.nea.firmod.util.render.enableScissorWithTranslation
+import moe.nea.firmod.util.tr
 
 class RecipeScreen(
 	val recipes: List<RenderableRecipe<*>>,
-) : Screen(tr("firmament.recipe.screen", "SkyBlock Recipe")) {
+) : Screen(tr("firmod.recipe.screen", "SkyBlock Recipe")) {
 
 	data class PlacedRecipe(
 		val bounds: Rectangle,

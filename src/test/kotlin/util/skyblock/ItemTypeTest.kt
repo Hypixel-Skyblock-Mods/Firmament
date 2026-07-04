@@ -1,10 +1,10 @@
-package moe.nea.firmament.test.util.skyblock
+package moe.nea.firmod.test.util.skyblock
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.TestFactory
-import moe.nea.firmament.test.testutil.ItemResources
-import moe.nea.firmament.util.skyblock.ItemType
+import moe.nea.firmod.test.testutil.ItemResources
+import moe.nea.firmod.util.skyblock.ItemType
 
 class ItemTypeTest {
 	@TestFactory

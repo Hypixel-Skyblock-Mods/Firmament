@@ -1,25 +1,25 @@
 // Current Issues: The repo is outdated and does not support maxLevel yet
 // Check status at https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO/issues/2311
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
 import org.lwjgl.glfw.GLFW
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ItemTooltipEvent
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.extraAttributes
-import moe.nea.firmament.util.skyblock.ItemType
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.darkGrey
-import moe.nea.firmament.util.removeColorCodes
-import moe.nea.firmament.util.unformattedString
-import moe.nea.firmament.util.IntUtil.toRomanNumeral
-import moe.nea.firmament.util.grey
-import moe.nea.firmament.util.mc.accessor
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ItemTooltipEvent
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.extraAttributes
+import moe.nea.firmod.util.skyblock.ItemType
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.darkGrey
+import moe.nea.firmod.util.removeColorCodes
+import moe.nea.firmod.util.unformattedString
+import moe.nea.firmod.util.IntUtil.toRomanNumeral
+import moe.nea.firmod.util.grey
+import moe.nea.firmod.util.mc.accessor
 
 object MissingEnchantments {
 	fun itemTypeToEnchantKey(itemType: ItemType): String {

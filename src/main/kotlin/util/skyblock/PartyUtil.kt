@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
 import java.util.UUID
 import net.hypixel.modapi.HypixelModAPI
@@ -8,30 +8,30 @@ import net.hypixel.modapi.packet.impl.serverbound.ServerboundPartyInfoPacket
 import org.intellij.lang.annotations.Language
 import kotlinx.coroutines.launch
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.apis.Routes
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.events.WorldReadyEvent
-import moe.nea.firmament.features.debug.DeveloperFeatures
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.bold
-import moe.nea.firmament.util.boolColour
-import moe.nea.firmament.util.grey
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.apis.Routes
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.events.WorldReadyEvent
+import moe.nea.firmod.features.debug.DeveloperFeatures
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.bold
+import moe.nea.firmod.util.boolColour
+import moe.nea.firmod.util.grey
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.useMatch
 
 object PartyUtil {
 	object Internal {
 		val hma = HypixelModAPI.getInstance()
 
 		val handler = hma.createHandler(ClientboundPartyInfoPacket::class.java) { clientboundPartyInfoPacket ->
-			Firmament.coroutineScope.launch {
+			Firmod.coroutineScope.launch {
 				party = Party(clientboundPartyInfoPacket.memberMap.values.map {
 					PartyMember.fromUuid(it.uuid, it.role)
 				})
@@ -50,29 +50,29 @@ object PartyUtil {
 					thenLiteral("refresh") {
 						thenExecute {
 							sendSyncPacket()
-							source.sendFeedback(tr("firmament.dev.partyinfo.refresh", "Refreshing party info"))
+							source.sendFeedback(tr("firmod.dev.partyinfo.refresh", "Refreshing party info"))
 						}
 					}
 					thenExecute {
 						val p = party
 						val text = Component.empty()
 						text.append(
-							tr("firmament.dev.partyinfo", "Party Info: ")
+							tr("firmod.dev.partyinfo", "Party Info: ")
 								.boolColour(p != null)
 						)
 						if (p == null) {
-							text.append(tr("firmament.dev.partyinfo.empty", "Empty Party").grey())
+							text.append(tr("firmod.dev.partyinfo.empty", "Empty Party").grey())
 						} else {
-							text.append(tr("firmament.dev.partyinfo.count", "${p.members.size} members").grey())
+							text.append(tr("firmod.dev.partyinfo.count", "${p.members.size} members").grey())
 							p.members.forEach {
 								text.append("\n")
 									.append(Component.literal(" - ${it.name}"))
 									.append(" (")
 									.append(
 										when (it.role) {
-											PartyRole.LEADER -> tr("firmament.dev.partyinfo.leader", "Leader").bold()
-											PartyRole.MOD -> tr("firmament.dev.partyinfo.mod", "Moderator")
-											PartyRole.MEMBER -> tr("firmament.dev.partyinfo.member", "Member")
+											PartyRole.LEADER -> tr("firmod.dev.partyinfo.leader", "Leader").bold()
+											PartyRole.MOD -> tr("firmod.dev.partyinfo.mod", "Moderator")
+											PartyRole.MEMBER -> tr("firmod.dev.partyinfo.member", "Member")
 										}
 									)
 									.append(")")
