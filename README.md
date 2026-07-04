@@ -4,6 +4,8 @@ SPDX-FileCopyrightText: 2023 Linnea Gräf <nea@nea.moe>
 SPDX-License-Identifier: CC0-1.0
 -->
 
+> This is a version of Firmament/Firmod with the mod announcing feature removed.
+> The removed feature sent a list of installed Fabric mods and their versions to Hypixel when joining the server.
 
 
 <div align="center">
