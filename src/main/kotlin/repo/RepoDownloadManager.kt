@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo
+package moe.nea.firmod.repo
 
 import java.io.IOException
 import java.nio.file.Files
@@ -16,17 +16,17 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 import kotlin.io.path.readText
 import kotlin.io.path.writeText
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.Firmament.logger
-import moe.nea.firmament.repo.RepoDownloadManager.latestSavedVersionHash
-import moe.nea.firmament.util.iterate
-import moe.nea.firmament.util.net.HttpUtil
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.Firmod.logger
+import moe.nea.firmod.repo.RepoDownloadManager.latestSavedVersionHash
+import moe.nea.firmod.util.iterate
+import moe.nea.firmod.util.net.HttpUtil
 
 
 object RepoDownloadManager {
 
-	val repoSavedLocation = Firmament.DATA_DIR.resolve("repo-extracted")
-	val repoMetadataLocation = Firmament.DATA_DIR.resolve("loaded-repo-sha.txt")
+	val repoSavedLocation = Firmod.DATA_DIR.resolve("repo-extracted")
+	val repoMetadataLocation = Firmod.DATA_DIR.resolve("loaded-repo-sha.txt")
 
 	private fun loadSavedVersionHash(): String? =
 		if (repoSavedLocation.exists()) {
@@ -65,7 +65,7 @@ object RepoDownloadManager {
 
 	private suspend fun downloadGithubArchive(url: String): Path = withContext(IO) {
 		val response = HttpUtil.request(url)
-		val targetFile = Files.createTempFile("firmament-repo", ".zip")
+		val targetFile = Files.createTempFile("firmod-repo", ".zip")
 		Files.newOutputStream(targetFile, StandardOpenOption.CREATE, StandardOpenOption.WRITE)
 			.use { outputStream ->
 				response.forInputStream().await().use { inputStream ->
@@ -116,8 +116,8 @@ object RepoDownloadManager {
 						entry.name.substringAfter('/', missingDelimiterValue = "")
 					)
 				if (repoSavedLocation !in extractedLocation.iterate { it.parent }) {
-					logger.error("Firmament detected an invalid zip file. This is a potential security risk, please report this in the Firmament discord.")
-					throw RuntimeException("Firmament detected an invalid zip file. This is a potential security risk, please report this in the Firmament discord.")
+					logger.error("Firmod detected an invalid zip file. This is a potential security risk, please report this in the Firmod discord.")
+					throw RuntimeException("Firmod detected an invalid zip file. This is a potential security risk, please report this in the Firmod discord.")
 				}
 				extractedLocation.parent.createDirectories()
 				extractedLocation.outputStream().use { cis.copyTo(it) }

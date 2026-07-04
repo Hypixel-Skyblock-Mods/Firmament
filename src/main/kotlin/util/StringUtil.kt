@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 object StringUtil {
 	fun String.words(): Sequence<String> {

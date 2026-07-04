@@ -1,11 +1,11 @@
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.world.entity.Entity
 
 data class EntityDespawnEvent(
     val entity: Entity?, val entityId: Int,
     val reason: Entity.RemovalReason,
-) : FirmamentEvent() {
-    companion object: FirmamentEventBus<EntityDespawnEvent>()
+) : FirmodEvent() {
+    companion object: FirmodEventBus<EntityDespawnEvent>()
 }

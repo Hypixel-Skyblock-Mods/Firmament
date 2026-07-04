@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.debug.itemeditor
+package moe.nea.firmod.features.debug.itemeditor
 
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
@@ -6,31 +6,31 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import net.minecraft.client.gui.screens.inventory.ContainerScreen
 import net.minecraft.world.entity.decoration.ArmorStand
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HandledScreenKeyPressedEvent
-import moe.nea.firmament.events.WorldKeyboardEvent
-import moe.nea.firmament.features.debug.PowerUserTools
-import moe.nea.firmament.repo.ItemNameLookup
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.SHORT_NUMBER_FORMAT
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.async.waitForTextInput
-import moe.nea.firmament.util.ifDropLast
-import moe.nea.firmament.util.mc.ScreenUtil.getSlotByIndex
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.isEmpty
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.parseShortNumber
-import moe.nea.firmament.util.red
-import moe.nea.firmament.util.removeColorCodes
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SkyBlockItems
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.unformattedString
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HandledScreenKeyPressedEvent
+import moe.nea.firmod.events.WorldKeyboardEvent
+import moe.nea.firmod.features.debug.PowerUserTools
+import moe.nea.firmod.repo.ItemNameLookup
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.SHORT_NUMBER_FORMAT
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.async.waitForTextInput
+import moe.nea.firmod.util.ifDropLast
+import moe.nea.firmod.util.mc.ScreenUtil.getSlotByIndex
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.isEmpty
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.parseShortNumber
+import moe.nea.firmod.util.red
+import moe.nea.firmod.util.removeColorCodes
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SkyBlockItems
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.unformattedString
+import moe.nea.firmod.util.useMatch
 
 object ExportRecipe {
 
@@ -54,10 +54,10 @@ object ExportRecipe {
 		}
 		val entity = MC.instance.crosshairPickEntity
 		if (entity == null) {
-			MC.sendChat(tr("firmament.repo.export.npc.noentity", "Could not find entity to export"))
+			MC.sendChat(tr("firmod.repo.export.npc.noentity", "Could not find entity to export"))
 			return
 		}
-		Firmament.coroutineScope.launch {
+		Firmod.coroutineScope.launch {
 			val guessName = entity.level.getEntitiesOfClass(
 				ArmorStand::class.java,
 				entity.boundingBox.inflate(0.1),
@@ -108,7 +108,7 @@ object ExportRecipe {
 				)
 			)
 			ItemExporter.appendRecipe(output.skyBlockId!!, recipe)
-			MC.sendChat(tr("firmament.repo.export.recipe", "Recipe for ${output.skyBlockId} exported."))
+			MC.sendChat(tr("firmod.repo.export.recipe", "Recipe for ${output.skyBlockId} exported."))
 			return
 		} else if (sellSlot?.displayNameAccordingToNbt?.string == "Sell Item" || (sellSlot?.loreAccordingToNbt
 				?: listOf()).any { it.string == "Click to buyback!" } || title.endsWith("Shop")
@@ -136,7 +136,7 @@ object ExportRecipe {
 					if (line == null) {
 						MC.sendChat(
 							tr(
-								"firmament.repo.itemshop.fail",
+								"firmod.repo.itemshop.fail",
 								"Could not parse cost item ${lineText} for ${item.displayNameAccordingToNbt}"
 							).red()
 						)
@@ -155,9 +155,9 @@ object ExportRecipe {
 					)
 				)
 			}
-			MC.sendChat(tr("firmament.repo.export.itemshop", "Item Shop export for ${title} complete."))
+			MC.sendChat(tr("firmod.repo.export.itemshop", "Item Shop export for ${title} complete."))
 		} else {
-			MC.sendChat(tr("firmament.repo.export.recipe.fail", "No Recipe found"))
+			MC.sendChat(tr("firmod.repo.export.recipe.fail", "No Recipe found"))
 		}
 	}
 

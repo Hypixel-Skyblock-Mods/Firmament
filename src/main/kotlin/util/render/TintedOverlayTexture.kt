@@ -1,9 +1,9 @@
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import me.shedaniel.math.Color
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.util.ARGB
-import moe.nea.firmament.util.ErrorUtil
+import moe.nea.firmod.util.ErrorUtil
 
 class TintedOverlayTexture : OverlayTexture() {
 	companion object {

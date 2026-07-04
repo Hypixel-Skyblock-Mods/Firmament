@@ -52,13 +52,13 @@ jobs:
       - name: Prepare artifact
         run: |
           rm -f build/libs/*sources*.jar build/libs/*-api*.jar
-          sha256sum build/libs/Firmament-*.jar
+          sha256sum build/libs/Firmod-*.jar
 
       - name: Upload Fabric 26.1.2 artifact
         uses: actions/upload-artifact@v5
         with:
-          name: firmament-fabric-26.1.2
-          path: build/libs/Firmament-*.jar
+          name: firmod-fabric-26.1.2
+          path: build/libs/Firmod-*.jar
           if-no-files-found: error
 
   release:
@@ -73,7 +73,7 @@ jobs:
       - name: Download Fabric 26.1.2 artifact
         uses: actions/download-artifact@v5
         with:
-          name: firmament-fabric-26.1.2
+          name: firmod-fabric-26.1.2
 
       - name: Create GitHub release
         id: release
@@ -87,7 +87,7 @@ jobs:
           gh release create "$tag" *.jar \
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
-            --title "Firmament 26.1.2 ${RUN_NUMBER}" \
+            --title "Firmod 26.1.2 ${RUN_NUMBER}" \
             --notes-file CHANGELOG.md
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
@@ -105,7 +105,7 @@ jobs:
       - name: Download Fabric 26.1.2 artifact
         uses: actions/download-artifact@v5
         with:
-          name: firmament-fabric-26.1.2
+          name: firmod-fabric-26.1.2
 
       - name: Write changelog
         run: printf '%s' "$CHANGELOG" > CHANGELOG.md

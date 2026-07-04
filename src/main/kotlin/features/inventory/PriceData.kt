@@ -1,23 +1,23 @@
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
 import org.lwjgl.glfw.GLFW
 import net.minecraft.network.chat.Component
 import net.minecraft.util.StringRepresentable
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ItemTooltipEvent
-import moe.nea.firmament.repo.HypixelStaticData
-import moe.nea.firmament.util.FirmFormatters.formatCommas
-import moe.nea.firmament.util.asBazaarStock
-import moe.nea.firmament.util.bold
-import moe.nea.firmament.util.darkGrey
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.getLogicalStackSize
-import moe.nea.firmament.util.gold
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.yellow
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ItemTooltipEvent
+import moe.nea.firmod.repo.HypixelStaticData
+import moe.nea.firmod.util.FirmFormatters.formatCommas
+import moe.nea.firmod.util.asBazaarStock
+import moe.nea.firmod.util.bold
+import moe.nea.firmod.util.darkGrey
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.getLogicalStackSize
+import moe.nea.firmod.util.gold
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.yellow
 
 object PriceData {
 	val identifier: String
@@ -84,10 +84,10 @@ object PriceData {
 		val multiplier = if (isShowingStack) stackSize else 1
 		val multiplierText =
 			if (isShowingStack)
-				tr("firmament.tooltip.multiply", "Showing prices for x${stackSize}").darkGrey()
+				tr("firmod.tooltip.multiply", "Showing prices for x${stackSize}").darkGrey()
 			else
 				tr(
-					"firmament.tooltip.multiply.hint",
+					"firmod.tooltip.multiply.hint",
 					"[${TConfig.stackSizeKey.format()}] to show x${stackSize}"
 				).darkGrey()
 		val bazaarData = HypixelStaticData.bazaarData[sbId?.asBazaarStock]
@@ -105,13 +105,13 @@ object PriceData {
 				BazaarPriceType.ORDERPRICES -> {
 					it.lines.add(
 						formatPrice(
-							tr("firmament.tooltip.bazaar.buy-order", "Bazaar Buy Order"),
+							tr("firmod.tooltip.bazaar.buy-order", "Bazaar Buy Order"),
 							bazaarData.quickStatus.sellPrice * multiplier
 						)
 					)
 					it.lines.add(
 						formatPrice(
-							tr("firmament.tooltip.bazaar.sell-order", "Bazaar Sell Order"),
+							tr("firmod.tooltip.bazaar.sell-order", "Bazaar Sell Order"),
 							bazaarData.quickStatus.buyPrice * multiplier
 						)
 					)
@@ -119,13 +119,13 @@ object PriceData {
 				BazaarPriceType.INSTANTPRICES -> {
 					it.lines.add(
 						formatPrice(
-							tr("firmament.tooltip.bazaar.instant-buy", "Bazaar Instant Buy"),
+							tr("firmod.tooltip.bazaar.instant-buy", "Bazaar Instant Buy"),
 							bazaarData.quickStatus.buyPrice * multiplier
 						)
 					)
 					it.lines.add(
 						formatPrice(
-							tr("firmament.tooltip.bazaar.instant-sell", "Bazaar Instant Sell"),
+							tr("firmod.tooltip.bazaar.instant-sell", "Bazaar Instant Sell"),
 							bazaarData.quickStatus.sellPrice * multiplier
 						)
 					)
@@ -137,14 +137,14 @@ object PriceData {
 			if (stackSize > 1) { it.lines.add(multiplierText) }
 			it.lines.add(
 				formatPrice(
-					tr("firmament.tooltip.ah.lowestbin", "Lowest BIN"),
+					tr("firmod.tooltip.ah.lowestbin", "Lowest BIN"),
 					lowestBin * multiplier
 				)
 			)
 			if (avgBinValue != null) {
 				it.lines.add(
 					formatPrice(
-						tr("firmament.tooltip.ah.avg-lowestbin", "AVG Lowest BIN"),
+						tr("firmod.tooltip.ah.avg-lowestbin", "AVG Lowest BIN"),
 						avgBinValue * multiplier
 					)
 				)

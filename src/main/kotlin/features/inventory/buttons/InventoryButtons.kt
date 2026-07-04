@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.inventory.buttons
+package moe.nea.firmod.features.inventory.buttons
 
 import me.shedaniel.math.Rectangle
 import kotlinx.serialization.Serializable
@@ -7,19 +7,19 @@ import kotlin.time.Duration.Companion.seconds
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HandledScreenClickEvent
-import moe.nea.firmament.events.HandledScreenForegroundEvent
-import moe.nea.firmament.events.HandledScreenPushREIEvent
-import moe.nea.firmament.impl.v1.FirmamentAPIImpl
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.ScreenUtil
-import moe.nea.firmament.util.TimeMark
-import moe.nea.firmament.util.accessors.getProperRectangle
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.DataHolder
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.gold
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HandledScreenClickEvent
+import moe.nea.firmod.events.HandledScreenForegroundEvent
+import moe.nea.firmod.events.HandledScreenPushREIEvent
+import moe.nea.firmod.impl.v1.FirmodAPIImpl
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.ScreenUtil
+import moe.nea.firmod.util.TimeMark
+import moe.nea.firmod.util.accessors.getProperRectangle
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.DataHolder
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.gold
 
 object InventoryButtons {
 
@@ -42,7 +42,7 @@ object InventoryButtons {
 
 	fun getValidButtons(screen: AbstractContainerScreen<*>): Sequence<InventoryButton> {
 		if (TConfig.onlyInv && screen !is InventoryScreen) return emptySequence()
-		if (FirmamentAPIImpl.extensions.any { it.shouldHideInventoryButtons(screen) }) {
+		if (FirmodAPIImpl.extensions.any { it.shouldHideInventoryButtons(screen) }) {
 			return emptySequence()
 		}
 		return DConfig.data.buttons.asSequence().filter(InventoryButton::isValid)

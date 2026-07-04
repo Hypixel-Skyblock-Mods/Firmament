@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo.recipes
+package moe.nea.firmod.repo.recipes
 
 import io.github.moulberry.repo.NEURepository
 import io.github.moulberry.repo.data.NEUForgeRecipe
@@ -14,11 +14,11 @@ import net.minecraft.resources.Identifier
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStackTemplate
 import net.minecraft.world.item.Items
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.tr
 
 object SBForgeRecipeRenderer : GenericRecipeRenderer<NEUForgeRecipe> {
 	override fun render(
@@ -30,7 +30,7 @@ object SBForgeRecipeRenderer : GenericRecipeRenderer<NEUForgeRecipe> {
 		val arrow = layouter.createArrow(bounds.minX + 90, bounds.minY + 54 - 18 / 2)
 		val tooltip = Component.empty()
 			.append(Component.translatableEscape(
-				"firmament.recipe.forge.time",
+				"firmod.recipe.forge.time",
 				recipe.duration.seconds,
 			))
 
@@ -80,8 +80,8 @@ object SBForgeRecipeRenderer : GenericRecipeRenderer<NEUForgeRecipe> {
 	}
 
 	override val icon: ItemStackTemplate = ItemStackTemplate(Items.ANVIL)
-	override val title: Component = tr("firmament.category.forge", "Forge Recipes")
-	override val identifier: Identifier = Firmament.identifier("forge_recipe")
+	override val title: Component = tr("firmod.category.forge", "Forge Recipes")
+	override val identifier: Identifier = Firmod.identifier("forge_recipe")
 
 	override fun findAllRecipes(neuRepository: NEURepository): Iterable<NEUForgeRecipe> {
 		// TODO: theres gotta be an index for these tbh.

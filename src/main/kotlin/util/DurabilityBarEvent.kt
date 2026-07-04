@@ -1,14 +1,14 @@
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import me.shedaniel.math.Color
 import net.minecraft.world.item.ItemStack
-import moe.nea.firmament.events.FirmamentEvent
-import moe.nea.firmament.events.FirmamentEventBus
+import moe.nea.firmod.events.FirmodEvent
+import moe.nea.firmod.events.FirmodEventBus
 
 data class DurabilityBarEvent(
     val item: ItemStack,
-) : FirmamentEvent() {
+) : FirmodEvent() {
     data class DurabilityBar(
         val color: Color,
         val percentage: Float,
@@ -16,5 +16,5 @@ data class DurabilityBarEvent(
 
     var barOverride: DurabilityBar? = null
 
-    companion object : FirmamentEventBus<DurabilityBarEvent>()
+    companion object : FirmodEventBus<DurabilityBarEvent>()
 }

@@ -178,7 +178,7 @@ else
 fi)"
 
 echo Building release notes
-echo "**Full Changelog**: <https://github.com/nea89o/Firmament/compare/$oldversion...$comparetag>" > "$releasenotes"
+echo "**Full Changelog**: <https://github.com/nea89o/Firmod/compare/$oldversion...$comparetag>" > "$releasenotes"
 echo >> "$releasenotes"
 git log --pretty='- %s' --grep '[no changelog]' --invert-grep --fixed-strings "$oldversion..$comparetag" | tac >> "$releasenotes"
 echo >> "$releasenotes"
@@ -210,15 +210,15 @@ if [ "$_arg_dry" == off ]; then
 	git push "$REMOTE" "HEAD" "$newversion"
 	if command -v gh; then
         echo Creating github release
-        (set -x; gh release create -t "Firmament $newversion" "$newversion" -F "$releasenotes" "$basedir/build/libs/Firmament-$newversion.jar")
+        (set -x; gh release create -t "Firmod $newversion" "$newversion" -F "$releasenotes" "$basedir/build/libs/Firmod-$newversion.jar")
     else
         echo Could not find github command utility. Opening github releases
-        xdg-open "https://github.com/nea89o/firmament/releases/new"
+        xdg-open "https://github.com/nea89o/firmod/releases/new"
     fi
 fi
 
 echo Opening modrinth releases
-xdg-open "https://modrinth.com/mod/firmament/versions"
+xdg-open "https://modrinth.com/mod/firmod/versions"
 
 echo "Don't forget to upload a discord release as well:"
 

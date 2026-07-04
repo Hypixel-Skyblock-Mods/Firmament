@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.mc
+package moe.nea.firmod.util.mc
 
 import com.mojang.serialization.Codec
 import java.util.*
@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ItemStackTemplate
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.ItemLike
-import moe.nea.firmament.events.ComponentsLoadedEvent
+import moe.nea.firmod.events.ComponentsLoadedEvent
 
 @RequiresOptIn
 annotation class RequiresComponents

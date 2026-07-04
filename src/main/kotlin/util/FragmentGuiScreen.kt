@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import io.github.notenoughupdates.moulconfig.gui.GuiContext
 import me.shedaniel.math.Dimension

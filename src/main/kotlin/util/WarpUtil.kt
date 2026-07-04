@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import io.github.moulberry.repo.constants.Islands
 import io.github.moulberry.repo.constants.Islands.Warp
@@ -8,13 +8,13 @@ import kotlin.math.sqrt
 import kotlin.time.Duration.Companion.seconds
 import net.minecraft.network.chat.Component
 import net.minecraft.core.Position
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ProfileSpecificDataHolder
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ProfileSpecificDataHolder
 
 object WarpUtil {
 	val warps: Sequence<Islands.Warp>
@@ -54,16 +54,16 @@ object WarpUtil {
 	fun teleportToNearestWarp(island: SkyBlockIsland, pos: Position) {
 		val nearestWarp = findNearestWarp(island, pos)
 		if (nearestWarp == null) {
-			MC.sendChat(Component.translatable("firmament.warp-util.no-warp-found", island.userFriendlyName))
+			MC.sendChat(Component.translatable("firmod.warp-util.no-warp-found", island.userFriendlyName))
 			return
 		}
 		if (island == SBData.skyblockLocation
 			&& sqrt(squaredDist(pos, nearestWarp)) > 1.1 * sqrt(squaredDist((MC.player ?: return).position, nearestWarp))
 		) {
-			MC.sendChat(Component.translatable("firmament.warp-util.already-close", nearestWarp.warp))
+			MC.sendChat(Component.translatable("firmod.warp-util.already-close", nearestWarp.warp))
 			return
 		}
-		MC.sendChat(Component.translatable("firmament.warp-util.attempting-to-warp", nearestWarp.warp))
+		MC.sendChat(Component.translatable("firmod.warp-util.attempting-to-warp", nearestWarp.warp))
 		lastWarpAttempt = TimeMark.now()
 		lastAttemptedWarp = nearestWarp.warp
 		MC.sendCommand("warp ${nearestWarp.warp}")
@@ -75,7 +75,7 @@ object WarpUtil {
 			thenExecute {
 				DConfig.data?.excludedWarps?.clear()
 				DConfig.markDirty()
-				source.sendFeedback(Component.translatable("firmament.warp-util.clear-excluded"))
+				source.sendFeedback(Component.translatable("firmod.warp-util.clear-excluded"))
 			}
 		}
 	}
@@ -87,7 +87,7 @@ object WarpUtil {
 			) {
 				DConfig.data?.excludedWarps?.add(lastAttemptedWarp)
 				DConfig.markDirty()
-				MC.sendChat(Component.translatableEscape("firmament.warp-util.mark-excluded", lastAttemptedWarp))
+				MC.sendChat(Component.translatableEscape("firmod.warp-util.mark-excluded", lastAttemptedWarp))
 				lastWarpAttempt = TimeMark.farPast()
 			}
 			if (it.unformattedString.startsWith("You may now fast travel to")) {

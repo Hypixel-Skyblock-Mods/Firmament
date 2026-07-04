@@ -1,5 +1,5 @@
 
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import org.joml.Matrix4f
 import util.render.CustomRenderLayers
@@ -10,9 +10,9 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import net.minecraft.core.BlockPos
 import net.minecraft.util.LightCoordsUtil
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.assertTrueOr
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.assertTrueOr
 
 @RenderContextDSL
 class FacingThePlayerContext(val worldContext: RenderInWorldContext) {

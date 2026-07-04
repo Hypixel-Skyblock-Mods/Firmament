@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import org.joml.Matrix4f
 import org.joml.Vector3f
@@ -14,9 +14,9 @@ import net.minecraft.resources.Identifier
 import net.minecraft.core.BlockPos
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
-import moe.nea.firmament.events.WorldRenderLastEvent
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.MC
+import moe.nea.firmod.events.WorldRenderLastEvent
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.MC
 
 @RenderContextDSL
 class RenderInWorldContext private constructor(

@@ -1,23 +1,23 @@
-package moe.nea.firmament.features.world
+package moe.nea.firmod.features.world
 
 import com.mojang.brigadier.arguments.StringArgumentType
 import kotlinx.serialization.serializer
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.commands.DefaultSource
-import moe.nea.firmament.commands.RestArgumentType
-import moe.nea.firmament.commands.get
-import moe.nea.firmament.commands.suggestsList
-import moe.nea.firmament.commands.thenArgument
-import moe.nea.firmament.commands.thenExecute
-import moe.nea.firmament.commands.thenLiteral
-import moe.nea.firmament.events.CommandEvent
-import moe.nea.firmament.util.ClipboardUtils
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.TemplateUtil
-import moe.nea.firmament.util.data.DataHolder
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.commands.DefaultSource
+import moe.nea.firmod.commands.RestArgumentType
+import moe.nea.firmod.commands.get
+import moe.nea.firmod.commands.suggestsList
+import moe.nea.firmod.commands.thenArgument
+import moe.nea.firmod.commands.thenExecute
+import moe.nea.firmod.commands.thenLiteral
+import moe.nea.firmod.events.CommandEvent
+import moe.nea.firmod.util.ClipboardUtils
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.TemplateUtil
+import moe.nea.firmod.util.data.DataHolder
+import moe.nea.firmod.util.tr
 
 object FirmWaypointManager {
 	object DConfig : DataHolder<MutableMap<String, FirmWaypoints>>(serializer(), "waypoints", ::mutableMapOf)
@@ -58,10 +58,10 @@ object FirmWaypointManager {
 				)
 			}
 			copy.lastRelativeImport = origin.immutable()
-			sendFeedback(tr("firmament.command.waypoint.import.ordered.success",
+			sendFeedback(tr("firmod.command.waypoint.import.ordered.success",
 			                "Imported ${copy.size} relative waypoints. Make sure you stand in the correct spot while loading the waypoints: ${copy.isRelativeTo}."))
 		} else {
-			sendFeedback(tr("firmament.command.waypoint.import.success",
+			sendFeedback(tr("firmod.command.waypoint.import.success",
 			                "Imported ${copy.size} waypoints."))
 		}
 		Waypoints.waypoints = copy
@@ -72,7 +72,7 @@ object FirmWaypointManager {
 		waypoints.isRelativeTo = text ?: waypoints.isRelativeTo ?: ""
 		val pos = MC.player!!.blockPosition()
 		waypoints.lastRelativeImport = pos
-		source.sendFeedback(tr("firmament.command.waypoint.originset",
+		source.sendFeedback(tr("firmod.command.waypoint.originset",
 		                       "Set the origin of waypoints to ${FirmFormatters.formatPosition(pos)}. Run /firm waypoints export to save the waypoints relative to this position."))
 	}
 
@@ -94,7 +94,7 @@ object FirmWaypointManager {
 					val waypoints = Waypoints.useEditableWaypoints()
 					waypoints.lastRelativeImport = null
 					waypoints.isRelativeTo = null
-					source.sendFeedback(tr("firmament.command.waypoint.originunset",
+					source.sendFeedback(tr("firmod.command.waypoint.originunset",
 					                       "Unset the origin of the waypoints. Run /firm waypoints export to save the waypoints with absolute coordinates."))
 				}
 			}
@@ -111,7 +111,7 @@ object FirmWaypointManager {
 						val exportableWaypoints = createExportableCopy(waypoints)
 						DConfig.data[get(name)] = exportableWaypoints
 						DConfig.markDirty()
-						source.sendFeedback(tr("firmament.command.waypoint.saved",
+						source.sendFeedback(tr("firmod.command.waypoint.saved",
 						                       "Saved waypoints locally as ${get(name)}. Use /firm waypoints load to load them again."))
 					}
 				}
@@ -124,7 +124,7 @@ object FirmWaypointManager {
 						val waypoints = DConfig.data[name]
 						if (waypoints == null) {
 							source.sendError(
-								tr("firmament.command.waypoint.nosaved",
+								tr("firmod.command.waypoint.nosaved",
 								   "No saved waypoint for ${name}. Use tab completion to see available names."))
 							return@thenExecute
 						}
@@ -142,22 +142,22 @@ object FirmWaypointManager {
 					val exportableWaypoints = createExportableCopy(waypoints)
 					val data = TemplateUtil.encodeTemplate(SHARE_PREFIX, exportableWaypoints)
 					ClipboardUtils.setTextContent(data)
-					source.sendFeedback(tr("firmament.command.waypoint.export",
-					                       "Copied ${exportableWaypoints.size} waypoints to clipboard in Firmament format."))
+					source.sendFeedback(tr("firmod.command.waypoint.export",
+					                       "Copied ${exportableWaypoints.size} waypoints to clipboard in Firmod format."))
 				}
 			}
 			thenLiteral("import") {
 				thenExecute {
 					val text = ClipboardUtils.getTextContents()
 					if (text.startsWith("[")) {
-						source.sendError(tr("firmament.command.waypoint.import.lookslikecw",
+						source.sendError(tr("firmod.command.waypoint.import.lookslikecw",
 						                    "The waypoints in your clipboard look like they might be ColeWeight waypoints. If so, use /firm waypoints importcw or /firm waypoints importrelativecw."))
 						return@thenExecute
 					}
 					val waypoints = TemplateUtil.maybeDecodeTemplate<FirmWaypoints>(SHARE_PREFIX, text)
 					if (waypoints == null) {
-						source.sendError(tr("firmament.command.waypoint.import.error",
-						                    "Could not import Firmament waypoints from your clipboard. Make sure they are Firmament compatible waypoints."))
+						source.sendError(tr("firmod.command.waypoint.import.error",
+						                    "Could not import Firmod waypoints from your clipboard. Make sure they are Firmod compatible waypoints."))
 						return@thenExecute
 					}
 					loadWaypoints(waypoints, source::sendFeedback)

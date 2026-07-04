@@ -10,9 +10,9 @@ body:
     -   type: markdown
         attributes:
             value: |
-                Thank you for expressing your interest in a new Firmament feature.
-                Please keep in mind that not every feature is a good fit for Firmament,
-                *especially* if there is already another mod for Firmaments versions
+                Thank you for expressing your interest in a new Firmod feature.
+                Please keep in mind that not every feature is a good fit for Firmod,
+                *especially* if there is already another mod for Firmods versions
                 which covers that feature very well. It doesn't hurt to ask, but please
                 understand that even features I want to implement, might take some time
                 to be fully realized.

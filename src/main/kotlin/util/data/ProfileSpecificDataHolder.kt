@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.data
+package moe.nea.firmod.util.data
 
 import kotlinx.serialization.KSerializer
 

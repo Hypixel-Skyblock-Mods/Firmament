@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.time.ZoneId
 import java.util.UUID
@@ -8,10 +8,10 @@ import net.hypixel.modapi.packet.impl.clientbound.ClientboundHelloPacket
 import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket
 import kotlin.jvm.optionals.getOrNull
 import kotlin.time.Duration.Companion.seconds
-import moe.nea.firmament.events.AllowChatEvent
-import moe.nea.firmament.events.ProcessChatEvent
-import moe.nea.firmament.events.ProfileSwitchEvent
-import moe.nea.firmament.events.SkyblockServerUpdateEvent
+import moe.nea.firmod.events.AllowChatEvent
+import moe.nea.firmod.events.ProcessChatEvent
+import moe.nea.firmod.events.ProfileSwitchEvent
+import moe.nea.firmod.events.SkyblockServerUpdateEvent
 
 object SBData {
 	private val profileRegex = "Profile ID: ([a-z0-9\\-]+)".toRegex()

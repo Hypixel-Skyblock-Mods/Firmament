@@ -1,5 +1,5 @@
 
-package moe.nea.firmament.util.collections
+package moe.nea.firmod.util.collections
 
 fun <T, R> List<T>.lastNotNullOfOrNull(func: (T) -> R?): R? {
     for (i in indices.reversed()) {

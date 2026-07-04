@@ -1,11 +1,11 @@
-package moe.nea.firmament.repo
+package moe.nea.firmod.repo
 
 import io.github.moulberry.repo.IReloadable
 import io.github.moulberry.repo.NEURepository
 import io.github.moulberry.repo.data.NEUNpcShopRecipe
 import io.github.moulberry.repo.data.NEURecipe
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.skyblockId
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.skyblockId
 
 class BetterRepoRecipeCache(vararg val extraProviders: ExtraRecipeProvider) : IReloadable {
 	var usages: Map<SkyblockId, Set<NEURecipe>> = mapOf()

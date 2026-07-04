@@ -1,9 +1,9 @@
-package moe.nea.firmament.util.mc
+package moe.nea.firmod.util.mc
 
 import net.minecraft.world.item.component.CustomData
 import net.minecraft.nbt.Tag
 import net.minecraft.nbt.ListTag
-import moe.nea.firmament.mixins.accessor.AccessorNbtComponent
+import moe.nea.firmod.mixins.accessor.AccessorNbtComponent
 
 fun Iterable<Tag>.toNbtList() = ListTag().also {
 	for (element in this) {
@@ -12,4 +12,4 @@ fun Iterable<Tag>.toNbtList() = ListTag().also {
 }
 
 @Suppress("CAST_NEVER_SUCCEEDS")
-val CustomData.unsafeNbt get() = (this as AccessorNbtComponent).unsafeNbt_firmament
+val CustomData.unsafeNbt get() = (this as AccessorNbtComponent).unsafeNbt_firmod

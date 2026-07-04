@@ -1,10 +1,10 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.gui.screens.Screen
 
-data class ScreenChangeEvent(val old: Screen?, val new: Screen?) : FirmamentEvent.Cancellable() {
+data class ScreenChangeEvent(val old: Screen?, val new: Screen?) : FirmodEvent.Cancellable() {
     var overrideScreen: Screen? = null
-    companion object : FirmamentEventBus<ScreenChangeEvent>()
+    companion object : FirmodEventBus<ScreenChangeEvent>()
 }

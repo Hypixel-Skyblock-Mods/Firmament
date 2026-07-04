@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui
+package moe.nea.firmod.gui
 
 import io.github.notenoughupdates.moulconfig.common.MyResourceLocation
 import io.github.notenoughupdates.moulconfig.gui.GuiComponent
@@ -9,7 +9,7 @@ import me.shedaniel.math.Color
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 class BarComponent(
 	val progress: GetSetter<Double>, val total: GetSetter<Double>,
@@ -41,7 +41,7 @@ class BarComponent(
 	}
 
 	companion object {
-		val resource = Firmament.identifier("textures/gui/bar.png")
+		val resource = Firmod.identifier("textures/gui/bar.png")
 		val left = Texture(resource, 0 / 64F, 0 / 64F, 4 / 64F, 8 / 64F)
 		val middle = Texture(resource, 4 / 64F, 0 / 64F, 8 / 64F, 8 / 64F)
 		val right = Texture(resource, 8 / 64F, 0 / 64F, 12 / 64F, 8 / 64F)

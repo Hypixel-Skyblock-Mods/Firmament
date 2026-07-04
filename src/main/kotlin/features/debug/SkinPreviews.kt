@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.debug
+package moe.nea.firmod.features.debug
 
 import com.mojang.authlib.GameProfile
 import kotlinx.serialization.json.JsonPrimitive
@@ -10,21 +10,21 @@ import net.minecraft.world.item.component.ResolvableProfile
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.phys.Vec3
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.EntityUpdateEvent
-import moe.nea.firmament.events.IsSlotProtectedEvent
-import moe.nea.firmament.util.ClipboardUtils
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.TimeMark
-import moe.nea.firmament.util.extraAttributes
-import moe.nea.firmament.util.json.toJsonArray
-import moe.nea.firmament.util.math.GChainReconciliation.shortenCycle
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.rawSkyBlockId
-import moe.nea.firmament.util.toTicks
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.EntityUpdateEvent
+import moe.nea.firmod.events.IsSlotProtectedEvent
+import moe.nea.firmod.util.ClipboardUtils
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.TimeMark
+import moe.nea.firmod.util.extraAttributes
+import moe.nea.firmod.util.json.toJsonArray
+import moe.nea.firmod.util.math.GChainReconciliation.shortenCycle
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.rawSkyBlockId
+import moe.nea.firmod.util.toTicks
+import moe.nea.firmod.util.tr
 
 
 object SkinPreviews {
@@ -56,7 +56,7 @@ object SkinPreviews {
 				}
 			MC.sendChat(
 				tr(
-					"firmament.dev.skinpreviews.done",
+					"firmod.dev.skinpreviews.done",
 					"Observed a total of ${animation.size} elements, which could be shortened to a cycle of ${shortened.size}. Copying JSON array. Estimated ticks per frame: $tickEstimation."
 				)
 			)
@@ -88,6 +88,6 @@ object SkinPreviews {
 		}
 		animation.clear()
 		isRecording = true
-		MC.sendChat(tr("firmament.dev.skinpreviews.start", "Starting to observe items"))
+		MC.sendChat(tr("firmod.dev.skinpreviews.start", "Starting to observe items"))
 	}
 }

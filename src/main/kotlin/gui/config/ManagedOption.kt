@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.config
+package moe.nea.firmod.gui.config
 
 import io.github.notenoughupdates.moulconfig.observer.GetSetter
 import kotlinx.serialization.json.JsonElement
@@ -6,8 +6,8 @@ import kotlinx.serialization.json.JsonObject
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.data.ManagedConfig
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.data.ManagedConfig
 
 class ManagedOption<T : Any>(
 	val element: ManagedConfig,
@@ -23,9 +23,9 @@ class ManagedOption<T : Any>(
 		return this.value
 	}
 
-	val rawLabelText = "firmament.config.${element.name}.${propertyName}"
+	val rawLabelText = "firmod.config.${element.name}.${propertyName}"
 	val labelText: Component = Component.translatable(rawLabelText)
-	val descriptionTranslationKey = "firmament.config.${element.name}.${propertyName}.description"
+	val descriptionTranslationKey = "firmod.config.${element.name}.${propertyName}.description"
 	val labelDescription: Component = Component.translatable(descriptionTranslationKey)
 
 	var _actualValue: T? = null

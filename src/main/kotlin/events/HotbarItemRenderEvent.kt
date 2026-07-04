@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.DeltaTracker
@@ -12,6 +12,6 @@ data class HotbarItemRenderEvent(
     val x: Int,
     val y: Int,
     val tickDelta: DeltaTracker,
-) : FirmamentEvent() {
-    companion object : FirmamentEventBus<HotbarItemRenderEvent>()
+) : FirmodEvent() {
+    companion object : FirmodEventBus<HotbarItemRenderEvent>()
 }
