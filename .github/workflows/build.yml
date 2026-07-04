@@ -101,6 +101,8 @@ jobs:
     environment:
       name: Modrinth
       url: ${{ steps.mc-publish.outputs.modrinth-url }}
+    env:
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
     steps:
       - name: Download Fabric 26.1.2 artifact
         uses: actions/download-artifact@v5
@@ -112,12 +114,17 @@ jobs:
         env:
           CHANGELOG: ${{ github.event_name == 'release' && github.event.release.body || 'Fabric build for Minecraft 26.1.2.' }}
 
+      - name: Skip Modrinth publish without token
+        if: env.MODRINTH_TOKEN == ''
+        run: echo "MODRINTH_TOKEN is not configured; GitHub release was created, skipping Modrinth publish."
+
       - name: Publish Fabric 26.1.2 to Modrinth
+        if: env.MODRINTH_TOKEN != ''
         id: mc-publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: IJNUBZ2a
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          modrinth-token: ${{ env.MODRINTH_TOKEN }}
           files: "*.jar"
           loaders: fabric
           game-versions: "26.1.2"
