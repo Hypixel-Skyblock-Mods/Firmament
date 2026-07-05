@@ -128,7 +128,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 			.coerceAtLeast(0F)
 	}
 
-	fun getMaxScroll() = lastRenderedInnerHeight.toFloat() - getScrollPanelInner().height
+	fun getMaxScroll() = (lastRenderedInnerHeight.toFloat() - getScrollPanelInner().height).coerceAtLeast(0F)
 
 	val playerInventorySprite = Identifier.parse("firmod:storageoverlay/player_inventory")
 	val upperBackgroundSprite = Identifier.parse("firmod:storageoverlay/upper_background")
@@ -153,6 +153,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 	}
 
 	fun getScrollbarPercentage(): Float {
+		if (getMaxScroll() <= 0F) return 0F
 		return scroll / getMaxScroll()
 	}
 
@@ -343,7 +344,7 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 	override fun mouseDragged(click: MouseButtonEvent, offsetX: Double, offsetY: Double): Boolean {
 		if (knobGrabbed) {
 			val sbRect = getScrollBarRect()
-			val percentage = (click.x - sbRect.getY()) / sbRect.getHeight()
+			val percentage = (click.y - sbRect.getY()) / sbRect.getHeight()
 			scroll = (getMaxScroll() * percentage).toFloat()
 			mouseScrolled(0.0, 0.0, 0.0, 0.0)
 			return true
