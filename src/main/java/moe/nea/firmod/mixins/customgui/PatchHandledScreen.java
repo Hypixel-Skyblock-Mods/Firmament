@@ -121,6 +121,14 @@ public abstract class PatchHandledScreen<T extends AbstractContainerMenu> extend
 		}
 	}
 
+	@Inject(method = "mouseScrolled", at = @At("HEAD"), cancellable = true)
+	public void onMouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount, CallbackInfoReturnable<Boolean> cir) {
+		var override = getCustomGui_Firmod();
+		if (override != null && override.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)) {
+			cir.setReturnValue(true);
+		}
+	}
+
 	@Unique
 	private boolean hasRememberedSlots;
 
