@@ -123,7 +123,10 @@ class StorageOverlayCustom(
 		horizontalAmount: Double,
 		verticalAmount: Double
 	): Boolean {
-		if (screen.focusedItemStack != null && StorageOverlay.TConfig.itemsBlockScrolling)
+		if (!overview.getScrollPanelInner().contains(mouseX, mouseY) &&
+			screen.focusedItemStack != null &&
+			StorageOverlay.TConfig.itemsBlockScrolling
+		)
 			return false
 		return overview.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
 	}
