@@ -11,6 +11,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.SignStyle
 import java.time.temporal.ChronoField
+import java.util.Locale
 import java.util.Optional
 import java.util.UUID
 import kotlinx.serialization.Serializable
@@ -169,7 +170,7 @@ private val timestampFormat = //"10/11/21 3:39 PM"
 		appendValue(ChronoField.MINUTE_OF_HOUR, 2)
 		appendLiteral(" ")
 		appendText(ChronoField.AMPM_OF_DAY)
-	}.toFormatter()
+	}.toFormatter(Locale.ENGLISH)
 val DataComponentAccessor.timestamp
 	get() =
 		extraAttributes.getLong("timestamp").getOrNull()?.let { Instant.ofEpochMilli(it) }
