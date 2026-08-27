@@ -52,7 +52,9 @@ jobs:
       - name: Prepare artifact
         run: |
           rm -f build/libs/*sources*.jar build/libs/*-api*.jar
-          mv build/libs/Firmod-*.jar build/libs/Firmod-nogitversion+mc26.2.jar
+          if [ ! -f build/libs/Firmod-nogitversion+mc26.2.jar ]; then
+            mv build/libs/Firmod-*.jar build/libs/Firmod-nogitversion+mc26.2.jar
+          fi
           sha256sum build/libs/Firmod-nogitversion+mc26.2.jar
 
       - name: Upload Fabric 26.2 artifact
