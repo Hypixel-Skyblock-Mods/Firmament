@@ -1,18 +1,18 @@
-package moe.nea.firmament.util.data
+package moe.nea.firmod.util.data
 
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.gui.config.storage.ConfigStorageClass
-import moe.nea.firmament.gui.config.storage.FirmamentConfigLoader
-import moe.nea.firmament.util.SBData
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.gui.config.storage.ConfigStorageClass
+import moe.nea.firmod.gui.config.storage.FirmodConfigLoader
+import moe.nea.firmod.util.SBData
 
 sealed class IDataHolder<T> {
 	fun markDirty(future: CompletableFuture<Void?>? = null) {
-		FirmamentConfigLoader.markDirty(this, future)
+		FirmodConfigLoader.markDirty(this, future)
 	}
 
 	init {
@@ -53,7 +53,7 @@ open class ProfileKeyedConfig<T>(
 	override fun saveTo(key: UUID): JsonObject {
 		val d = _data!!
 		return buildJsonObject {
-			put(prefix, Firmament.json.encodeToJsonElement(serializer, d[key] ?: return@buildJsonObject))
+			put(prefix, Firmod.json.encodeToJsonElement(serializer, d[key] ?: return@buildJsonObject))
 		}
 	}
 
@@ -66,7 +66,7 @@ open class ProfileKeyedConfig<T>(
 		map[key] =
 			jsonObject[prefix]
 				?.let {
-					Firmament.json.decodeFromJsonElement(serializer, it)
+					Firmod.json.decodeFromJsonElement(serializer, it)
 				} ?: default()
 	}
 
@@ -102,12 +102,12 @@ abstract class GenericConfig<T>(
 
 	override fun saveTo(key: Unit): JsonObject {
 		return buildJsonObject {
-			put(prefix, Firmament.json.encodeToJsonElement(serializer, data))
+			put(prefix, Firmod.json.encodeToJsonElement(serializer, data))
 		}
 	}
 
 	override fun loadFrom(key: Unit, jsonObject: JsonObject) {
-		_data = jsonObject[prefix]?.let { Firmament.json.decodeFromJsonElement(serializer, it) } ?: default()
+		_data = jsonObject[prefix]?.let { Firmod.json.decodeFromJsonElement(serializer, it) } ?: default()
 		onLoad()
 	}
 

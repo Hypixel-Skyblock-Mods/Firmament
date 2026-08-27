@@ -1,14 +1,14 @@
-package moe.nea.firmament.features.misc
+package moe.nea.firmod.features.misc
 
 import org.joml.Vector2i
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HudRenderEvent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HudRenderEvent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.tr
 
 object Hud {
 	val identifier: String
@@ -32,7 +32,7 @@ object Hud {
 			val day = (MC.world?.gameTime ?: 0L) / 24000
 			it.context.text(
 				MC.font,
-				Component.literal(String.format(tr("firmament.config.hud.day-count-hud.display", "Day: %s").string, day)),
+				Component.literal(String.format(tr("firmod.config.hud.day-count-hud.display", "Day: %s").string, day)),
 				36,
 				MC.font.lineHeight,
 				-1,
@@ -47,7 +47,7 @@ object Hud {
 			it.context.text(
 				MC.font, Component.literal(
 					String.format(
-						tr("firmament.config.hud.fps-count-hud.display", "FPS: %s").string, MC.instance.fps
+						tr("firmod.config.hud.fps-count-hud.display", "FPS: %s").string, MC.instance.fps
 					)
 				), 36, MC.font.lineHeight, -1, true
 			)
@@ -64,7 +64,7 @@ object Hud {
 			it.context.text(
 				MC.font, Component.literal(
 					String.format(
-						tr("firmament.config.hud.ping-count-hud.display", "Ping: %s ms").string, ping
+						tr("firmod.config.hud.ping-count-hud.display", "Ping: %s ms").string, ping
 					)
 				), 36, MC.font.lineHeight, -1, true
 			)

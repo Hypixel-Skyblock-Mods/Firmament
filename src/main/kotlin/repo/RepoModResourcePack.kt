@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo
+package moe.nea.firmod.repo
 
 import java.io.InputStream
 import java.nio.file.Files
@@ -25,12 +25,12 @@ import net.minecraft.server.packs.resources.IoSupplier
 import net.minecraft.server.packs.resources.Resource
 import net.minecraft.server.packs.resources.ResourceMetadata
 import net.minecraft.util.FileUtil
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 class RepoModResourcePack(val basePath: Path) : ModPackResources {
 	companion object {
 		fun append(packs: ModPackResourcesSorter) {
-			Firmament.logger.info("Registering mod resource pack")
+			Firmod.logger.info("Registering mod resource pack")
 			packs.addPack(RepoModResourcePack(RepoDownloadManager.repoSavedLocation))
 		}
 
@@ -125,7 +125,7 @@ class RepoModResourcePack(val basePath: Path) : ModPackResources {
 	}
 
 	override fun getFabricModMetadata(): ModMetadata {
-		return FabricLoader.getInstance().getModContainer("firmament")
+		return FabricLoader.getInstance().getModContainer("firmod")
 			.get().metadata
 	}
 

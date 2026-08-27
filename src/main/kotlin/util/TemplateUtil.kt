@@ -1,12 +1,12 @@
 
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.util.Base64
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.serializer
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 object TemplateUtil {
 
@@ -61,7 +61,7 @@ object TemplateUtil {
 
     fun <T> encodeTemplate(sharePrefix: String, data: T, serializer: SerializationStrategy<T>): String {
         require(sharePrefix.endsWith("/"))
-        return intoBase64Encoded(sharePrefix + Firmament.tightJson.encodeToString(serializer, data))
+        return intoBase64Encoded(sharePrefix + Firmod.tightJson.encodeToString(serializer, data))
     }
 
     inline fun <reified T : Any> maybeDecodeTemplate(sharePrefix: String, data: String): T? =
@@ -76,7 +76,7 @@ object TemplateUtil {
         if (!decoded.startsWith(sharePrefix))
             return null
         return try {
-            Firmament.json.decodeFromString<T>(serializer, decoded.substring(sharePrefix.length))
+            Firmod.json.decodeFromString<T>(serializer, decoded.substring(sharePrefix.length))
         } catch (e: Exception) {
             null
         }

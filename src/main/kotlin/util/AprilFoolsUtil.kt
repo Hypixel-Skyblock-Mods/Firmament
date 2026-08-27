@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.time.LocalDateTime
 import java.time.Month

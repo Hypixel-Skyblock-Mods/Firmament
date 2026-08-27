@@ -1,5 +1,5 @@
 
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.textures.FilterMode
@@ -14,10 +14,10 @@ import net.minecraft.resources.Identifier
 import net.minecraft.core.BlockPos
 import net.minecraft.util.CommonColors
 import net.minecraft.util.LightCoordsUtil
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.assertTrueOr
-import moe.nea.firmament.util.center
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.assertTrueOr
+import moe.nea.firmod.util.center
 
 @RenderContextDSL
 class FacingThePlayerContext(val worldContext: RenderInWorldContext) {

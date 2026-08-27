@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import io.github.notenoughupdates.moulconfig.common.IMinecraft
 import io.github.notenoughupdates.moulconfig.common.MyResourceLocation
@@ -28,31 +28,31 @@ import net.minecraft.client.gui.screens.Screen
 import com.mojang.blaze3d.platform.InputConstants
 import me.shedaniel.math.Rectangle
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.gui.BarComponent
-import moe.nea.firmament.gui.FirmButtonComponent
-import moe.nea.firmament.gui.FirmHoverComponent
-import moe.nea.firmament.gui.FixedComponent
-import moe.nea.firmament.gui.ImageComponent
-import moe.nea.firmament.gui.TickComponent
-import moe.nea.firmament.util.render.isUntranslatedGuiDrawContext
+import moe.nea.firmod.gui.BarComponent
+import moe.nea.firmod.gui.FirmButtonComponent
+import moe.nea.firmod.gui.FirmHoverComponent
+import moe.nea.firmod.gui.FixedComponent
+import moe.nea.firmod.gui.ImageComponent
+import moe.nea.firmod.gui.TickComponent
+import moe.nea.firmod.util.render.isUntranslatedGuiDrawContext
 
 object MoulConfigUtils {
 	@JvmStatic
 	fun main(args: Array<out String>) {
 		generateXSD(File("MoulConfig.xsd"), XMLUniverse.MOULCONFIG_XML_NS)
-		generateXSD(File("MoulConfig.Firmament.xsd"), firmUrl)
+		generateXSD(File("MoulConfig.Firmod.xsd"), firmUrl)
 		File("wrapper.xsd").writeText(
 			"""
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:import namespace="http://notenoughupdates.org/moulconfig" schemaLocation="MoulConfig.xsd"/>
-    <xs:import namespace="http://firmament.nea.moe/moulconfig" schemaLocation="MoulConfig.Firmament.xsd"/>
+    <xs:import namespace="http://firmod.nea.moe/moulconfig" schemaLocation="MoulConfig.Firmod.xsd"/>
 </xs:schema>
         """.trimIndent()
 		)
 	}
 
-	val firmUrl = "http://firmament.nea.moe/moulconfig"
+	val firmUrl = "http://firmod.nea.moe/moulconfig"
 	val universe = XMLUniverse.getDefaultUniverse().also { uni ->
 		uni.registerMapper(java.awt.Color::class.java) {
 			if (it.startsWith("#")) {
@@ -344,6 +344,6 @@ object MoulConfigUtils {
 
 
 	fun loadGui(name: String, bindTo: Any): GuiContext {
-		return GuiContext(universe.load(bindTo, MyResourceLocation("firmament", "gui/$name.xml")))
+		return GuiContext(universe.load(bindTo, MyResourceLocation("firmod", "gui/$name.xml")))
 	}
 }

@@ -1,17 +1,17 @@
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
 import io.github.moulberry.repo.data.NEUCraftingRecipe
 import net.minecraft.client.gui.screens.inventory.ContainerScreen
 import net.minecraft.world.item.ItemStack
 import net.minecraft.ChatFormatting
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ScreenChangeEvent
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.skyblockId
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ScreenChangeEvent
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.skyblockId
 
 object CraftingOverlay {
 

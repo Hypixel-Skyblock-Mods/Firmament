@@ -1,14 +1,14 @@
-package moe.nea.firmament.features.inventory
+package moe.nea.firmod.features.inventory
 
 import org.lwjgl.glfw.GLFW
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.skyblock.SBItemUtil.getSearchName
-import moe.nea.firmament.util.useMatch
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.skyblock.SBItemUtil.getSearchName
+import moe.nea.firmod.util.useMatch
 
 object JunkHighlighter {
 	val identifier: String

@@ -1,5 +1,5 @@
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.world.inventory.ContainerInput
 import net.minecraft.world.inventory.Slot
@@ -10,6 +10,6 @@ data class SlotClickEvent(
     val stack: ItemStack,
     val button: Int,
     val actionType: ContainerInput,
-) : FirmamentEvent() {
-    companion object : FirmamentEventBus<SlotClickEvent>()
+) : FirmodEvent() {
+    companion object : FirmodEventBus<SlotClickEvent>()
 }

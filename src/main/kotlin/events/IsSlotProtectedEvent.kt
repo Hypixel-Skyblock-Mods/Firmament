@@ -1,15 +1,15 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.world.inventory.ContainerInput
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.inventory.Slot
-import moe.nea.firmament.features.inventory.SlotLocking
-import moe.nea.firmament.util.CommonSoundEffects
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.grey
-import moe.nea.firmament.util.hover
-import moe.nea.firmament.util.red
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.features.inventory.SlotLocking
+import moe.nea.firmod.util.CommonSoundEffects
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.grey
+import moe.nea.firmod.util.hover
+import moe.nea.firmod.util.red
+import moe.nea.firmod.util.tr
 
 data class IsSlotProtectedEvent(
     val slot: Slot?,
@@ -18,7 +18,7 @@ data class IsSlotProtectedEvent(
     val itemStackOverride: ItemStack?,
     val origin: MoveOrigin,
     var silent: Boolean = false,
-) : FirmamentEvent() {
+) : FirmodEvent() {
 	val itemStack get() = itemStackOverride ?: slot!!.item
 
 	fun protect() {
@@ -42,7 +42,7 @@ data class IsSlotProtectedEvent(
 		;
 	}
 
-	companion object : FirmamentEventBus<IsSlotProtectedEvent>() {
+	companion object : FirmodEventBus<IsSlotProtectedEvent>() {
 		@JvmStatic
 		@JvmOverloads
 		fun shouldBlockInteraction(
@@ -56,13 +56,13 @@ data class IsSlotProtectedEvent(
 			if (event.isProtected && !event.silent) {
 				if (SlotLocking.TConfig.dropMessage) {
 					MC.sendChat(
-						tr("firmament.protectitem", "Firmament protected your item: ${event.itemStack.hoverName}.\n")
+						tr("firmod.protectitem", "Firmod protected your item: ${event.itemStack.hoverName}.\n")
 							.red()
-							.append(tr("firmament.protectitem.hoverhint", "Hover for more info.").grey())
+							.append(tr("firmod.protectitem.hoverhint", "Hover for more info.").grey())
 							.hover(
 								tr(
-									"firmament.protectitem.hint",
-									"To unlock this item use the Lock Slot or Lock Item keybind from Firmament while hovering over this item. If this is a bound slot, you can use disable the Lock Bound Slots setting."
+									"firmod.protectitem.hint",
+									"To unlock this item use the Lock Slot or Lock Item keybind from Firmod while hovering over this item. If this is a bound slot, you can use disable the Lock Bound Slots setting."
 								)
 							)
 					)

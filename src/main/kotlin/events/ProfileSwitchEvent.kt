@@ -1,7 +1,7 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import java.util.UUID
 
-data class ProfileSwitchEvent(val oldProfile: UUID?, val newProfile: UUID?) : FirmamentEvent() {
-	companion object : FirmamentEventBus<ProfileSwitchEvent>()
+data class ProfileSwitchEvent(val oldProfile: UUID?, val newProfile: UUID?) : FirmodEvent() {
+	companion object : FirmodEventBus<ProfileSwitchEvent>()
 }

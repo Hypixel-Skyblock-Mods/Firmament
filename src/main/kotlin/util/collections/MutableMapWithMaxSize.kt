@@ -1,7 +1,7 @@
 
-package moe.nea.firmament.util.collections
+package moe.nea.firmod.util.collections
 
-import moe.nea.firmament.util.IdentityCharacteristics
+import moe.nea.firmod.util.IdentityCharacteristics
 
 fun <K, V> mutableMapWithMaxSize(maxSize: Int): MutableMap<K, V> = object : LinkedHashMap<K, V>() {
     override fun removeEldestEntry(eldest: MutableMap.MutableEntry<K, V>): Boolean {

@@ -4,9 +4,9 @@ SPDX-FileCopyrightText: 2025 Linnea Gräf <nea@nea.moe>
 SPDX-License-Identifier: CC0-1.0
 -->
 
-# Plan for the 2026 Config Renewal of Firmament
+# Plan for the 2026 Config Renewal of Firmod
 
-The current config system in Firmament is not growing at a reasonable pace. Here is a list of my grievances with it:
+The current config system in Firmod is not growing at a reasonable pace. Here is a list of my grievances with it:
 
 - the config files are split, resulting in making migrations between different config files (which might load in
   different order) difficult
@@ -57,7 +57,7 @@ Nota bene: Folders are wholesale ignored.
 
 ### Config folders
 
-Firmament stores all configs and data in the root config folder `./config/firmament`.
+Firmod stores all configs and data in the root config folder `./config/firmod`.
 
 - Any config data is stored as an [`FLSJF`](#firstlevelsplitjsonfolder) in the root config folder
 - Any generic storage data is stored as an [`FLSJF`](#firstlevelsplitjsonfolder) in `${rootConfigFolder}/storage/`.

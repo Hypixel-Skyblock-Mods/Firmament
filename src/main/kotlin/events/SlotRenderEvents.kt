@@ -1,11 +1,11 @@
 
 
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.world.inventory.Slot
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.util.render.drawGuiTexture
+import moe.nea.firmod.util.render.drawGuiTexture
 
 interface SlotRenderEvents {
     val context: GuiGraphicsExtractor
@@ -20,15 +20,15 @@ interface SlotRenderEvents {
 
     data class Before(
         override val context: GuiGraphicsExtractor, override val slot: Slot,
-    ) : FirmamentEvent(),
+    ) : FirmodEvent(),
         SlotRenderEvents {
-        companion object : FirmamentEventBus<Before>()
+        companion object : FirmodEventBus<Before>()
     }
 
     data class After(
         override val context: GuiGraphicsExtractor, override val slot: Slot,
-    ) : FirmamentEvent(),
+    ) : FirmodEvent(),
         SlotRenderEvents {
-        companion object : FirmamentEventBus<After>()
+        companion object : FirmodEventBus<After>()
     }
 }

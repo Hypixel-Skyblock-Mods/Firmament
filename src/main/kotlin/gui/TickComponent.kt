@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui
+package moe.nea.firmod.gui
 
 import io.github.notenoughupdates.moulconfig.gui.GuiComponent
 import io.github.notenoughupdates.moulconfig.gui.GuiImmediateContext

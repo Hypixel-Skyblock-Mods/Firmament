@@ -1,15 +1,15 @@
 
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 object ClipboardUtils {
     fun setTextContent(string: String) {
         try {
             MC.keyboard.clipboard = string.ifEmpty { " " }
         } catch (e: Exception) {
-            Firmament.logger.error("Could not write clipboard", e)
+            Firmod.logger.error("Could not write clipboard", e)
         }
     }
 
@@ -17,7 +17,7 @@ object ClipboardUtils {
         try {
             return MC.keyboard.clipboard ?: ""
         } catch (e: Exception) {
-            Firmament.logger.error("Could not read clipboard", e)
+            Firmod.logger.error("Could not read clipboard", e)
             return ""
         }
     }

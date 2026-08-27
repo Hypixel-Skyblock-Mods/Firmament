@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.gui.config
+package moe.nea.firmod.gui.config
 
 import io.github.notenoughupdates.moulconfig.common.IMinecraft
 import io.github.notenoughupdates.moulconfig.common.text.StructuredText
@@ -15,8 +15,8 @@ import kotlinx.serialization.json.long
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
-import moe.nea.firmament.util.FirmFormatters
-import moe.nea.firmament.util.data.ManagedConfig
+import moe.nea.firmod.util.FirmFormatters
+import moe.nea.firmod.util.data.ManagedConfig
 
 class DurationHandler(val config: ManagedConfig, val min: Duration, val max: Duration) :
     ManagedConfig.OptionHandler<Duration> {

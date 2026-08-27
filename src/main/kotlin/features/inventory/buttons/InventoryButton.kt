@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.inventory.buttons
+package moe.nea.firmod.features.inventory.buttons
 
 import com.mojang.brigadier.StringReader
 import me.shedaniel.math.Dimension
@@ -13,20 +13,20 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.flag.FeatureFlags
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.ItemCache.asItemStack
-import moe.nea.firmament.repo.ItemCache.isBroken
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.util.ErrorUtil
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.collections.memoize
-import moe.nea.firmament.util.mc.LazyItemStack
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.arbitraryUUID
-import moe.nea.firmament.util.mc.createSkullItem
-import moe.nea.firmament.util.mc.lazy
-import moe.nea.firmament.util.render.drawGuiTexture
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.ItemCache.asItemStack
+import moe.nea.firmod.repo.ItemCache.isBroken
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.util.ErrorUtil
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.collections.memoize
+import moe.nea.firmod.util.mc.LazyItemStack
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.arbitraryUUID
+import moe.nea.firmod.util.mc.createSkullItem
+import moe.nea.firmod.util.mc.lazy
+import moe.nea.firmod.util.render.drawGuiTexture
 
 @Serializable
 data class InventoryButton(
@@ -96,7 +96,7 @@ data class InventoryButton(
 	fun render(context: GuiGraphicsExtractor) {
 		context.blitSprite(
 			RenderPipelines.GUI_TEXTURED,
-			Identifier.parse("firmament:inventory_button_background"),
+			Identifier.parse("firmod:inventory_button_background"),
 			0,
 			0,
 			myDimension.width,

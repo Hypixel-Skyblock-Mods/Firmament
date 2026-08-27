@@ -1,6 +1,6 @@
 @file:UseSerializers(DashlessUUIDSerializer::class)
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import com.mojang.serialization.Codec
 import io.github.moulberry.repo.data.NEUIngredient
@@ -27,24 +27,24 @@ import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.component.CustomData
-import moe.nea.firmament.repo.ExpLadders
-import moe.nea.firmament.repo.ExpensiveItemCacheApi
-import moe.nea.firmament.repo.ItemCache.asItemStack
-import moe.nea.firmament.repo.ItemNameLookup
-import moe.nea.firmament.repo.RepoManager
-import moe.nea.firmament.repo.set
-import moe.nea.firmament.util.collections.WeakCache
-import moe.nea.firmament.util.json.DashlessUUIDSerializer
-import moe.nea.firmament.util.mc.CompoundMutationChecker
-import moe.nea.firmament.util.mc.DataComponentAccessor
-import moe.nea.firmament.util.mc.DataComponentMutator
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.defaultItemStack
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.mc.unsafeNbt
-import moe.nea.firmament.util.skyblock.ScreenIdentification
-import moe.nea.firmament.util.skyblock.ScreenType
+import moe.nea.firmod.repo.ExpLadders
+import moe.nea.firmod.repo.ExpensiveItemCacheApi
+import moe.nea.firmod.repo.ItemCache.asItemStack
+import moe.nea.firmod.repo.ItemNameLookup
+import moe.nea.firmod.repo.RepoManager
+import moe.nea.firmod.repo.set
+import moe.nea.firmod.util.collections.WeakCache
+import moe.nea.firmod.util.json.DashlessUUIDSerializer
+import moe.nea.firmod.util.mc.CompoundMutationChecker
+import moe.nea.firmod.util.mc.DataComponentAccessor
+import moe.nea.firmod.util.mc.DataComponentMutator
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.defaultItemStack
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.mc.unsafeNbt
+import moe.nea.firmod.util.skyblock.ScreenIdentification
+import moe.nea.firmod.util.skyblock.ScreenType
 
 /**
  * A SkyBlock item id, as used by the NEU repo.
@@ -210,7 +210,7 @@ fun DataComponentAccessor.getReforgeId(): ReforgeId? {
 val DataComponentAccessor.petData: HypixelPetInfo?
 	get() = petDataCache(this).getOrNull()
 
-fun <T : DataComponentMutator> T.setSkyBlockFirmamentUiId(uiId: String) =
+fun <T : DataComponentMutator> T.setSkyBlockFirmodUiId(uiId: String) =
 	setSkyBlockId(SkyblockId("FIRMAMENT_UI_$uiId"))
 
 fun <T : DataComponentMutator> T.setSkyBlockId(skyblockId: SkyblockId): T {

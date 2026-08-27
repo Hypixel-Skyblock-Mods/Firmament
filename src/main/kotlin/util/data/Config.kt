@@ -1,6 +1,6 @@
-package moe.nea.firmament.util.data
+package moe.nea.firmod.util.data
 
-import moe.nea.firmament.util.compatloader.CompatLoader
+import moe.nea.firmod.util.compatloader.CompatLoader
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)

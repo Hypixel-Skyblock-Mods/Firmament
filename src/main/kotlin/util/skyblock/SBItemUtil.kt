@@ -1,10 +1,10 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
-import moe.nea.firmament.util.mc.DataComponentAccessor
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.renderingName
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.util.mc.DataComponentAccessor
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.renderingName
+import moe.nea.firmod.util.unformattedString
 
 object SBItemUtil {
 	@RequiresComponents

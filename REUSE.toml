@@ -3,54 +3,54 @@
 #SPDX-License-Identifier: CC0-1.0
 
 version = 1
-SPDX-PackageName = "Firmament"
+SPDX-PackageName = "Firmod"
 SPDX-PackageSupplier = "Linnea Gräf <nea@nea.moe>"
-SPDX-PackageDownloadLocation = "https://github.com/nea89o/Firmament"
+SPDX-PackageDownloadLocation = "https://github.com/nea89o/Firmod"
 
 [[annotations]]
 path = ["**/*.kt", "**/*.java"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = ["src/main/resources/**/*.png", "src/main/resources/**/*.mcmeta"]
 SPDX-License-Identifier = "CC-BY-4.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
-path = ["src/main/resources/assets/firmament/shaders/**/*"]
+path = ["src/main/resources/assets/firmod/shaders/**/*"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = "translations/**/*.json"
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = "**/fabric.mod.json"
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
-path = ["src/main/resources/assets/firmament/gui/**/*.xml"]
+path = ["src/main/resources/assets/firmod/gui/**/*.xml"]
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = "**/*.gradle.kts"
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = ["**/META-INF/services/*"]
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = ["src/test/resources/testdata/**/*.snbt"]
 SPDX-License-Identifier = "CC-BY-4.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 [[annotations]]
 path = ["src/main/resources/legacy_data/*.json"]

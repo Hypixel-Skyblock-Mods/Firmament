@@ -1,4 +1,4 @@
-package moe.nea.firmament.keybindings
+package moe.nea.firmod.keybindings
 
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component

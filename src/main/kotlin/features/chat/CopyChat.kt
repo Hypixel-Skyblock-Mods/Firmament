@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.chat
+package moe.nea.firmod.features.chat
 
 import org.joml.Matrix3x2f
 import net.minecraft.client.gui.ActiveTextCollector
@@ -7,10 +7,10 @@ import net.minecraft.client.renderer.state.gui.GuiTextRenderState
 import net.minecraft.network.chat.Component
 import net.minecraft.util.ARGB
 import net.minecraft.util.FormattedCharSequence
-import moe.nea.firmament.util.MC.font
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.reconstitute
+import moe.nea.firmod.util.MC.font
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.reconstitute
 
 
 object CopyChat {

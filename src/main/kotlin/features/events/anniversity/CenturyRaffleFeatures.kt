@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.events.anniversity
+package moe.nea.firmod.features.events.anniversity
 
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -7,16 +7,16 @@ import net.minecraft.network.chat.Style
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.TextColor
 import net.minecraft.util.ARGB
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.EntityRenderTintEvent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.SkyblockId
-import moe.nea.firmament.util.data.Config
-import moe.nea.firmament.util.data.ManagedConfig
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.render.TintedOverlayTexture
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.SkyBlockItems
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.EntityRenderTintEvent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.SkyblockId
+import moe.nea.firmod.util.data.Config
+import moe.nea.firmod.util.data.ManagedConfig
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.render.TintedOverlayTexture
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.SkyBlockItems
 
 object CenturyRaffleFeatures {
 	@Config
@@ -60,7 +60,7 @@ object CenturyRaffleFeatures {
 				else Optional.empty()
 			}, Style.EMPTY).getOrNull() ?: return
 		if (cakeColor.color?.value == requestedCakeTeam.searchedTextRgb) {
-			event.renderState.overlayTexture_firmament = requestedCakeTeam.tintOverlay
+			event.renderState.overlayTexture_firmod = requestedCakeTeam.tintOverlay
 		}
 	}
 

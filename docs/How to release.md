@@ -16,7 +16,7 @@ There is a [GH workflow](../.github/workflows/build.yml) to automate most of the
   - A full tag might look like `44.3.0+mc26.1`.
 - Once the tag is pushed to GitHub (might need to re-push, GitHub is sometimes bad about workflow dispatches), GHA will run a build and create a draft release with [generated changelog](./generate-changelog.sh) and ping you in the confidential dev channel. 
 - At this point you can edit the generated release notes and then push release it.
-- An upload to [Modrinth](https://modrinth.com/mod/firmament/versions) should happen [automatically](../.github/workflows/publish-github-to-modrinth.yml).
+- An upload to [Modrinth](https://modrinth.com/mod/firmod/versions) should happen [automatically](../.github/workflows/publish-github-to-modrinth.yml).
 - Send a message in [Discord](https://discord.com/channels/1088154030628417616/1108565050693783683).
-  - Ping Firmament Notifications (or Greek Notifs for betas). 
+  - Ping Firmod Notifications (or Greek Notifs for betas). 
   - TODO: will people trust it if a bot/webhook writes a message? Maybe, maybe not.

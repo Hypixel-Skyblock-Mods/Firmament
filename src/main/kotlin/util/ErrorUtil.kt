@@ -1,18 +1,18 @@
 @file:OptIn(ExperimentalContracts::class)
 
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import io.github.notenoughupdates.moulconfig.internal.InitUtil
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-import moe.nea.firmament.Firmament
+import moe.nea.firmod.Firmod
 
 @Suppress("NOTHING_TO_INLINE") // Suppressed since i want the logger to not pick up the ErrorUtil stack-frame
 object ErrorUtil {
 	@JvmField
 	val aggressiveErrors = run {
-		TestUtil.isInTest || Firmament.DEBUG
+		TestUtil.isInTest || Firmod.DEBUG
 			|| ErrorUtil::class.java.desiredAssertionStatus()
 	}
 
@@ -35,11 +35,11 @@ object ErrorUtil {
 	}
 
 	fun logError(message: String, exception: Throwable) {
-		Firmament.logger.error(message, exception)
+		Firmod.logger.error(message, exception)
 	}
 
 	fun logError(message: String) {
-		Firmament.logger.error(message)
+		Firmod.logger.error(message)
 	}
 
 	inline fun softError(message: String) {
@@ -99,6 +99,6 @@ object ErrorUtil {
 	fun softUserError(string: String) {
 		if (TestUtil.isInTest)
 			error(string)
-		MC.sendChat(tr("firmament.usererror", "Firmament encountered a user caused error: $string"))
+		MC.sendChat(tr("firmod.usererror", "Firmod encountered a user caused error: $string"))
 	}
 }

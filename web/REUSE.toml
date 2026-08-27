@@ -11,10 +11,10 @@ SPDX-FileCopyrightText = ["Auto Generated"]
 [[annotations]]
 path = ["**/*.md", "**/*.png"]
 SPDX-License-Identifier = "GPL-3.0-or-later"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 [[annotations]]
 path = ["*.json", "*.mjs", ".vitepress/*"]
 SPDX-License-Identifier = "CC0-1.0"
-SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmament Contributors"]
+SPDX-FileCopyrightText = ["Linnea Gräf <nea@nea.moe>", "Firmod Contributors"]
 
 

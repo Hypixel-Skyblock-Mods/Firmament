@@ -1,7 +1,7 @@
 <!--
 
 
-Thank you for considering contributing to Firmament!
+Thank you for considering contributing to Firmod!
 
 While i am grateful for every pull request i receive, i can be quite busy from time to time so reviewing your PR might take some time.
 -->

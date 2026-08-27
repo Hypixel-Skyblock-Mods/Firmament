@@ -1,13 +1,13 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import com.google.auto.service.AutoService
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.world.item.ItemStack
-import moe.nea.firmament.api.v1.FirmamentAPI
-import moe.nea.firmament.mixins.accessor.AccessorHandledScreen
-import moe.nea.firmament.util.compatloader.CompatLoader
+import moe.nea.firmod.api.v1.FirmodAPI
+import moe.nea.firmod.mixins.accessor.AccessorHandledScreen
+import moe.nea.firmod.util.compatloader.CompatLoader
 
 interface HoveredItemStackProvider : Comparable<HoveredItemStackProvider> {
 	fun provideHoveredItemStack(screen: Screen): ItemStack?
@@ -27,7 +27,7 @@ class VanillaScreenProvider : HoveredItemStackProvider {
 
 	override fun provideHoveredItemStack(screen: Screen): ItemStack? {
 		if (screen !is AccessorHandledScreen) return null
-		val vanillaSlot = screen.focusedSlot_Firmament?.item
+		val vanillaSlot = screen.focusedSlot_Firmod?.item
 		return vanillaSlot
 	}
 
@@ -36,9 +36,9 @@ class VanillaScreenProvider : HoveredItemStackProvider {
 }
 
 @AutoService(HoveredItemStackProvider::class)
-class FirmamentStackScreenProvider : HoveredItemStackProvider {
+class FirmodStackScreenProvider : HoveredItemStackProvider {
 	override fun provideHoveredItemStack(screen: Screen): ItemStack? {
-		return FirmamentAPI.getInstance()
+		return FirmodAPI.getInstance()
 			.hoveredItemWidget
 			.getOrNull()
 			?.itemStack

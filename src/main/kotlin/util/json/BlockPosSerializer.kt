@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.json
+package moe.nea.firmod.util.json
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.SerialDescriptor

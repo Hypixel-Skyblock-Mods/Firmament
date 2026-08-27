@@ -1,10 +1,10 @@
 
-package moe.nea.firmament.features.mining
+package moe.nea.firmod.features.mining
 
 import java.util.NavigableMap
 import java.util.TreeMap
 import kotlin.time.Duration
-import moe.nea.firmament.util.TimeMark
+import moe.nea.firmod.util.TimeMark
 
 class Histogram<T>(
     val maxSize: Int,

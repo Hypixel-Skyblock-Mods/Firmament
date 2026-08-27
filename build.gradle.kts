@@ -25,9 +25,9 @@ plugins {
 	alias(libs.plugins.kotlin.plugin.serialization)
 	alias(libs.plugins.kotlin.plugin.powerassert)
 	alias(libs.plugins.kotlin.plugin.ksp)
-	id("firmament.common")
-	id("firmament.loom")
-	id("firmament.license-management")
+	id("firmod.common")
+	id("firmod.loom")
+	id("firmod.license-management")
 	alias(libs.plugins.mcAutoTranslations)
 }
 
@@ -103,7 +103,7 @@ fun createIsolatedSourceSet(
 	afterEvaluate {
 		tasks.named("ksp${upperName}Kotlin", KspAATask::class) {
 			this.commandLineArgumentProviders.add { // TODO: update https://github.com/google/ksp/issues/2075
-				listOf("firmament.sourceset=${ss.name}")
+				listOf("firmod.sourceset=${ss.name}")
 			}
 			if (!enableKsp)
 				this.enabled = false
@@ -184,7 +184,7 @@ val testAgent by configurations.creating {}
 fabricApi.configureTests {
 	createSourceSet.set(true)
 	enableClientGameTests.set(true)
-	modId.set("firmament-gametest")
+	modId.set("firmod-gametest")
 	eula.set(true)
 	username.set("CoolGuy123")
 }
@@ -286,14 +286,14 @@ dependencies {
 }
 
 loom {
-	accessWidenerPath.set(project.file("src/main/resources/firmament.accesswidener"))
+	accessWidenerPath.set(project.file("src/main/resources/firmod.accesswidener"))
 	runs {
 		removeIf { it.name == "server" }
 		configureEach {
 			property("fabric.log.level", "info")
-			property("firmament.debug", "true")
+			property("firmod.debug", "true")
 			property(
-				"firmament.classroots",
+				"firmod.classroots",
 				compatSourceSets.joinToString(File.pathSeparator) {
 					File(it.output.classesDirs.asPath).absolutePath
 				})
@@ -310,7 +310,7 @@ loom {
 		named("client") {
 			property("devauth.enabled", "true")
 			vmArg("-ea")
-			if (project.findProperty("firmament.useHotswap") == "true") {
+			if (project.findProperty("firmod.useHotswap") == "true") {
 				vmArg("-XX:+AllowEnhancedClassRedefinition")
 				vmArg("-XX:HotswapAgent=external")
 				vmArg("-javaagent:${hotswap.resolve().single().absolutePath}")
@@ -320,12 +320,12 @@ loom {
 }
 
 mcAutoTranslations {
-	translationFunction.set("moe.nea.firmament.util.tr")
-	translationFunctionResolved.set("moe.nea.firmament.util.trResolved")
+	translationFunction.set("moe.nea.firmod.util.tr")
+	translationFunctionResolved.set("moe.nea.firmod.util.trResolved")
 }
 
 val downloadTestRepo by tasks.registering(RepoDownload::class) {
-	this.hash.set(project.property("firmament.compiletimerepohash") as String)
+	this.hash.set(project.property("firmod.compiletimerepohash") as String)
 }
 
 val updateTestRepo by tasks.registering {
@@ -340,8 +340,8 @@ val updateTestRepo by tasks.registering {
 		val latestSha = json["commit"].asJsonObject["sha"].asString
 		var text = propertiesFile.readText()
 		text = text.replace(
-			"firmament\\.compiletimerepohash=[^\n]*".toRegex(),
-			"firmament.compiletimerepohash=$latestSha"
+			"firmod\\.compiletimerepohash=[^\n]*".toRegex(),
+			"firmod.compiletimerepohash=$latestSha"
 		)
 		propertiesFile.writeText(text)
 	}
@@ -357,7 +357,7 @@ tasks.test {
 		wd.mkdirs()
 		wd.resolve("config").deleteRecursively()
 		systemProperty(
-			"firmament.testrepo",
+			"firmod.testrepo",
 			downloadTestRepo.flatMap { it.outputDirectory.asFile }.map { it.absolutePath }.get()
 		)
 		jvmArgs("-javaagent:${testAgent.singleFile.absolutePath}")
@@ -366,7 +366,7 @@ tasks.test {
 	jvmArgs("-XX:+EnableDynamicAgentLoading")
 	systemProperties(
 		"kotest.framework.classpath.scanning.config.disable" to true,
-		"kotest.framework.config.fqn" to "moe.nea.firmament.test.testutil.KotestPlugin",
+		"kotest.framework.config.fqn" to "moe.nea.firmod.test.testutil.KotestPlugin",
 	)
 	useJUnitPlatform()
 }
@@ -435,8 +435,8 @@ shadowJar.configure { // TODO: can these two shadowJar tasks be merged
 	configurations = listOf(shadowMe)
 	configureDuplicateStrategy()
 	archiveClassifier.set("")
-	relocate("io.github.moulberry.repo", "moe.nea.firmament.deps.repo")
-	relocate("io.github.notenoughupdates.moulconfig", "moe.nea.firmament.deps.moulconfig")
+	relocate("io.github.moulberry.repo", "moe.nea.firmod.deps.repo")
+	relocate("io.github.notenoughupdates.moulconfig", "moe.nea.firmod.deps.moulconfig")
 	mergeServiceFiles()
 	transform<FabricModTransform>()
 }
@@ -459,10 +459,10 @@ tasks.processResources {
 	exclude("**/*.license")
 	from(tasks.scanLicenses) // TODO: reinstate this
 	from(collectTranslations) {
-		into("assets/firmament/lang")
+		into("assets/firmod/lang")
 	}
 	from(project.files("translations/languages/")) {
-		into("assets/firmament/lang")
+		into("assets/firmod/lang")
 	}
 }
 
