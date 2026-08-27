@@ -1,6 +1,6 @@
 
 
-package moe.nea.firmament.util.json
+package moe.nea.firmod.util.json
 
 import java.time.Instant
 import kotlinx.serialization.KSerializer

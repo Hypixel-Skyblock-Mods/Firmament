@@ -1,4 +1,4 @@
-package moe.nea.firmament.util.render
+package moe.nea.firmod.util.render
 
 import me.shedaniel.math.Color
 import kotlin.math.abs
@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.navigation.ScreenRectangle
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.util.render.state.gui.RenderLineState
+import moe.nea.firmod.util.render.state.gui.RenderLineState
 
 fun GuiGraphicsExtractor.isUntranslatedGuiDrawContext(): Boolean {
 	return pose().m00 == 1F && pose().m11 == 1f && pose().m01 == 0F && pose().m10 == 0F && pose().m20 == 0F && pose().m21 == 0F

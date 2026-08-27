@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import com.google.common.math.IntMath.pow
 import java.nio.file.Path
@@ -105,19 +105,19 @@ object FirmFormatters {
 
 	fun debugPath(path: Path): Component {
 		if (!path.exists()) {
-			return tr("firmament.path.missing", "$path (missing)").red()
+			return tr("firmod.path.missing", "$path (missing)").red()
 		}
 		if (!path.isReadable()) {
-			return tr("firmament.path.unreadable", "$path (unreadable)").red()
+			return tr("firmod.path.unreadable", "$path (unreadable)").red()
 		}
 		if (path.isRegularFile()) {
-			return tr("firmament.path.regular",
+			return tr("firmod.path.regular",
 			          "$path (exists ${formatFileSize(path.fileSize())})").lime()
 		}
 		if (path.isDirectory()) {
-			return tr("firmament.path.directory", "$path (${path.listDirectoryEntries().size} entries)").darkGreen()
+			return tr("firmod.path.directory", "$path (${path.listDirectoryEntries().size} entries)").darkGreen()
 		}
-		return tr("firmament.path.unknown", "$path (unknown)").purple()
+		return tr("firmod.path.unknown", "$path (unknown)").purple()
 	}
 
 	fun formatFileSize(fileSizeInBytes: Long): String {

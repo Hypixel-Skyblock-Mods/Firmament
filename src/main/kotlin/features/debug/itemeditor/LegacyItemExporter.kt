@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.debug.itemeditor
+package moe.nea.firmod.features.debug.itemeditor
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -18,33 +18,33 @@ import net.minecraft.util.Unit
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.ItemStackTemplate
 import net.minecraft.world.item.Items
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.ClientStartedEvent
-import moe.nea.firmament.features.debug.ExportedTestConstantMeta
-import moe.nea.firmament.repo.SBItemStack
-import moe.nea.firmament.util.HypixelPetInfo
-import moe.nea.firmament.util.LegacyTagWriter.Companion.toLegacyString
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.StringUtil.words
-import moe.nea.firmament.util.directLiteralStringContent
-import moe.nea.firmament.util.extraAttributes
-import moe.nea.firmament.util.getLegacyFormatString
-import moe.nea.firmament.util.json.toJsonArray
-import moe.nea.firmament.util.mc.LazyItemStack
-import moe.nea.firmament.util.mc.MutableItemTemplate
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.defaultItemStack
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.isEmpty
-import moe.nea.firmament.util.mc.isItem
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.mc.toNbtList
-import moe.nea.firmament.util.modifyExtraAttributes
-import moe.nea.firmament.util.skyBlockId
-import moe.nea.firmament.util.skyblock.Rarity
-import moe.nea.firmament.util.transformEachRecursively
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.ClientStartedEvent
+import moe.nea.firmod.features.debug.ExportedTestConstantMeta
+import moe.nea.firmod.repo.SBItemStack
+import moe.nea.firmod.util.HypixelPetInfo
+import moe.nea.firmod.util.LegacyTagWriter.Companion.toLegacyString
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.StringUtil.words
+import moe.nea.firmod.util.directLiteralStringContent
+import moe.nea.firmod.util.extraAttributes
+import moe.nea.firmod.util.getLegacyFormatString
+import moe.nea.firmod.util.json.toJsonArray
+import moe.nea.firmod.util.mc.LazyItemStack
+import moe.nea.firmod.util.mc.MutableItemTemplate
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.defaultItemStack
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.isEmpty
+import moe.nea.firmod.util.mc.isItem
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.mc.toNbtList
+import moe.nea.firmod.util.modifyExtraAttributes
+import moe.nea.firmod.util.skyBlockId
+import moe.nea.firmod.util.skyblock.Rarity
+import moe.nea.firmod.util.transformEachRecursively
+import moe.nea.firmod.util.unformattedString
 
 @OptIn(RequiresComponents::class)
 class LegacyItemExporter private constructor(var itemStack: MutableItemTemplate) {
@@ -69,9 +69,9 @@ class LegacyItemExporter private constructor(var itemStack: MutableItemTemplate)
 		extraAttribs.remove("modifier")
 		extraAttribs.remove("donated_museum")
 		extraAttribs.getString("petInfo").ifPresent { petInfoJson ->
-			var petInfo = Firmament.json.decodeFromString<HypixelPetInfo>(petInfoJson)
+			var petInfo = Firmod.json.decodeFromString<HypixelPetInfo>(petInfoJson)
 			petInfo = petInfo.copy(candyUsed = 0, heldItem = null, exp = 0.0, active = null, uuid = null)
-			extraAttribs.putString("petInfo", Firmament.tightJson.encodeToString(petInfo))
+			extraAttribs.putString("petInfo", Firmod.tightJson.encodeToString(petInfo))
 		}
 		itemStack.skyBlockId?.let {
 			extraAttribs.putString("id", it.neuItem)
@@ -236,7 +236,7 @@ class LegacyItemExporter private constructor(var itemStack: MutableItemTemplate)
 			put("internalname", sbId?.neuItem)
 			put("clickcommand", "")
 			put("crafttext", "")
-			put("modver", "Firmament ${Firmament.version.friendlyString}")
+			put("modver", "Firmod ${Firmod.version.friendlyString}")
 			put("infoType", "")
 			put("info", JsonArray(listOf()))
 		}

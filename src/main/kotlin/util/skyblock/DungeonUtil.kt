@@ -1,9 +1,9 @@
-package moe.nea.firmament.util.skyblock
+package moe.nea.firmod.util.skyblock
 
-import moe.nea.firmament.util.SBData
-import moe.nea.firmament.util.ScoreboardUtil
-import moe.nea.firmament.util.SkyBlockIsland
-import moe.nea.firmament.util.TIME_PATTERN
+import moe.nea.firmod.util.SBData
+import moe.nea.firmod.util.ScoreboardUtil
+import moe.nea.firmod.util.SkyBlockIsland
+import moe.nea.firmod.util.TIME_PATTERN
 
 object DungeonUtil {
 	val isInDungeonIsland get() = SBData.skyblockLocation == SkyBlockIsland.DUNGEON

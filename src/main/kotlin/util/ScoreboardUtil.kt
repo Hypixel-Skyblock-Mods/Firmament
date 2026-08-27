@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import java.util.Optional
 import net.minecraft.client.gui.Gui
@@ -10,8 +10,8 @@ import net.minecraft.network.chat.Component
 import net.minecraft.ChatFormatting
 import net.minecraft.client.gui.Hud
 import net.minecraft.network.chat.TextColor
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.TickEvent
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.TickEvent
 
 object ScoreboardUtil {
 	var scoreboardLines: List<Component> = listOf()

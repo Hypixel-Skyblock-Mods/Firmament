@@ -1,4 +1,4 @@
-package moe.nea.firmament.util
+package moe.nea.firmod.util
 
 import io.github.notenoughupdates.moulconfig.ChromaColour
 import java.awt.Color

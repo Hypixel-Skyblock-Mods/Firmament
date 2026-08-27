@@ -1,11 +1,11 @@
-package moe.nea.firmament.test
+package moe.nea.firmod.test
 
 import net.minecraft.server.Bootstrap
 import net.minecraft.SharedConstants
 import net.minecraft.core.component.DataComponentInitializers
 import net.minecraft.core.registries.BuiltInRegistries
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.TimeMark
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.TimeMark
 
 object FirmTestBootstrap {
 	val loadStart = TimeMark.now()

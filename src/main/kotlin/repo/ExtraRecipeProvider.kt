@@ -1,4 +1,4 @@
-package moe.nea.firmament.repo
+package moe.nea.firmod.repo
 
 import io.github.moulberry.repo.data.NEURecipe
 

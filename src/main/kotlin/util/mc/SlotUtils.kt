@@ -1,10 +1,10 @@
-package moe.nea.firmament.util.mc
+package moe.nea.firmod.util.mc
 
 import org.lwjgl.glfw.GLFW
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.inventory.ContainerInput
-import moe.nea.firmament.util.MC
+import moe.nea.firmod.util.MC
 
 object SlotUtils {
 	fun Slot.clickMiddleMouseButton(handler: AbstractContainerMenu) {

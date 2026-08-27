@@ -1,12 +1,12 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.client.renderer.entity.state.EntityRenderState
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
-import moe.nea.firmament.events.EntityRenderTintEvent.Companion.overlayOverride
-import moe.nea.firmament.util.render.TintedOverlayTexture
+import moe.nea.firmod.events.EntityRenderTintEvent.Companion.overlayOverride
+import moe.nea.firmod.util.render.TintedOverlayTexture
 
 /**
  * Change the tint color of a [LivingEntity]
@@ -14,14 +14,14 @@ import moe.nea.firmament.util.render.TintedOverlayTexture
 class EntityRenderTintEvent(
     val entity: Entity,
     val renderState: HasTintRenderState
-) : FirmamentEvent.Cancellable() {
+) : FirmodEvent.Cancellable() {
 	init {
 		if (entity !is LivingEntity) {
 			cancel()
 		}
 	}
 
-	companion object : FirmamentEventBus<EntityRenderTintEvent>() {
+	companion object : FirmodEventBus<EntityRenderTintEvent>() {
 		/**
 		 * Static variable containing an override for [GameRenderer.overlayTexture]. Should be only set briefly.
 		 *
@@ -30,9 +30,9 @@ class EntityRenderTintEvent(
 		 * Currently supported layers: [net.minecraft.client.render.entity.equipment.EquipmentRenderer], [net.minecraft.client.render.entity.model.PlayerEntityModel], as well as some others naturally.
 		 *
 		 * @see TintedOverlayTexture
-		 * @see moe.nea.firmament.mixins.render.entitytints.ReplaceOverlayTexture
-		 * @see moe.nea.firmament.mixins.render.entitytints.UseOverlayableEquipmentRenderer
-		 * @see moe.nea.firmament.mixins.render.entitytints.UseOverlayableHeadFeatureRenderer
+		 * @see moe.nea.firmod.mixins.render.entitytints.ReplaceOverlayTexture
+		 * @see moe.nea.firmod.mixins.render.entitytints.UseOverlayableEquipmentRenderer
+		 * @see moe.nea.firmod.mixins.render.entitytints.UseOverlayableHeadFeatureRenderer
 		 */
 		@JvmField
 		var overlayOverride: OverlayTexture? = null
@@ -43,20 +43,20 @@ class EntityRenderTintEvent(
 		/**
 		 * Multiplicative tint applied before the overlay.
 		 */
-		var tint_firmament: Int
+		var tint_firmod: Int
 
 		/**
-		 * Must be set for [tint_firmament] to have any effect.
+		 * Must be set for [tint_firmod] to have any effect.
 		 */
-		var hasTintOverride_firmament: Boolean
+		var hasTintOverride_firmod: Boolean
 
 		// TODO: allow for more specific selection of which layers get tinted
 		/**
 		 * Specify a [TintedOverlayTexture] to be used. This does not apply to render layers not using the overlay texture.
 		 * @see overlayOverride
 		 */
-		var overlayTexture_firmament: TintedOverlayTexture?
-		fun reset_firmament()
+		var overlayTexture_firmod: TintedOverlayTexture?
+		fun reset_firmod()
 
 		companion object {
 			@JvmStatic

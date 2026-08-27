@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.inventory.storageoverlay
+package moe.nea.firmod.features.inventory.storageoverlay
 
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
@@ -10,10 +10,10 @@ import net.minecraft.client.input.CharacterEvent
 import net.minecraft.client.input.KeyEvent
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.inventory.Slot
-import moe.nea.firmament.mixins.accessor.AccessorHandledScreen
-import moe.nea.firmament.util.accessors.castAccessor
-import moe.nea.firmament.util.customgui.CustomGui
-import moe.nea.firmament.util.focusedItemStack
+import moe.nea.firmod.mixins.accessor.AccessorHandledScreen
+import moe.nea.firmod.util.accessors.castAccessor
+import moe.nea.firmod.util.customgui.CustomGui
+import moe.nea.firmod.util.focusedItemStack
 
 class StorageOverlayCustom(
     val handler: StorageBackingHandle,
@@ -44,12 +44,12 @@ class StorageOverlayCustom(
 		overview.init(screen.width, screen.height)
 		overview.init()
 		screen.castAccessor()
-		screen.x_Firmament = overview.measurements.x
-		screen.y_Firmament = overview.measurements.y
+		screen.x_Firmod = overview.measurements.x
+		screen.y_Firmod = overview.measurements.y
 
 		//TODO: imageWidth and imageHeight has to be set in constructor as of 26.1
-		//screen.backgroundWidth_Firmament = overview.measurements.totalWidth
-		//screen.backgroundHeight_Firmament = overview.measurements.totalHeight
+		//screen.backgroundWidth_Firmod = overview.measurements.totalWidth
+		//screen.backgroundHeight_Firmod = overview.measurements.totalHeight
 	}
 
 	override fun isPointOverSlot(slot: Slot, xOffset: Int, yOffset: Int, pointX: Double, pointY: Double): Boolean {
@@ -99,7 +99,7 @@ class StorageOverlayCustom(
 			delta,
 			(handler as? StorageBackingHandle.Page)?.storagePageSlot,
 			screen.menu.slots.take(screen.menu.rowCount * 9).drop(9),
-			Point((screen.castAccessor()).x_Firmament, screen.y_Firmament)
+			Point((screen.castAccessor()).x_Firmod, screen.y_Firmod)
 		)
 		overview.drawScrollBar(drawContext)
 		overview.drawControls(drawContext, mouseX, mouseY)
@@ -109,8 +109,8 @@ class StorageOverlayCustom(
 		val index = slot.containerSlot
 		if (index in 0..<36) {
 			val (x, y) = overview.getPlayerInventorySlotPosition(index)
-			slot.x = x - (screen.castAccessor()).x_Firmament
-			slot.y = y - screen.y_Firmament
+			slot.x = x - (screen.castAccessor()).x_Firmod
+			slot.y = y - screen.y_Firmod
 		} else {
 			slot.x = -100000
 			slot.y = -100000

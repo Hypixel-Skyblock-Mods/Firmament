@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.inventory.storageoverlay
+package moe.nea.firmod.features.inventory.storageoverlay
 
 import io.github.notenoughupdates.moulconfig.common.IMinecraft
 import io.github.notenoughupdates.moulconfig.gui.GuiContext
@@ -27,27 +27,27 @@ import net.minecraft.world.inventory.Slot
 import net.minecraft.network.chat.Component
 import net.minecraft.ChatFormatting
 import net.minecraft.resources.Identifier
-import moe.nea.firmament.events.SlotRenderEvents
-import moe.nea.firmament.gui.EmptyComponent
-import moe.nea.firmament.gui.FirmButtonComponent
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.MoulConfigUtils.adopt
-import moe.nea.firmament.util.MoulConfigUtils.clickMCComponentInPlace
-import moe.nea.firmament.util.MoulConfigUtils.drawMCComponentInPlace
-import moe.nea.firmament.util.MoulConfigUtils.typeMCComponentInPlace
-import moe.nea.firmament.util.StringUtil.words
-import moe.nea.firmament.util.assertTrueOr
-import moe.nea.firmament.util.customgui.customGui
-import moe.nea.firmament.util.mc.FakeSlot
-import moe.nea.firmament.util.mc.RequiresComponents
-import moe.nea.firmament.util.mc.accessor
-import moe.nea.firmament.util.mc.displayNameAccordingToNbt
-import moe.nea.firmament.util.mc.loreAccordingToNbt
-import moe.nea.firmament.util.render.drawAlignedBox
-import moe.nea.firmament.util.render.drawGuiTexture
-import moe.nea.firmament.util.render.enableScissorWithoutTranslation
-import moe.nea.firmament.util.tr
-import moe.nea.firmament.util.unformattedString
+import moe.nea.firmod.events.SlotRenderEvents
+import moe.nea.firmod.gui.EmptyComponent
+import moe.nea.firmod.gui.FirmButtonComponent
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.MoulConfigUtils.adopt
+import moe.nea.firmod.util.MoulConfigUtils.clickMCComponentInPlace
+import moe.nea.firmod.util.MoulConfigUtils.drawMCComponentInPlace
+import moe.nea.firmod.util.MoulConfigUtils.typeMCComponentInPlace
+import moe.nea.firmod.util.StringUtil.words
+import moe.nea.firmod.util.assertTrueOr
+import moe.nea.firmod.util.customgui.customGui
+import moe.nea.firmod.util.mc.FakeSlot
+import moe.nea.firmod.util.mc.RequiresComponents
+import moe.nea.firmod.util.mc.accessor
+import moe.nea.firmod.util.mc.displayNameAccordingToNbt
+import moe.nea.firmod.util.mc.loreAccordingToNbt
+import moe.nea.firmod.util.render.drawAlignedBox
+import moe.nea.firmod.util.render.drawGuiTexture
+import moe.nea.firmod.util.render.enableScissorWithoutTranslation
+import moe.nea.firmod.util.tr
+import moe.nea.firmod.util.unformattedString
 
 @OptIn(RequiresComponents::class)
 class StorageOverlayScreen : Screen(Component.literal("")) {
@@ -130,12 +130,12 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 
 	fun getMaxScroll() = lastRenderedInnerHeight.toFloat() - getScrollPanelInner().height
 
-	val playerInventorySprite = Identifier.parse("firmament:storageoverlay/player_inventory")
-	val upperBackgroundSprite = Identifier.parse("firmament:storageoverlay/upper_background")
-	val slotRowSprite = Identifier.parse("firmament:storageoverlay/storage_row")
-	val scrollbarBackground = Identifier.parse("firmament:storageoverlay/scroll_bar_background")
-	val scrollbarKnob = Identifier.parse("firmament:storageoverlay/scroll_bar_knob")
-	val controllerBackground = Identifier.parse("firmament:storageoverlay/storage_controls")
+	val playerInventorySprite = Identifier.parse("firmod:storageoverlay/player_inventory")
+	val upperBackgroundSprite = Identifier.parse("firmod:storageoverlay/upper_background")
+	val slotRowSprite = Identifier.parse("firmod:storageoverlay/storage_row")
+	val scrollbarBackground = Identifier.parse("firmod:storageoverlay/scroll_bar_background")
+	val scrollbarKnob = Identifier.parse("firmod:storageoverlay/scroll_bar_knob")
+	val controllerBackground = Identifier.parse("firmod:storageoverlay/storage_controls")
 
 	override fun onClose() {
 		isExiting = true
@@ -186,12 +186,12 @@ class StorageOverlayScreen : Screen(Component.literal("")) {
 	val guiContext = GuiContext(EmptyComponent())
 	private val knobStub = EmptyComponent()
 	val editButton = FirmButtonComponent(
-		TextComponent(tr("firmament.storage-overlay.edit-pages", "Edit Pages").string),
+		TextComponent(tr("firmod.storage-overlay.edit-pages", "Edit Pages").string),
 		action = ::editPages
 	)
 	val searchField = TextFieldComponent(
 		searchText, 100, GetSetter.constant(true),
-		tr("firmament.storage-overlay.search.suggestion", "Search...").string,
+		tr("firmod.storage-overlay.search.suggestion", "Search...").string,
 		IMinecraft.INSTANCE.defaultFontRenderer
 	)
 	val controlComponent = PanelComponent(

@@ -1,15 +1,15 @@
-package moe.nea.firmament.features.macros
+package moe.nea.firmod.features.macros
 
 import kotlin.time.Duration.Companion.seconds
 import net.minecraft.network.chat.Component
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.HudRenderEvent
-import moe.nea.firmament.events.TickEvent
-import moe.nea.firmament.events.WorldKeyboardEvent
-import moe.nea.firmament.keybindings.SavedKeyBinding
-import moe.nea.firmament.util.MC
-import moe.nea.firmament.util.TimeMark
-import moe.nea.firmament.util.tr
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.HudRenderEvent
+import moe.nea.firmod.events.TickEvent
+import moe.nea.firmod.events.WorldKeyboardEvent
+import moe.nea.firmod.keybindings.SavedKeyBinding
+import moe.nea.firmod.util.MC
+import moe.nea.firmod.util.TimeMark
+import moe.nea.firmod.util.tr
 
 object ComboProcessor {
 
@@ -55,7 +55,7 @@ object ComboProcessor {
 		val breadCrumbText = breadCrumbs.joinToString(" > ")
 		event.context.text(
 			MC.font,
-			tr("firmament.combo.active", "Current Combo: ").append(breadCrumbText),
+			tr("firmod.combo.active", "Current Combo: ").append(breadCrumbText),
 			0,
 			0,
 			-1,

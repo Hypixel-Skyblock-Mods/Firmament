@@ -1,4 +1,4 @@
-package moe.nea.firmament.features.misc
+package moe.nea.firmod.features.misc
 
 import io.netty.buffer.ByteBuf
 import net.fabricmc.fabric.api.networking.v1.FriendlyByteBufs
@@ -8,9 +8,9 @@ import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload
-import moe.nea.firmament.Firmament
-import moe.nea.firmament.annotations.Subscribe
-import moe.nea.firmament.events.JoinServerEvent
+import moe.nea.firmod.Firmod
+import moe.nea.firmod.annotations.Subscribe
+import moe.nea.firmod.events.JoinServerEvent
 
 /**
  * This is a class that announces all mods to hypixel (or any other server you connect to).
@@ -26,7 +26,7 @@ import moe.nea.firmament.events.JoinServerEvent
  * {
  *   "schemaVersion": 1,
  *   "id": "my-cheat-mod",
- *   "custom": { "firmament:hide_from_modlist": true }
+ *   "custom": { "firmod:hide_from_modlist": true }
  * }
  * ```
  */
@@ -53,7 +53,7 @@ object ModAnnouncer {
 		}
 
 		companion object {
-			val ID = CustomPacketPayload.Type<ModPacket>(Firmament.identifier("mod_list"))
+			val ID = CustomPacketPayload.Type<ModPacket>(Firmod.identifier("mod_list"))
 			val CODEC: StreamCodec<ByteBuf, ModPacket> = ModEntry.CODEC.apply(ByteBufCodecs.list())
 				.map(::ModPacket, ModPacket::mods)
 		}
@@ -64,7 +64,7 @@ object ModAnnouncer {
 		val packet = ModPacket(
 			FabricLoader.getInstance()
 				.allMods
-				.filter { !it.metadata.containsCustomValue("firmament:hide_from_modlist") }
+				.filter { !it.metadata.containsCustomValue("firmod:hide_from_modlist") }
 				.map { ModEntry(it.metadata.id, it.metadata.version.friendlyString) })
 		val pbb = FriendlyByteBufs.create()
 		ModPacket.CODEC.encode(pbb, packet)

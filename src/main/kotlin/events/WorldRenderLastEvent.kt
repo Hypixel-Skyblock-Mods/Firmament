@@ -1,4 +1,4 @@
-package moe.nea.firmament.events
+package moe.nea.firmod.events
 
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.state.level.CameraRenderState
@@ -9,6 +9,6 @@ import net.minecraft.client.renderer.state.level.CameraRenderState
 data class WorldRenderLastEvent(
 	val matrices: PoseStack,
 	val camera: CameraRenderState
-) : FirmamentEvent() {
-	companion object : FirmamentEventBus<WorldRenderLastEvent>()
+) : FirmodEvent() {
+	companion object : FirmodEventBus<WorldRenderLastEvent>()
 }

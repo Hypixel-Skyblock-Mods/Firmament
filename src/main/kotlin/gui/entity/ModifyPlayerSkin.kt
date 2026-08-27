@@ -1,4 +1,4 @@
-package moe.nea.firmament.gui.entity
+package moe.nea.firmod.gui.entity
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
