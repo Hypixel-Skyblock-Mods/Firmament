@@ -554,6 +554,18 @@ val smoke = sourceSets.create("smoke") {
 	compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output
 	runtimeClasspath += sourceSets.main.get().runtimeClasspath
 }
+// Test processors must not shadow main's generated configuration provider.
+tasks.withType<KspAATask>().configureEach {
+	val sourceSetName = when (name) {
+		"kspTestKotlin" -> "test"
+		"kspGametestKotlin" -> "gametest"
+		"kspSmokeKotlin" -> "smoke"
+		else -> null
+	}
+	if (sourceSetName != null) {
+		commandLineArgumentProviders.add { listOf("firmod.sourceset=$sourceSetName") }
+	}
+}
 loom {
 	mods {
 		register("firmod") {
