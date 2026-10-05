@@ -31,7 +31,7 @@ plugins {
 	alias(libs.plugins.mcAutoTranslations)
 }
 
-version = getGitTagInfo(libs.versions.minecraft.get())
+version = providers.gradleProperty("releaseVersion").orNull?.let { "$it+mc${libs.versions.minecraft.get()}" } ?: getGitTagInfo(libs.versions.minecraft.get())
 
 java {
 	withSourcesJar()
@@ -548,4 +548,28 @@ tasks.runClient {
 tasks.withType<AbstractArchiveTask>().configureEach {
 	isPreserveFileTimestamps = false
 	isReproducibleFileOrder = true
+}
+
+val smoke = sourceSets.create("smoke") {
+	compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output
+	runtimeClasspath += sourceSets.main.get().runtimeClasspath
+}
+loom {
+	mods {
+		register("firmod") {
+			sourceSet(sourceSets.main.get())
+			compatSourceSets.forEach { sourceSet(it) }
+		}
+		register("firmod_smoke") { sourceSet(smoke) }
+	}
+	runs {
+		register("smoke") {
+			client()
+			source(smoke)
+			runDir("run/smoke")
+			ideConfigGenerated(false)
+			property("firmod.debug", "false")
+			property("firmod.smoke", "true")
+		}
+	}
 }
