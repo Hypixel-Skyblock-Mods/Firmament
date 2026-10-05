@@ -15,7 +15,7 @@ object FirmodKeyBindings {
 	fun registerKeyBinding(name: String, config: ManagedOption<SavedKeyBinding>) {
 		val vanillaKeyBinding = KeyMapping(
 			name,
-			InputConstants.Type.KEYSYM,
+			InputConstants.Type.KEYBOARD,
 			-1,
 			cats.computeIfAbsent(config.element.category) {
 				KeyMapping.Category.register(Firmod.identifier(it.name.lowercase()))

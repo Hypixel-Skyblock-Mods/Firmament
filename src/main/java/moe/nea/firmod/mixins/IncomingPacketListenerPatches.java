@@ -27,12 +27,12 @@ public abstract class IncomingPacketListenerPatches {
     @Inject(method = "handleParticleEvent", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/PacketUtils;ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/network/PacketProcessor;)V", shift = At.Shift.AFTER), cancellable = true)
     public void onParticleSpawn(ClientboundLevelParticlesPacket packet, CallbackInfo ci) {
         var event = new ParticleSpawnEvent(
-            packet.getParticle(),
-            new Vec3(packet.getX(), packet.getY(), packet.getZ()),
-            new Vector3f(packet.getXDist(), packet.getYDist(), packet.getZDist()),
+            packet.particle(),
+            new Vec3(packet.x(), packet.y(), packet.z()),
+            new Vector3f(packet.xDist(), packet.yDist(), packet.zDist()),
             packet.alwaysShow(),
-            packet.getCount(),
-            packet.getMaxSpeed()
+            packet.count(),
+            packet.xMaxSpeed()
         );
         ParticleSpawnEvent.Companion.publish(event);
         if (event.getCancelled())

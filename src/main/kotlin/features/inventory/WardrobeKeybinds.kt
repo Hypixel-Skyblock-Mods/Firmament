@@ -1,6 +1,7 @@
 package moe.nea.firmod.features.inventory
 
-import org.lwjgl.glfw.GLFW
+import com.mojang.blaze3d.platform.InputConstants
+
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.world.item.Items
 import moe.nea.firmod.annotations.Subscribe
@@ -14,11 +15,11 @@ object WardrobeKeybinds {
 	@Config
 	object TConfig : ManagedConfig("wardrobe-keybinds", Category.INVENTORY) {
 		val wardrobeKeybinds by toggle("wardrobe-keybinds") { false }
-		val changePageKeybind by keyBinding("change-page") { GLFW.GLFW_KEY_ENTER }
-		val nextPage by keyBinding("next-page") { GLFW.GLFW_KEY_D }
-		val previousPage by keyBinding("previous-page") { GLFW.GLFW_KEY_A }
+		val changePageKeybind by keyBinding("change-page") { InputConstants.KEY_RETURN }
+		val nextPage by keyBinding("next-page") { InputConstants.KEY_D }
+		val previousPage by keyBinding("previous-page") { InputConstants.KEY_A }
 		val slotKeybinds = (1..9).map {
-			keyBinding("slot-$it") { GLFW.GLFW_KEY_0 + it }
+			keyBinding("slot-$it") { InputConstants.KEY_1 + it - 1 }
 		}
 		val allowUnequipping by toggle("allow-unequipping") { true }
 	}

@@ -1,6 +1,7 @@
 package moe.nea.firmod.util.mc
 
-import org.lwjgl.glfw.GLFW
+// Container protocol buttons are 0/1/2, independent of SDL input button IDs.
+
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.inventory.ContainerInput
@@ -11,7 +12,7 @@ object SlotUtils {
 		MC.interactionManager?.handleContainerInput(
 			handler.containerId,
 			this.index,
-			GLFW.GLFW_MOUSE_BUTTON_MIDDLE,
+			2,
 			ContainerInput.CLONE,
 			MC.player!!
 		)
@@ -29,7 +30,7 @@ object SlotUtils {
 		MC.interactionManager?.handleContainerInput(
 			handler.containerId,
 			this.index,
-			GLFW.GLFW_MOUSE_BUTTON_RIGHT,
+			1,
 			ContainerInput.PICKUP,
 			MC.player!!
 		)
@@ -39,7 +40,7 @@ object SlotUtils {
 		MC.interactionManager?.handleContainerInput(
 			handler.containerId,
 			this.index,
-			GLFW.GLFW_MOUSE_BUTTON_LEFT,
+			0,
 			ContainerInput.PICKUP,
 			MC.player!!
 		)

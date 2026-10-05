@@ -2,7 +2,8 @@
 
 package moe.nea.firmod.features.inventory.storageoverlay
 
-import org.lwjgl.glfw.GLFW
+import com.mojang.blaze3d.platform.InputConstants
+
 import kotlin.math.max
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.client.input.MouseButtonEvent
@@ -132,7 +133,7 @@ class StorageOverviewScreen() : Screen(Component.empty()) {
     }
 
 	override fun keyPressed(input: KeyEvent): Boolean {
-        if (input.input() == GLFW.GLFW_KEY_ESCAPE)
+        if (input.input() == InputConstants.KEY_ESCAPE)
             isClosing = true
         return super.keyPressed(input)
     }

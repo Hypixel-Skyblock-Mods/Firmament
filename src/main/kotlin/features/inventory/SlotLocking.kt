@@ -2,8 +2,9 @@
 
 package moe.nea.firmod.features.inventory
 
+import com.mojang.blaze3d.platform.InputConstants
+
 import java.util.UUID
-import org.lwjgl.glfw.GLFW
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.UseSerializers
@@ -149,11 +150,11 @@ object SlotLocking {
 
 	@Config
 	object TConfig : ManagedConfig(identifier, Category.INVENTORY) {
-		val lockSlot by keyBinding("lock") { GLFW.GLFW_KEY_L }
+		val lockSlot by keyBinding("lock") { InputConstants.KEY_L }
 		val lockUUID by keyBindingWithOutDefaultModifiers("lock-uuid") {
-			SavedKeyBinding.keyWithMods(GLFW.GLFW_KEY_L, InputModifiers.of(shift = true))
+			SavedKeyBinding.keyWithMods(InputConstants.KEY_L, InputModifiers.of(shift = true))
 		}
-		val slotBind by keyBinding("bind") { GLFW.GLFW_KEY_L }
+		val slotBind by keyBinding("bind") { InputConstants.KEY_L }
 		val lockBound by toggle("lock-bind") { false }
 		val slotBindRequireShift by toggle("require-quick-move") { true }
 		val slotRenderLines by choice("bind-render") { SlotRenderLinesMode.ONLY_BOXES }

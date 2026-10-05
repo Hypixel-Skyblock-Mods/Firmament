@@ -97,7 +97,7 @@ class RenderInWorldContext private constructor(
 		val distanceToMoveTowardsCamera = if (actualCameraDistance < 10) 0.0 else -(actualCameraDistance - 10.0)
 		val vec = position.subtract(camera.pos).scale(distanceToMoveTowardsCamera / actualCameraDistance)
 		matrixStack.translate(vec.x, vec.y, vec.z)
-		matrixStack.mulPose(camera.orientation)
+		matrixStack.rotate(camera.orientation)
 		matrixStack.scale(0.025F, -0.025F, 1F)
 
 		FacingThePlayerContext(this).run(block)

@@ -2,7 +2,7 @@
 package moe.nea.firmod.util.render
 
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.textures.FilterMode
+import com.mojang.renderpearl.api.textures.FilterMode
 import org.joml.Matrix4f
 import net.minecraft.client.gui.Font
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -40,17 +40,13 @@ class FacingThePlayerContext(val worldContext: RenderInWorldContext) {
             val width = MC.font.width(text)
             worldContext.matrixStack.translate(-width / 2F, verticalAlign.align(index, texts.size), 0F)
             val vertexConsumer: VertexConsumer =
-                CustomRenderer.getBuffer(RenderPipelines.TEXT_BACKGROUND_SEE_THROUGH)
+                CustomRenderer.getBuffer(CustomRenderPipelines.COLORED_OMNIPRESENT_QUADS)
             val matrix4f = worldContext.matrixStack.last().pose()
             vertexConsumer.addVertex(matrix4f, -1.0f, -1.0f, 0.0f).setColor(background)
-                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, -1.0f, MC.font.lineHeight.toFloat(), 0.0f).setColor(background)
-                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, width.toFloat(), MC.font.lineHeight.toFloat(), 0.0f)
                 .setColor(background)
-                .setLight(LightCoordsUtil.FULL_BRIGHT)
             vertexConsumer.addVertex(matrix4f, width.toFloat(), -1.0f, 0.0f).setColor(background)
-                .setLight(LightCoordsUtil.FULL_BRIGHT)
             worldContext.matrixStack.translate(0F, 0F, 0.01F)
 
 			val prepared = MC.font.prepareText(text.visualOrderText, 0f, 0f, CommonColors.WHITE, false, false, 0);

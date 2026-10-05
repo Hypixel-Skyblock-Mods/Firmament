@@ -1,5 +1,7 @@
 package moe.nea.jarvis.impl;
 
+import com.mojang.blaze3d.platform.InputConstants;
+
 import moe.nea.jarvis.api.JarvisAnchor;
 import moe.nea.jarvis.api.JarvisHud;
 import moe.nea.jarvis.api.JarvisPlugin;
@@ -9,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import org.lwjgl.glfw.GLFW;
 
 import java.awt.*;
 import java.util.IdentityHashMap;
@@ -93,14 +94,14 @@ public class JarvisHudEditor extends Screen {
         var button = mouseButtonEvent.button();
         var mouseX = mouseButtonEvent.x();
         var mouseY = mouseButtonEvent.y();
-        if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+        if (button == InputConstants.MOUSE_BUTTON_LEFT) {
             if (grabbedHud != null)
                 return false;
             isScaling = false;
             tryGrabOverlay(mouseX, mouseY);
             return true;
         }
-        if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
+        if (button == InputConstants.MOUSE_BUTTON_RIGHT) {
             if (grabbedHud != null)
                 return false;
             isScaling = true;
@@ -119,8 +120,8 @@ public class JarvisHudEditor extends Screen {
 
     @Override
     public boolean mouseReleased(MouseButtonEvent mouseButtonEvent) {
-        if ((mouseButtonEvent.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT && !isScaling)
-            || (mouseButtonEvent.button() == GLFW.GLFW_MOUSE_BUTTON_RIGHT && isScaling)) {
+        if ((mouseButtonEvent.button() == InputConstants.MOUSE_BUTTON_LEFT && !isScaling)
+            || (mouseButtonEvent.button() == InputConstants.MOUSE_BUTTON_RIGHT && isScaling)) {
             tryReleaseOverlay();
             return true;
         }

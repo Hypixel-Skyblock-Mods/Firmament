@@ -7,7 +7,6 @@ import io.github.notenoughupdates.moulconfig.platform.MoulConfigRenderContext
 import io.github.notenoughupdates.moulconfig.xml.Bind
 import me.shedaniel.math.Point
 import me.shedaniel.math.Rectangle
-import org.lwjgl.glfw.GLFW
 import net.minecraft.client.Minecraft
 import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -219,7 +218,7 @@ class InventoryButtonEditor(
 
 	override fun keyPressed(input: KeyEvent): Boolean {
 		if (super.keyPressed(input)) return true
-		if (input.input() == GLFW.GLFW_KEY_ESCAPE) {
+		if (input.input() == InputConstants.KEY_ESCAPE) {
 			onClose()
 			return true
 		}
@@ -231,7 +230,6 @@ class InventoryButtonEditor(
 		val clickedButton = buttons.firstOrNull { it.getBounds(lastGuiRect).contains(Point(click.x, click.y)) }
 		if (clickedButton != null && !justPerformedAClickAction) {
 			if (InputConstants.isKeyDown(
-					MC.window,
 					InputConstants.KEY_LCONTROL
 				)
 			) Editor(clickedButton).delete()
@@ -288,7 +286,7 @@ class InventoryButtonEditor(
 		val anchorBottom = my > lastGuiRect.maxY
 		var offsetX = mx - if (anchorRight) lastGuiRect.maxX else lastGuiRect.minX
 		var offsetY = my - if (anchorBottom) lastGuiRect.maxY else lastGuiRect.minY
-		if (InputConstants.isKeyDown(MC.window, InputConstants.KEY_LSHIFT)) {
+		if (InputConstants.isKeyDown( InputConstants.KEY_LSHIFT)) {
 			offsetX = Mth.floor(offsetX / 20F) * 20
 			offsetY = Mth.floor(offsetY / 20F) * 20
 		}

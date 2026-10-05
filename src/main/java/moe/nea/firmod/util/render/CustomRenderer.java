@@ -10,10 +10,10 @@ import org.joml.Matrix4fStack;
 import org.joml.Vector4f;
 import org.jspecify.annotations.Nullable;
 
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.systems.RenderPass;
+import com.mojang.renderpearl.api.commands.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -88,7 +88,7 @@ public class CustomRenderer {
 				() -> "Custom Level Renderer",
 				mainRenderTarget.getColorTextureView(),
 				Optional.empty(),
-				mainRenderTarget.useDepth ? mainRenderTarget.getDepthTextureView() : null,
+				mainRenderTarget.hasDepth() ? mainRenderTarget.getDepthTextureView() : null,
 				OptionalDouble.empty()
 			)) {
 			RenderSystem.bindDefaultUniforms(renderPass);
@@ -108,22 +108,22 @@ public class CustomRenderer {
 			return;
 		}
 
-		renderPass.setPipeline(draw.pipeline);
+		renderPass.setPipeline(RenderSystem.getCompiledPipeline(draw.pipeline));
 		renderPass.setUniform("DynamicTransforms", setupDynamicTransforms(draw.alphaMultiplier));
 
 		if (draw.textureSetup.texure0() != null) {
 			// Sampler0 is used for normal texture inputs in shaders
-			renderPass.bindTexture("Sampler0", draw.textureSetup.texure0(), draw.textureSetup.sampler0());
+			renderPass.setUniform("Sampler0", draw.textureSetup.texure0(), draw.textureSetup.sampler0());
 		}
 
 		if (draw.textureSetup.texure1() != null) {
 			// Sampler1 is used for alternate texture inputs in shaders
-			renderPass.bindTexture("Sampler1", draw.textureSetup.texure1(), draw.textureSetup.sampler1());
+			renderPass.setUniform("Sampler1", draw.textureSetup.texure1(), draw.textureSetup.sampler1());
 		}
 
 		if (draw.textureSetup.texure2() != null) {
 			// Sampler2 is used for lightmap texture inputs in shaders
-			renderPass.bindTexture("Sampler2", draw.textureSetup.texure2(), draw.textureSetup.sampler2());
+			renderPass.setUniform("Sampler2", draw.textureSetup.texure2(), draw.textureSetup.sampler2());
 		}
 
 		renderPass.setVertexBuffer(0, executeInfo.vertexBuffer().slice());

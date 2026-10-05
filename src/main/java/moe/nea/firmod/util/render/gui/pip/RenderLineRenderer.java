@@ -42,7 +42,7 @@ public class RenderLineRenderer extends PictureInPictureRenderer<RenderLineState
 			state.bounds().height(),
 			gameRenderState.optionsRenderState.glintStrength,
 			minecraft.level == null ? 0L : minecraft.level.getGameTime(),
-			minecraft.getDeltaTracker(),
+			minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false),
 			gameRenderState.optionsRenderState.menuBackgroundBlurriness,
 			gameRenderState.levelRenderState.cameraRenderState.pos,
 			gameRenderState.optionsRenderState.textureFiltering == TextureFilteringMethod.RGSS
@@ -55,7 +55,7 @@ public class RenderLineRenderer extends PictureInPictureRenderer<RenderLineState
 			gameRenderState.windowRenderState.height,
 			gameRenderState.optionsRenderState.glintStrength,
 			minecraft.level == null ? 0L : minecraft.level.getGameTime(),
-			minecraft.getDeltaTracker(),
+			minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false),
 			gameRenderState.optionsRenderState.menuBackgroundBlurriness,
 			gameRenderState.levelRenderState.cameraRenderState.pos,
 			gameRenderState.optionsRenderState.textureFiltering == TextureFilteringMethod.RGSS

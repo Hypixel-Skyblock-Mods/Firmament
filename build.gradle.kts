@@ -31,7 +31,11 @@ plugins {
 	alias(libs.plugins.mcAutoTranslations)
 }
 
-version = getGitTagInfo(libs.versions.minecraft.get())
+apply(from = "gradle/moulconfig263.gradle")
+val moulConfig263 = extra["moulConfig263"] as FileCollection
+
+version = providers.gradleProperty("releaseVersion").orNull?.let { "$it+mc${libs.versions.minecraft.get()}" }
+	?: getGitTagInfo(libs.versions.minecraft.get())
 
 java {
 	withSourcesJar()
@@ -215,7 +219,7 @@ dependencies {
 	// Fabric dependencies
 	implementation(libs.fabric.loader)
 	implementation(libs.fabric.kotlin)
-	implementation(libs.moulconfig)
+	implementation(moulConfig263)
 	implementation(libs.manninghamMills)
 	implementation(libs.basicMath)
 	implementation(apiSourceSet.output)
@@ -243,7 +247,7 @@ dependencies {
 	implementation("com.google.auto.service:auto-service-annotations:1.1.1")
 	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")
 	include(libs.manninghamMills)
-	shadowMe(libs.moulconfig)
+	shadowMe(moulConfig263)
 
 	annotationProcessor(libs.mixinextras)
 	implementation(libs.mixinextras)
@@ -547,4 +551,46 @@ tasks.runClient {
 tasks.withType<AbstractArchiveTask>().configureEach {
 	isPreserveFileTimestamps = false
 	isReproducibleFileOrder = true
+}
+
+val smoke = sourceSets.create("smoke") {
+	compileClasspath += sourceSets.main.get().compileClasspath + sourceSets.main.get().output
+	runtimeClasspath += sourceSets.main.get().runtimeClasspath
+}
+// Test processors must not shadow main's generated configuration provider.
+tasks.withType<KspAATask>().configureEach {
+	val sourceSetName = when (name) {
+		"kspTestKotlin" -> "test"
+		"kspGametestKotlin" -> "gametest"
+		"kspSmokeKotlin" -> "smoke"
+		else -> null
+	}
+	if (sourceSetName != null) {
+		commandLineArgumentProviders.add { listOf("firmod.sourceset=$sourceSetName") }
+	}
+}
+// Restrict only the disposable test client on machines with many processors.
+loom.runs.named("clientGameTest") {
+	vmArg("-XX:ActiveProcessorCount=4")
+	property("firmod.debug", "false")
+	property("devauth.enabled", "false")
+}
+loom {
+	mods {
+		register("firmod") {
+			sourceSet(sourceSets.main.get())
+			compatSourceSets.forEach { sourceSet(it) }
+		}
+		register("firmod_smoke") { sourceSet(smoke) }
+	}
+	runs {
+		register("smoke") {
+			client()
+			source(smoke)
+			runDir("run/smoke")
+			ideConfigGenerated(false)
+			property("firmod.debug", "false")
+			property("firmod.smoke", "true")
+		}
+	}
 }

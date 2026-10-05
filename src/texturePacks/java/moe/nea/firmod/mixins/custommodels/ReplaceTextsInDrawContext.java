@@ -27,7 +27,7 @@ public class ReplaceTextsInDrawContext {
 		return CustomTextReplacements.replaceText(text);
 	}
 
-	@ModifyVariable(method = "textWithWordWrap(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)V", at = @At("HEAD"), argsOnly = true)
+	@ModifyVariable(method = "textWithWordWrap(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/FormattedText;IIIIZ)I", at = @At("HEAD"), argsOnly = true)
 	private FormattedText replaceTextInDrawWrappedText(FormattedText stringVisitable) {
 		return stringVisitable instanceof Component text ? CustomTextReplacements.replaceText(text) : stringVisitable;
 	}
@@ -37,7 +37,7 @@ public class ReplaceTextsInDrawContext {
 		return original.map(CustomTextReplacements::replaceText);
 	}
 
-	@ModifyExpressionValue(method = "setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;stream()Ljava/util/stream/Stream;"))
+	@ModifyExpressionValue(method = "setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;Z)V", at = @At(value = "INVOKE", target = "Ljava/util/List;stream()Ljava/util/stream/Stream;"))
 	private Stream<Component> replaceTextInDrawTooltipListTextWithOptional(Stream<Component> original) {
 		return original.map(CustomTextReplacements::replaceText);
 	}

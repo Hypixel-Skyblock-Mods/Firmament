@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "firmod_smoke",
+  "version": "1.0.0",
+  "name": "Firmod development mixin checks",
+  "environment": "client",
+  "entrypoints": {"preLaunch": ["moe.nea.firmod.smoke.FabricSmoke"]}
+}

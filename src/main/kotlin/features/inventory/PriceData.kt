@@ -1,6 +1,7 @@
 package moe.nea.firmod.features.inventory
 
-import org.lwjgl.glfw.GLFW
+import com.mojang.blaze3d.platform.InputConstants
+
 import net.minecraft.network.chat.Component
 import net.minecraft.util.StringRepresentable
 import moe.nea.firmod.annotations.Subscribe
@@ -27,7 +28,7 @@ object PriceData {
 	object TConfig : ManagedConfig(identifier, Category.INVENTORY) {
 		val tooltipEnabled by toggle("enable-always") { true }
 		val enableKeybinding by keyBindingWithDefaultUnbound("enable-keybind")
-		val stackSizeKey by keyBinding("stack-size-keybind") { GLFW.GLFW_KEY_LEFT_SHIFT }
+		val stackSizeKey by keyBinding("stack-size-keybind") { InputConstants.KEY_LSHIFT }
 		val avgLowestBin by choice(
 			"avg-lowest-bin-days",
 		) {

@@ -1,5 +1,7 @@
 package moe.nea.firmod.gui.config
 
+import com.mojang.blaze3d.platform.InputConstants
+
 import io.github.notenoughupdates.moulconfig.common.IMinecraft
 import io.github.notenoughupdates.moulconfig.common.MyResourceLocation
 import io.github.notenoughupdates.moulconfig.deps.libninepatch.NinePatch
@@ -7,7 +9,6 @@ import io.github.notenoughupdates.moulconfig.gui.GuiImmediateContext
 import io.github.notenoughupdates.moulconfig.gui.KeyboardEvent
 import io.github.notenoughupdates.moulconfig.gui.component.TextComponent
 import io.github.notenoughupdates.moulconfig.platform.MoulConfigPlatform
-import org.lwjgl.glfw.GLFW
 import net.minecraft.network.chat.Component
 import net.minecraft.ChatFormatting
 import moe.nea.firmod.gui.FirmButtonComponent
@@ -28,7 +29,7 @@ class KeyBindingStateManager(
 	fun onClick(mouseButton: Int) {
 		if (editing) {
 			keyboardEvent(GenericInputButton.mouse(mouseButton), true)
-		} else if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+		} else if (mouseButton == InputConstants.MOUSE_BUTTON_LEFT) {
 			editing = true
 			requestFocus()
 		}

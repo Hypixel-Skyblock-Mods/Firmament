@@ -14,7 +14,6 @@ import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +26,8 @@ import java.util.stream.Stream;
 public class JarvisContainer extends Jarvis {
     public List<JarvisPlugin> plugins = new ArrayList<>();
     public LoaderSupport loaderSupport;
-    public KeyMapping hudKeyBinding = new KeyMapping("key.jarvis.open-gui-editor", InputConstants.Type.KEYSYM,
-        GLFW.GLFW_KEY_RIGHT_SHIFT, new KeyMapping.Category(Identifier.fromNamespaceAndPath("jarvis", "keys")));
+    public KeyMapping hudKeyBinding = new KeyMapping("key.jarvis.open-gui-editor", InputConstants.Type.KEYBOARD,
+        InputConstants.KEY_RSHIFT, new KeyMapping.Category(Identifier.fromNamespaceAndPath("jarvis", "keys")));
 
     public LoaderSupport getLoaderSupport() {
         return loaderSupport;

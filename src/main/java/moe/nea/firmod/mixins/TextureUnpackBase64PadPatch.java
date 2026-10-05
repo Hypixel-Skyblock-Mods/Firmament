@@ -2,12 +2,12 @@
 package moe.nea.firmod.mixins;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
+import com.mojang.authlib.services.MinecraftServicesSessionService;
 import moe.nea.firmod.util.Base64Util;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = YggdrasilMinecraftSessionService.class, remap = false)
+@Mixin(value = MinecraftServicesSessionService.class, remap = false)
 public class TextureUnpackBase64PadPatch {
     @ModifyExpressionValue(method = "unpackTextures",
         remap = false,

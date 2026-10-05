@@ -5,21 +5,21 @@ import moe.nea.firmod.compat.jade.CustomMiningHardnessProvider;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import snownee.jade.JadeClient;
+import snownee.jade.addon.vanilla.BreakingProgressProvider;
 
-@Mixin(JadeClient.class)
+@Mixin(BreakingProgressProvider.class)
 public class PatchBreakingBarSpeedJade {
 	@ModifyExpressionValue(
-		method = "drawBreakingProgress",
+		method = "getProgress",
 		at = @At(value = "FIELD", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;destroyProgress:F", opcode = Opcodes.GETFIELD)
 	)
-	private static float replaceBlockBreakingProgress(float original) {
+	private float replaceBlockBreakingProgress(float original) {
 		return CustomMiningHardnessProvider.replaceBreakProgress(original);
 	}
 
-	@ModifyExpressionValue(method = "drawBreakingProgress",
+	@ModifyExpressionValue(method = "getProgress",
 		at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroyProgress(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"))
-	private static float replacePlayerSpecificBreakingProgress(float original) {
+	private float replacePlayerSpecificBreakingProgress(float original) {
 		return CustomMiningHardnessProvider.replaceBlockBreakSpeed(original);
 	}
 }

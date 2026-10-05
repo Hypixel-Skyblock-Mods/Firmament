@@ -7,7 +7,7 @@ import moe.nea.firmod.util.compatloader.ICompatMeta
 @CompatMeta
 object Compat : ICompatMeta {
 	override fun shouldLoad(): Boolean {
-		return FabricLoader.getInstance().isModLoaded("wildfire_gender")
+		return FabricLoader.getInstance().isModLoaded("female_gender_mod")
 	}
 
 }

@@ -1,6 +1,6 @@
 package moe.nea.firmod.features.misc
 
-import com.mojang.blaze3d.buffers.GpuBuffer
+import com.mojang.renderpearl.api.buffers.GpuBuffer
 import com.mojang.blaze3d.buffers.Std140Builder
 import com.mojang.blaze3d.buffers.Std140SizeCalculator
 import com.mojang.blaze3d.systems.RenderSystem
@@ -98,22 +98,22 @@ object CustomCapes {
 				{ "Firmod Cape Renderer" },
 				renderTarget.colorTextureView!!,
 				Optional.empty(),
-				if (renderTarget.useDepth) renderTarget.depthTextureView!! else null,
+				if (renderTarget.hasDepth()) renderTarget.depthTextureView!! else null,
 				OptionalDouble.empty()
 			).use { renderPass ->
-				renderPass.setPipeline(CustomRenderPipelines.PARALLAX_CAPE)
+				renderPass.setPipeline(RenderSystem.getCompiledPipeline(CustomRenderPipelines.PARALLAX_CAPE))
 
 				RenderSystem.bindDefaultUniforms(renderPass);
 				renderPass.setUniform("Animation", animationUniformBuffer);
 
 				val templateTex = MC.textureManager.getTexture(template);
-				renderPass.bindTexture("Sampler0", templateTex.textureView, templateTex.sampler);
+				renderPass.setUniform("Sampler0", templateTex.textureView, templateTex.sampler);
 
 				val backgroundTex = MC.textureManager.getTexture(background);
-				renderPass.bindTexture("Sampler1", backgroundTex.textureView, backgroundTex.sampler);
+				renderPass.setUniform("Sampler1", backgroundTex.textureView, backgroundTex.sampler);
 
 				val overlayTex = MC.textureManager.getTexture(overlay);
-				renderPass.bindTexture("Sampler2", overlayTex.textureView, overlayTex.sampler);
+				renderPass.setUniform("Sampler2", overlayTex.textureView, overlayTex.sampler);
 
 				renderPass.setIndexBuffer(indexBuffer, indexType);
 				renderPass.setVertexBuffer(0, vertexBuffer.slice());

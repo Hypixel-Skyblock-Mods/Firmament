@@ -1,6 +1,7 @@
 package moe.nea.firmod.events
 
-import org.lwjgl.glfw.GLFW
+import com.mojang.blaze3d.platform.InputConstants
+
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import moe.nea.firmod.events.HandledScreenKeyPressedEvent.Companion.internalPollAction
@@ -19,12 +20,12 @@ data class HandledScreenKeyPressedEvent(
 	override val input: GenericInputAction,
 	override val modifiers: InputModifiers,
 ) : FirmodEvent.Cancellable(), HandledScreenInputEvent {
-	val isRepeat: Boolean = internalPollAction() == GLFW.GLFW_REPEAT
+	val isRepeat: Boolean = internalPollAction() == InputConstants.REPEAT
 	fun matches(keyBinding: SavedKeyBinding, atLeast: Boolean = false): Boolean {
 		return keyBinding.matches(input, modifiers, atLeast)
 	}
 
-	fun isLeftClick() = input == GenericInputAction.mouse(GLFW.GLFW_MOUSE_BUTTON_LEFT)
+	fun isLeftClick() = input == GenericInputAction.mouse(InputConstants.MOUSE_BUTTON_LEFT)
 
 	companion object : FirmodEventBus<HandledScreenKeyPressedEvent>() {
 		private var lastAction = -1

@@ -1,6 +1,5 @@
 package moe.nea.firmod.keybindings
 
-import org.lwjgl.glfw.GLFW
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -38,9 +37,9 @@ sealed interface GenericInputButton {
 			JsonElement.serializer().serialize(
 				encoder,
 				when (value) {
-					is KeyCodeButton -> buildJsonObject { put("keyCode", value.keyCode) }
-					is MouseButton -> buildJsonObject { put("mouse", value.mouseButton) }
-					is ScanCodeButton -> buildJsonObject { put("scanCode", value.scanCode) }
+					is KeyCodeButton -> buildJsonObject { put("keyCode", value.keyCode); put("backend", "sdl") }
+					is MouseButton -> buildJsonObject { put("mouse", value.mouseButton); put("backend", "sdl") }
+					is ScanCodeButton -> buildJsonObject { put("scanCode", value.scanCode); put("backend", "sdl") }
 					Unbound -> JsonNull
 				})
 		}
@@ -50,14 +49,18 @@ sealed interface GenericInputButton {
 			if (element is JsonNull)
 				return Unbound
 			require(element is JsonObject)
+			val sdl = (element["backend"] as? JsonPrimitive)?.content == "sdl"
 			(element["keyCode"] as? JsonPrimitive)?.let {
-				return KeyCodeButton(it.int)
+				val key = if (sdl) it.int else LegacyInputMigration.key(it.int)
+				return if (key == -1) Unbound else KeyCodeButton(key)
 			}
 			(element["mouse"] as? JsonPrimitive)?.let {
-				return MouseButton(it.int)
+				return MouseButton(if (sdl) it.int else LegacyInputMigration.mouse(it.int))
 			}
 			(element["scanCode"] as? JsonPrimitive)?.let {
-				return ScanCodeButton(it.int)
+				// GLFW native scan codes differ between Windows, X11 and macOS and
+				// have no portable SDL equivalent. Rebind rather than activate another key.
+				return if (sdl) ScanCodeButton(it.int) else Unbound
 			}
 			error("Could not parse GenericInputButton: $element")
 		}
@@ -65,15 +68,15 @@ sealed interface GenericInputButton {
 
 	companion object {
 
-		fun of(event: KeyEvent) = ofKeyAndScan(event.input(), event.scancode)
-		fun escape() = ofKeyCode(GLFW.GLFW_KEY_ESCAPE)
+		fun of(event: KeyEvent) = ofKeyAndScan(event.input(), event.key)
+		fun escape() = ofKeyCode(InputConstants.KEY_ESCAPE)
 		fun ofKeyCode(keyCode: Int): GenericInputButton = KeyCodeButton(keyCode)
 		fun ofScanCode(scanCode: Int): GenericInputButton = ScanCodeButton(scanCode)
-		fun ofScanCodeFromKeyCode(keyCode: Int): GenericInputButton = ScanCodeButton(GLFW.glfwGetKeyScancode(keyCode))
+		fun ofScanCodeFromKeyCode(keyCode: Int): GenericInputButton = ScanCodeButton(keyCode)
 		fun unbound(): GenericInputButton = Unbound
 		fun mouse(mouseButton: Int): GenericInputButton = MouseButton(mouseButton)
 		fun ofKeyAndScan(keyCode: Int, scanCode: Int): GenericInputButton {
-			if (keyCode == GLFW.GLFW_KEY_UNKNOWN)
+			if (keyCode == -1)
 				return ofScanCode(scanCode)
 			return ofKeyCode(keyCode) // TODO: should i always upgrade to a scanCode?
 		}
@@ -101,7 +104,7 @@ sealed interface GenericInputButton {
 		}
 
 		override fun isPressed(): Boolean {
-			return GLFW.glfwGetMouseButton(MC.window.handle(), mouseButton) == GLFW.GLFW_PRESS
+			return org.lwjgl.sdl.SDLMouse.nSDL_GetMouseState(0L, 0L) and (1 shl (mouseButton - 1)) != 0
 		}
 	}
 
@@ -109,11 +112,11 @@ sealed interface GenericInputButton {
 		val keyCode: Int
 	) : GenericInputButton {
 		override fun toInputKey(): InputConstants.Key {
-			return InputConstants.Type.KEYSYM.getOrCreate(keyCode)
+			return InputConstants.Type.KEYBOARD.getOrCreate(keyCode)
 		}
 
 		override fun isPressed(): Boolean {
-			return InputConstants.isKeyDown(MC.window, keyCode)
+			return InputConstants.isKeyDown(keyCode)
 		}
 
 		override fun isCtrl(): Boolean {
@@ -137,7 +140,7 @@ sealed interface GenericInputButton {
 		val scanCode: Int
 	) : GenericInputButton {
 		override fun toInputKey(): InputConstants.Key {
-			return InputConstants.Type.SCANCODE.getOrCreate(scanCode)
+			return InputConstants.Type.KEYBOARD.getOrCreate(scanCode)
 		}
 
 		override fun isPressed(): Boolean {
@@ -199,34 +202,48 @@ sealed interface GenericInputAction {
 		@JvmStatic
 		fun of(input: net.minecraft.client.input.MouseButtonInfo): GenericInputAction = mouse(input.button)
 		@JvmStatic
-		fun of(input: KeyEvent): GenericInputAction = key(input.input(), input.scancode)
+		fun of(input: KeyEvent): GenericInputAction = key(input.input(), input.key)
 
 		@JvmStatic
 		fun key(keyCode: Int, scanCode: Int): GenericInputAction = KeyboardInput(keyCode, scanCode)
 	}
 }
 
-@Serializable
+@Serializable(with = InputModifiers.Serializer::class)
 data class InputModifiers(
 	val modifiers: Int
 ) {
+	object Serializer : KSerializer<InputModifiers> {
+		override val descriptor = SerialDescriptor("Firmod:InputModifiers", JsonElement.serializer().descriptor)
+		override fun serialize(encoder: Encoder, value: InputModifiers) {
+			JsonElement.serializer().serialize(encoder, buildJsonObject {
+				put("modifiers", value.modifiers)
+				put("backend", "sdl")
+			})
+		}
+		override fun deserialize(decoder: Decoder): InputModifiers {
+			val element = JsonElement.serializer().deserialize(decoder) as JsonObject
+			val flags = (element.getValue("modifiers") as JsonPrimitive).int
+			val sdl = (element["backend"] as? JsonPrimitive)?.content == "sdl"
+			return InputModifiers(if (sdl) flags else LegacyInputMigration.modifiers(flags))
+		}
+	}
 	companion object {
 		@JvmStatic
 		fun current(): InputModifiers {
 			val h = MC.window
 			val ctrl = if (MacosUtil.IS_MACOS) {
-				InputConstants.isKeyDown(h, GLFW.GLFW_KEY_LEFT_SUPER)
-					|| InputConstants.isKeyDown(h, GLFW.GLFW_KEY_RIGHT_SUPER)
-			} else InputConstants.isKeyDown(h, GLFW.GLFW_KEY_LEFT_CONTROL)
-				|| InputConstants.isKeyDown(h, GLFW.GLFW_KEY_RIGHT_CONTROL)
-			val shift = InputConstants.isKeyDown(h, GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(
-				h,
-				GLFW.GLFW_KEY_RIGHT_SHIFT
+				InputConstants.isKeyDown( InputConstants.KEY_LGUI)
+					|| InputConstants.isKeyDown( InputConstants.KEY_RGUI)
+			} else InputConstants.isKeyDown( InputConstants.KEY_LCONTROL)
+				|| InputConstants.isKeyDown( InputConstants.KEY_RCONTROL)
+			val shift = InputConstants.isKeyDown( InputConstants.KEY_LSHIFT) || InputConstants.isKeyDown(
+				InputConstants.KEY_RSHIFT
 			)
-			val alt = InputConstants.isKeyDown(h, GLFW.GLFW_KEY_LEFT_ALT)
-				|| InputConstants.isKeyDown(h, GLFW.GLFW_KEY_RIGHT_ALT)
-			val `super` = InputConstants.isKeyDown(h, GLFW.GLFW_KEY_LEFT_SUPER)
-				|| InputConstants.isKeyDown(h, GLFW.GLFW_KEY_RIGHT_SUPER)
+			val alt = InputConstants.isKeyDown( InputConstants.KEY_LALT)
+				|| InputConstants.isKeyDown( InputConstants.KEY_RALT)
+			val `super` = InputConstants.isKeyDown( InputConstants.KEY_LGUI)
+				|| InputConstants.isKeyDown( InputConstants.KEY_RGUI)
 			return of(
 				ctrl = ctrl,
 				shift = shift,
@@ -236,14 +253,14 @@ data class InputModifiers(
 		}
 
 
-		val superKeys = listOf(GLFW.GLFW_KEY_LEFT_SUPER, GLFW.GLFW_KEY_RIGHT_SUPER)
+		val superKeys = listOf(InputConstants.KEY_LGUI, InputConstants.KEY_RGUI)
 		val controlKeys = if (MacosUtil.IS_MACOS) {
-			listOf(GLFW.GLFW_KEY_LEFT_SUPER, GLFW.GLFW_KEY_RIGHT_SUPER)
+			listOf(InputConstants.KEY_LGUI, InputConstants.KEY_RGUI)
 		} else {
-			listOf(GLFW.GLFW_KEY_LEFT_CONTROL, GLFW.GLFW_KEY_RIGHT_CONTROL)
+			listOf(InputConstants.KEY_LCONTROL, InputConstants.KEY_RCONTROL)
 		}
-		val shiftKeys = listOf(GLFW.GLFW_KEY_LEFT_SHIFT, GLFW.GLFW_KEY_RIGHT_SHIFT)
-		val altKeys = listOf(GLFW.GLFW_KEY_LEFT_ALT, GLFW.GLFW_KEY_RIGHT_ALT)
+		val shiftKeys = listOf(InputConstants.KEY_LSHIFT, InputConstants.KEY_RSHIFT)
+		val altKeys = listOf(InputConstants.KEY_LALT, InputConstants.KEY_RALT)
 
 		fun of(
 			vararg useNamedArgs: Boolean,
@@ -254,10 +271,10 @@ data class InputModifiers(
 		): InputModifiers {
 			require(useNamedArgs.isEmpty())
 			return InputModifiers(
-				(if (ctrl) GLFW.GLFW_MOD_CONTROL else 0)
-					or (if (shift) GLFW.GLFW_MOD_SHIFT else 0)
-					or (if (alt) GLFW.GLFW_MOD_ALT else 0)
-					or (if (`super`) GLFW.GLFW_MOD_SUPER else 0)
+				(if (ctrl) InputConstants.MOD_CONTROL else 0)
+					or (if (shift) InputConstants.MOD_SHIFT else 0)
+					or (if (alt) InputConstants.MOD_ALT else 0)
+					or (if (`super`) InputConstants.MOD_SUPER else 0)
 			)
 		}
 
@@ -265,13 +282,13 @@ data class InputModifiers(
 			var mods = 0
 			for (key in keys) {
 				if (key in superKeys)
-					mods = mods or GLFW.GLFW_MOD_SUPER
+					mods = mods or InputConstants.MOD_SUPER
 				if (key in controlKeys)
-					mods = mods or GLFW.GLFW_MOD_CONTROL
+					mods = mods or InputConstants.MOD_CONTROL
 				if (key in altKeys)
-					mods = mods or GLFW.GLFW_MOD_ALT
+					mods = mods or InputConstants.MOD_ALT
 				if (key in shiftKeys)
-					mods = mods or GLFW.GLFW_MOD_SHIFT
+					mods = mods or InputConstants.MOD_SHIFT
 			}
 			return of(mods)
 		}
@@ -305,10 +322,10 @@ data class InputModifiers(
 	fun isEmpty() = modifiers == 0
 
 	fun getFlag(flag: Int) = modifiers and flag != 0
-	val ctrl get() = getFlag(GLFW.GLFW_MOD_CONTROL) // TODO: consult someone on control vs command again
-	val shift get() = getFlag(GLFW.GLFW_MOD_SHIFT)
-	val alt get() = getFlag(GLFW.GLFW_MOD_ALT)
-	val `super` get() = getFlag(GLFW.GLFW_MOD_SUPER)
+	val ctrl get() = getFlag(InputConstants.MOD_CONTROL) // TODO: consult someone on control vs command again
+	val shift get() = getFlag(InputConstants.MOD_SHIFT)
+	val alt get() = getFlag(InputConstants.MOD_ALT)
+	val `super` get() = getFlag(InputConstants.MOD_SUPER)
 
 	override fun toString(): String {
 		return listOfNotNull(

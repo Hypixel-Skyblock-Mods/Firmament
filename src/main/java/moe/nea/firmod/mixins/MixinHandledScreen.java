@@ -62,7 +62,7 @@ public abstract class MixinHandledScreen<T extends AbstractContainerMenu> {
 		HandledScreenForegroundEvent.Companion.publish(new HandledScreenForegroundEvent((AbstractContainerScreen<?>) (Object) this, graphics, mouseX, mouseY, a));
 	}
 
-	@Inject(method = "slotClicked", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V", at = @At("HEAD"), cancellable = true)
 	public void onMouseClickedSlot(Slot slot, int slotId, int buttonNum, ContainerInput containerInput, CallbackInfo ci) {
 		if (slotId == -999 && getMenu() != null && containerInput == ContainerInput.PICKUP) { // -999 is code for "clicked outside the main window"
 			ItemStack cursorStack = getMenu().getCarried();
