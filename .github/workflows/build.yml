@@ -1,139 +1,69 @@
 # SPDX-FileCopyrightText: 2026 Hypixel Skyblock Mods
-#
 # SPDX-License-Identifier: CC0-1.0
-
-name: Fabric 26.2
-
+name: Fabric supported versions
 on:
   push:
-    branches:
-      - main
-    tags:
-      - "*"
+    branches: [main, minecraft-26.1.2, minecraft-26.2]
+    tags: ['v*']
   pull_request:
-    branches:
-      - main
-  release:
-    types:
-      - published
   workflow_dispatch:
-
 permissions:
-  contents: write
-
+  contents: read
 jobs:
   build:
-    name: Build Fabric 26.2
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - minecraft: 26.1.2
+            source: minecraft-26.1.2
+          - minecraft: '26.2'
+            source: minecraft-26.2
+          - minecraft: '26.3'
+            source: main
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
         with:
-          fetch-tags: true
+          ref: ${{ matrix.source == 'main' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') || github.event_name == 'pull_request') && github.sha || matrix.source }}
           fetch-depth: 0
-          filter: tree:0
-
-      - name: Set up JDK 25
-        uses: actions/setup-java@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 25
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+          java-version: '8'
+      - uses: actions/setup-java@v5
         with:
-          cache-read-only: false
-          add-job-summary-as-pr-comment: on-failure
-          dependency-graph: generate-and-submit
-
-      - name: Build Fabric 26.2 mod
-        run: ./gradlew unpackAllJars assemble --stacktrace
-
-      - name: Prepare artifact
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build and validate
+        shell: bash
         run: |
-          rm -f build/libs/*sources*.jar build/libs/*-api*.jar
-          if [ ! -f build/libs/Firmod-nogitversion+mc26.2.jar ]; then
-            mv build/libs/Firmod-*.jar build/libs/Firmod-nogitversion+mc26.2.jar
-          fi
-          sha256sum build/libs/Firmod-nogitversion+mc26.2.jar
-
-      - name: Upload Fabric 26.2 artifact
-        uses: actions/upload-artifact@v5
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then version="${GITHUB_REF_NAME#v}"; else version="26.3.1-dev"; fi
+          chmod +x gradlew
+          ./gradlew assemble test runSmoke "-PreleaseVersion=$version" --stacktrace
+          mkdir -p dist
+          cp "build/libs/Firmod-${version}+mc${{ matrix.minecraft }}.jar" dist/
+          sha256sum dist/*.jar
+      - uses: actions/upload-artifact@v5
         with:
-          name: firmod-fabric-26.2
-          path: build/libs/Firmod-nogitversion+mc26.2.jar
+          name: firmament-${{ matrix.minecraft }}
+          path: dist/*.jar
           if-no-files-found: error
-
   release:
-    name: Create Fabric 26.2 release
-    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    outputs:
-      tag: ${{ steps.release.outputs.tag }}
-    steps:
-      - name: Download Fabric 26.2 artifact
-        uses: actions/download-artifact@v5
-        with:
-          name: firmod-fabric-26.2
-
-      - name: Download existing Fabric 26.1.2 artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh release download 26.1.2-5 \
-            --repo "$GITHUB_REPOSITORY" \
-            --pattern 'Firmod-nogitversion+mc26.1.2.jar' \
-            --dir .
-
-      - name: Create GitHub release
-        id: release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RUN_NUMBER: ${{ github.run_number }}
-        run: |
-          tag="26.2-${RUN_NUMBER}"
-          body="Fabric builds for Minecraft 26.1.2 and 26.2."
-          printf '%s\n' "$body" > CHANGELOG.md
-          gh release create "$tag" \
-            Firmod-nogitversion+mc26.1.2.jar \
-            Firmod-nogitversion+mc26.2.jar \
-            --repo "$GITHUB_REPOSITORY" \
-            --target "$GITHUB_SHA" \
-            --title "Firmod 26.2-${RUN_NUMBER}" \
-            --notes-file CHANGELOG.md \
-            --latest
-          echo "tag=$tag" >> "$GITHUB_OUTPUT"
-
-  publish:
-    name: Publish Fabric 26.2
     runs-on: ubuntu-latest
-    needs:
-      - build
-      - release
-    if: always() && needs.build.result == 'success' && (needs.release.result == 'success' || (github.event_name == 'release' && github.event.action == 'published'))
-    environment:
-      name: Modrinth
-      url: ${{ steps.mc-publish.outputs.modrinth-url }}
+    permissions:
+      contents: write
     steps:
-      - name: Download Fabric 26.2 artifact
-        uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v5
         with:
-          name: firmod-fabric-26.2
-
-      - name: Write changelog
-        run: printf '%s' "$CHANGELOG" > CHANGELOG.md
+          pattern: firmament-*
+          merge-multiple: true
+          path: dist
+      - name: Publish all three jars
         env:
-          CHANGELOG: ${{ github.event_name == 'release' && github.event.release.body || 'Fabric build for Minecraft 26.2.' }}
-
-      - name: Publish Fabric 26.2 to Modrinth
-        id: mc-publish
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          modrinth-id: IJNUBZ2a
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-          files: "*.jar"
-          loaders: fabric
-          game-versions: "26.2"
-          version: ${{ github.event_name == 'release' && github.event.release.tag_name || needs.release.outputs.tag }}
-          changelog-file: CHANGELOG.md
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.jar --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Firmod ${GITHUB_REF_NAME#v}" --generate-notes

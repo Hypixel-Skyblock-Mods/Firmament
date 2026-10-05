@@ -102,3 +102,15 @@ is not affiliated with NEU beyond personal connections. There may still be refer
 overlapping features and libraries.
 
 [discord]: https://discord.gg/64pFP94AWA
+
+## Minecraft 26.x builds in this fork
+
+Install the jar matching your exact Minecraft version from this organization's GitHub Releases, together with Fabric API and Fabric Language Kotlin. Main tracks 26.3; `minecraft-26.2` and `minecraft-26.1.2` retain the already ported sources for those releases. The three jars are rebuilt from source and collected in one GitHub release. The older 26.1.2 variant retains its historical `firmmod` mod ID; the newer variants use `firmod`.
+
+All branches build on Java 25. Run `./gradlew assemble test runSmoke -PreleaseVersion=26.3.1` on each matching branch. The `runSmoke` task applies every dynamically discovered production mixin, including the installed optional integrations, and verifies the plugin reports all of them applied. Its test mod does not enter the published jar. GitHub Actions uses hosted Ubuntu runners for the three builds.
+
+The 26.3 port updates SDL keyboard/mouse input, render pipeline types, Authlib services, item component patches, registry lookups, container protection hooks, block sounds, and current Jade/Gender integration targets. Saved logical keyboard bindings, mouse bindings and modifier combinations migrate from GLFW to SDL. Existing platform-specific raw scan-code bindings may need rebinding after changing input backends.
+
+26.3's MoulConfig dependency is built from official NotEnoughUpdates/MoulConfig commit `4eaeb73cdaebb083d1d56d310fe1851ded1b7828`; source archive SHA-256 `4b26888b24d5f88223b24a688a67cc39455cacf435ba480e23a9ff35af04523e`. The checked-in Gradle bootstrap verifies that archive and builds the library from source, preserving upstream licenses. Its compatibility patches preserve MoulConfig's Fabric metadata/access widener and separate SDL keyboard codes from mouse binding codes. Install JDK 8 and set `JAVA_HOME_8_X64` for MoulConfig's shared module, with Java 25 selected for Minecraft. Actions installs both toolchains.
+
+The upstream Modrinth project belongs to a different team. This fork does not automatically publish into that project.
