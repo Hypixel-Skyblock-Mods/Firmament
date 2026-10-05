@@ -1,8 +1,10 @@
 package moe.nea.firmod.util
 
 import io.github.moulberry.repo.data.Coordinate
+import com.mojang.blaze3d.Blaze3D
 import io.github.notenoughupdates.moulconfig.platform.MoulConfigScreenComponent
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.net.URI
 import kotlin.jvm.optionals.getOrNull
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
@@ -25,7 +27,6 @@ import net.minecraft.resources.Identifier
 import net.minecraft.resources.RegistryOps
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.packs.resources.ReloadableResourceManager
-import net.minecraft.util.Util
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -124,7 +125,9 @@ object MC {
 	inline val handledScreen: AbstractContainerScreen<*>? get() = screen as? AbstractContainerScreen<*>
 	inline val window get() = instance.window
 	inline val currentRegistries: HolderLookup.Provider? get() = world?.registryAccess()
-	val defaultRegistries: HolderLookup.Provider by lazy { VanillaRegistries.createLookup() }
+	val defaultRegistries: HolderLookup.Provider by lazy {
+		VanillaRegistries.createReloadableLookup(VanillaRegistries.createWorldLookup())
+	}
 	val defaultRegistryNbtOps by lazy { RegistryOps.create(NbtOps.INSTANCE, defaultRegistries) }
 	inline val currentOrDefaultRegistries get() = currentRegistries ?: defaultRegistries
 	val currentOrDefaultRegistryNbtOps get() = TolerantRegistriesOps(NbtOps.INSTANCE, currentOrDefaultRegistries)
@@ -141,7 +144,7 @@ object MC {
 		get() = (screen as? MoulConfigScreenComponent)?.guiContext
 
 	fun openUrl(uri: String) {
-		Util.getPlatform().openUri(uri)
+		Blaze3D.openUri(URI.create(uri))
 	}
 
 	fun <T : Any> unsafeGetRegistryEntry(registry: ResourceKey<out Registry<T>>, identifier: Identifier) =

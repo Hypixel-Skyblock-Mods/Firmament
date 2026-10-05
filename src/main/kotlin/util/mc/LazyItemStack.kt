@@ -121,13 +121,9 @@ class MutableItemTemplate(
 
 fun DataComponentPatch.toBuilder(): DataComponentPatch.Builder {
 	val builder = DataComponentPatch.builder()
-	for ((k, v) in entrySet()) {
-		if (v.isEmpty)
-			builder.remove(k)
-		else
-			@Suppress("UNCHECKED_CAST")
-			builder.set(k as DataComponentType<Any>, v.get())
-	}
+	val changes = split()
+	builder.set<Any>(changes.added())
+	for (type in changes.removed()) builder.remove(type)
 	return builder
 }
 

@@ -32,8 +32,6 @@ fun FabricClientCommandSource.asFakeServer(): CommandSourceStack {
 		source.rotation,
 		smuggleNull(),
 		PermissionSet.NO_PERMISSIONS,
-		"FakeServerCommandSource",
-		Component.literal("FakeServerCommandSource"),
 		smuggleNull(),
 		source.player
 	)
